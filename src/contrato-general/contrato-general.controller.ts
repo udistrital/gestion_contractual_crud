@@ -9,7 +9,6 @@ import {
   HttpStatus,
   Res,
   Query,
-  Patch,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { ContratoGeneralService } from './contrato-general.service';
@@ -331,6 +330,44 @@ export class ContratoGeneralController {
         Status: HttpStatus.INTERNAL_SERVER_ERROR,
         Message: error.message,
         Data: error,
+      };
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+    }
+  }
+
+  @Get('vigencia/:year')
+  @ApiOperation({ summary: 'Obtener ids de contratos por vigencia' })
+  @ApiParam({
+    name: 'year',
+    type: 'string',
+    description: 'Año de vigencia (YYYY)',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de IDs de contratos encontrados',
+  })
+  async findIdsByVigencia(
+    @Res() res: Response,
+    @Param('year') vigencia: string,
+  ): Promise<void> {
+    try {
+      const ids = await this.contratoGeneralService.findIdsByVigencia(vigencia);
+      const response: StandardResponse<number[]> = {
+        Success: true,
+        Status: HttpStatus.OK,
+        Message: `IDs de contratos encontrados para la vigencia ${vigencia}`,
+        Data: ids,
+        Metadata: {
+          total: ids.length,
+        },
+      };
+      res.status(HttpStatus.OK).json(response);
+    } catch (error) {
+      const response: StandardResponse<any> = {
+        Success: false,
+        Status: HttpStatus.INTERNAL_SERVER_ERROR,
+        Message: 'Error al obtener los IDs de contratos',
+        Data: error.message,
       };
       res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
     }

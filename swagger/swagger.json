@@ -369,7 +369,32 @@
         ]
       }
     },
-    "/documentos-contrato": {
+    "/contratos-generales/vigencia/{year}": {
+      "get": {
+        "operationId": "ContratoGeneralController_findIdsByVigencia",
+        "parameters": [
+          {
+            "name": "year",
+            "required": true,
+            "in": "path",
+            "description": "Año de vigencia (YYYY)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de IDs de contratos encontrados"
+          }
+        },
+        "summary": "Obtener ids de contratos por vigencia",
+        "tags": [
+          "contratos-generales"
+        ]
+      }
+    },
+    "/documentos-contratos": {
       "post": {
         "operationId": "DocumentoContratoController_create",
         "parameters": [],

@@ -241,7 +241,22 @@ paths:
           description: Error al realizar el conteo de los contratos
       summary: Conteo de contratos por unidad ejecutora, vigencia y estado
       tags: *ref_0
-  /documentos-contrato:
+  /contratos-generales/vigencia/{year}:
+    get:
+      operationId: ContratoGeneralController_findIdsByVigencia
+      parameters:
+        - name: year
+          required: true
+          in: path
+          description: Año de vigencia (YYYY)
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de IDs de contratos encontrados
+      summary: Obtener ids de contratos por vigencia
+      tags: *ref_0
+  /documentos-contratos:
     post:
       operationId: DocumentoContratoController_create
       parameters: []

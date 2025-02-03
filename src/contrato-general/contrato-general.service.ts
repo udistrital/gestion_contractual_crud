@@ -151,4 +151,21 @@ export class ContratoGeneralService extends BaseCrudService<ContratoGeneral> {
       );
     }
   }
+
+  async findIdsByVigencia(vigencia: string): Promise<number[]> {
+    try {
+      const result = await this.contratoGeneralRepository
+        .createQueryBuilder(this.alias)
+        .select(`${this.alias}.id`)
+        .where(`${this.alias}.vigencia = :vigencia`, { vigencia })
+        .andWhere(`${this.alias}.activo = :activo`, { activo: true })
+        .orderBy(`${this.alias}.id`, 'ASC')
+        .getMany();
+
+      return result.map((contrato) => contrato.id);
+    } catch (error) {
+      this.LOGGER.error(`Error al buscar ids por vigencia: ${error.message}`);
+      throw new Error(`Error al buscar ids por vigencia: ${error.message}`);
+    }
+  }
 }
