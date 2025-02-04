@@ -114,6 +114,44 @@ export class ContratoGeneralService extends BaseCrudService<ContratoGeneral> {
       );
     }
   }
+
+  // Conteo de contratos por unidad ejecutora (obtener consecutivo del contrato)
+  async contarConsecutivo(body: any): Promise<number> {
+    try {
+      const { unidad_ejecutora_id } = body;
+      return this.contratoGeneralRepository.count({
+        where: { unidad_ejecutora_id },
+      });
+    } catch (error) {
+      throw new Error(
+        `Error al realizar el conteo de los contratos: ${error.message}`,
+      );
+    }
+  }
+
+  // Conteo de contratos por unidad ejecutora, vigencia y estado en SUSCRITO (obtener número de contrato)
+  async contarNumeroContrato(body: any): Promise<number> {
+    try {
+      const { unidad_ejecutora_id, vigencia, estado } = body;
+      const resultado = await this.contratoGeneralRepository
+        .createQueryBuilder('cg')
+        .innerJoin('estado_contrato', 'ec', 'ec.contrato_general_id = cg.id')
+        .where('cg.unidad_ejecutora_id = :unidad_ejecutora_id', {
+          unidad_ejecutora_id,
+        })
+        .andWhere('cg.vigencia = :vigencia', { vigencia })
+        .andWhere('ec.estado_parametro_id = :estado', { estado: estado })
+        .select('COUNT(DISTINCT cg.id)', 'total')
+        .getRawOne();
+
+      return resultado ? parseInt(resultado?.total) : null;
+    } catch (error) {
+      throw new Error(
+        `Error al realizar el conteo de los contratos: ${error.message}`,
+      );
+    }
+  }
+
   async findIdsByVigencia(vigencia: string): Promise<number[]> {
     try {
       const result = await this.contratoGeneralRepository

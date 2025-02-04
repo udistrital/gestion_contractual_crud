@@ -313,6 +313,62 @@
         ]
       }
     },
+    "/contratos-generales/conteo-consecutivo": {
+      "post": {
+        "operationId": "ContratoGeneralController_contarConsecutivo",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConteoConsecutivo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Conteo de los contratos"
+          },
+          "500": {
+            "description": "Error al realizar el conteo de los contratos"
+          }
+        },
+        "summary": "Conteo de contratos por unidad ejecutora",
+        "tags": [
+          "contratos-generales"
+        ]
+      }
+    },
+    "/contratos-generales/conteo-numero-contrato": {
+      "post": {
+        "operationId": "ContratoGeneralController_contarNumeroContrato",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConteoNumeroContrato"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Conteo de los contratos"
+          },
+          "500": {
+            "description": "Error al realizar el conteo de los contratos"
+          }
+        },
+        "summary": "Conteo de contratos por unidad ejecutora, vigencia y estado",
+        "tags": [
+          "contratos-generales"
+        ]
+      }
+    },
     "/contratos-generales/vigencia/{year}": {
       "get": {
         "operationId": "ContratoGeneralController_findIdsByVigencia",
@@ -2546,6 +2602,44 @@
       "ActualizarContratoGeneralDto": {
         "type": "object",
         "properties": {}
+      },
+      "ConteoConsecutivo": {
+        "type": "object",
+        "properties": {
+          "unidad_ejecutora_id": {
+            "type": "number",
+            "example": 1,
+            "description": "Id de unidad ejecutora"
+          }
+        },
+        "required": [
+          "unidad_ejecutora_id"
+        ]
+      },
+      "ConteoNumeroContrato": {
+        "type": "object",
+        "properties": {
+          "unidad_ejecutora_id": {
+            "type": "number",
+            "example": 1,
+            "description": "Id de unidad ejecutora"
+          },
+          "vigencia": {
+            "type": "string",
+            "example": "2024",
+            "description": "Vigencia"
+          },
+          "estado": {
+            "type": "number",
+            "example": 1,
+            "description": "Id del estado"
+          }
+        },
+        "required": [
+          "unidad_ejecutora_id",
+          "vigencia",
+          "estado"
+        ]
       },
       "CreateDocumentoContratoDto": {
         "type": "object",

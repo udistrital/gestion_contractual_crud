@@ -25,6 +25,10 @@ import {
 } from '@nestjs/swagger';
 import { StandardResponse } from '../utils/standardResponse.interface';
 import { BaseQueryParamsDto } from '../shared/dto/query-params.base.dto';
+import {
+  ConteoConsecutivo,
+  ConteoNumeroContrato,
+} from 'src/shared/interfaces/conteo.interface';
 
 @ApiTags('contratos-generales')
 @Controller('contratos-generales')
@@ -257,6 +261,80 @@ export class ContratoGeneralController {
       res.status(HttpStatus.NOT_FOUND).json(response);
     }
   }
+
+  @Post('conteo-consecutivo')
+  @ApiOperation({ summary: 'Conteo de contratos por unidad ejecutora' })
+  @ApiBody({ type: ConteoConsecutivo })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Conteo de los contratos',
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: 'Error al realizar el conteo de los contratos',
+  })
+  async contarConsecutivo(
+    @Res() res: Response,
+    @Body() body: ConteoConsecutivo,
+  ): Promise<void> {
+    try {
+      const conteo = await this.contratoGeneralService.contarConsecutivo(body);
+      const response: StandardResponse<number> = {
+        Success: true,
+        Status: HttpStatus.OK,
+        Message: 'Conteo de los contratos',
+        Data: conteo,
+      };
+      res.status(HttpStatus.CREATED).json(response);
+    } catch (error) {
+      const response: StandardResponse<any> = {
+        Success: false,
+        Status: HttpStatus.INTERNAL_SERVER_ERROR,
+        Message: error.message,
+        Data: error,
+      };
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+    }
+  }
+
+  @Post('conteo-numero-contrato')
+  @ApiOperation({
+    summary: 'Conteo de contratos por unidad ejecutora, vigencia y estado',
+  })
+  @ApiBody({ type: ConteoNumeroContrato })
+  @ApiResponse({
+    status: 200,
+    description: 'Conteo de los contratos',
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: 'Error al realizar el conteo de los contratos',
+  })
+  async contarNumeroContrato(
+    @Res() res: Response,
+    @Body() body: ConteoNumeroContrato,
+  ): Promise<void> {
+    try {
+      const conteo =
+        await this.contratoGeneralService.contarNumeroContrato(body);
+      const response: StandardResponse<number> = {
+        Success: true,
+        Status: HttpStatus.OK,
+        Message: 'Conteo de los contratos',
+        Data: conteo,
+      };
+      res.status(HttpStatus.CREATED).json(response);
+    } catch (error) {
+      const response: StandardResponse<any> = {
+        Success: false,
+        Status: HttpStatus.INTERNAL_SERVER_ERROR,
+        Message: error.message,
+        Data: error,
+      };
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+    }
+  }
+
   @Get('vigencia/:year')
   @ApiOperation({ summary: 'Obtener ids de contratos por vigencia' })
   @ApiParam({
