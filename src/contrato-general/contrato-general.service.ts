@@ -64,9 +64,12 @@ export class ContratoGeneralService extends BaseCrudService<ContratoGeneral> {
     contratoGeneral: CrearContratoGeneralDto,
   ): Promise<ContratoGeneral> {
     try {
+      const now = new Date();
       const newContratoGeneral = this.contratoGeneralRepository.create({
         ...contratoGeneral,
         activo: true,
+        fecha_creacion: now,
+        fecha_modificacion: now,
       });
       return await this.contratoGeneralRepository.save(newContratoGeneral);
     } catch (error) {
