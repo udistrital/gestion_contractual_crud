@@ -64,9 +64,12 @@ export class ContratoGeneralService extends BaseCrudService<ContratoGeneral> {
     contratoGeneral: CrearContratoGeneralDto,
   ): Promise<ContratoGeneral> {
     try {
+      const now = new Date();
       const newContratoGeneral = this.contratoGeneralRepository.create({
         ...contratoGeneral,
         activo: true,
+        fecha_creacion: now,
+        fecha_modificacion: now,
       });
       return await this.contratoGeneralRepository.save(newContratoGeneral);
     } catch (error) {
@@ -112,6 +115,60 @@ export class ContratoGeneralService extends BaseCrudService<ContratoGeneral> {
       throw new Error(
         `Error al eliminar el contrato general: ${error.message}`,
       );
+    }
+  }
+
+  // Conteo de contratos por unidad ejecutora (obtener consecutivo del contrato)
+  async contarConsecutivo(body: any): Promise<number> {
+    try {
+      const { unidad_ejecutora_id } = body;
+      return this.contratoGeneralRepository.count({
+        where: { unidad_ejecutora_id },
+      });
+    } catch (error) {
+      throw new Error(
+        `Error al realizar el conteo de los contratos: ${error.message}`,
+      );
+    }
+  }
+
+  // Conteo de contratos por unidad ejecutora, vigencia y estado en SUSCRITO (obtener número de contrato)
+  async contarNumeroContrato(body: any): Promise<number> {
+    try {
+      const { unidad_ejecutora_id, vigencia, estado } = body;
+      const resultado = await this.contratoGeneralRepository
+        .createQueryBuilder('cg')
+        .innerJoin('estado_contrato', 'ec', 'ec.contrato_general_id = cg.id')
+        .where('cg.unidad_ejecutora_id = :unidad_ejecutora_id', {
+          unidad_ejecutora_id,
+        })
+        .andWhere('cg.vigencia = :vigencia', { vigencia })
+        .andWhere('ec.estado_parametro_id = :estado', { estado: estado })
+        .select('COUNT(DISTINCT cg.id)', 'total')
+        .getRawOne();
+
+      return resultado ? parseInt(resultado?.total) : null;
+    } catch (error) {
+      throw new Error(
+        `Error al realizar el conteo de los contratos: ${error.message}`,
+      );
+    }
+  }
+
+  async findIdsByVigencia(vigencia: string): Promise<number[]> {
+    try {
+      const result = await this.contratoGeneralRepository
+        .createQueryBuilder(this.alias)
+        .select(`${this.alias}.id`)
+        .where(`${this.alias}.vigencia = :vigencia`, { vigencia })
+        .andWhere(`${this.alias}.activo = :activo`, { activo: true })
+        .orderBy(`${this.alias}.id`, 'ASC')
+        .getMany();
+
+      return result.map((contrato) => contrato.id);
+    } catch (error) {
+      this.LOGGER.error(`Error al buscar ids por vigencia: ${error.message}`);
+      throw new Error(`Error al buscar ids por vigencia: ${error.message}`);
     }
   }
 }
