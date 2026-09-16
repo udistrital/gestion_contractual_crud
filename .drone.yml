@@ -40,7 +40,7 @@ steps:
         - push
 
   - name: install_dependencies
-    image: node:current-alpine
+    image: node:20-alpine
     commands:
       - corepack enable pnpm
       - pnpm install
@@ -53,7 +53,7 @@ steps:
         - push
 
   - name: build
-    image: node:current-alpine
+    image: node:20-alpine
     commands:
       - corepack enable pnpm
       - pnpm install
