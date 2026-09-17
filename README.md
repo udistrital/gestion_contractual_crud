@@ -54,9 +54,9 @@ docker run --rm \
 
 #### Ejecución docker-compose
 
-> **Pendiente de confirmar con el líder técnico si aplica a este repositorio.**
+> **No aplica.** Este tipo de microservicio no usa `docker-compose`.
 >
-> Actualmente el repositorio cuenta únicamente con `Dockerfile` y `entrypoint.sh`; no dispone de `docker-compose.yml`. El patrón de red compartida `back_end` utilizado en la organización corresponde a los repositorios Go/Beego, por lo que está por definir si debe replicarse en este componente.
+> El repositorio cuenta únicamente con `Dockerfile` y `entrypoint.sh`. Ningún otro microservicio NestJS de Argo dispone de `docker-compose.yml`; el patrón de red compartida `back_end` utilizado en la organización es exclusivo de los repositorios Go/Beego y no se replica en este componente.
 
 ### Ejecución Pruebas
 ```
