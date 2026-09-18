@@ -43,11 +43,11 @@
             "in": "query",
             "description": "Dirección del ordenamiento (ASC o DESC)",
             "schema": {
+              "type": "string",
               "enum": [
                 "ASC",
                 "DESC"
-              ],
-              "type": "string"
+              ]
             }
           },
           {
@@ -177,11 +177,11 @@
             "in": "query",
             "description": "Dirección del ordenamiento",
             "schema": {
+              "type": "string",
               "enum": [
                 "ASC",
                 "DESC"
-              ],
-              "type": "string"
+              ]
             }
           },
           {
@@ -455,11 +455,11 @@
             "in": "query",
             "description": "Dirección del ordenamiento",
             "schema": {
+              "type": "string",
               "enum": [
                 "ASC",
                 "DESC"
-              ],
-              "type": "string"
+              ]
             }
           },
           {
@@ -920,11 +920,11 @@
             "in": "query",
             "description": "Dirección del ordenamiento",
             "schema": {
+              "type": "string",
               "enum": [
                 "ASC",
                 "DESC"
-              ],
-              "type": "string"
+              ]
             }
           },
           {
@@ -1588,11 +1588,11 @@
             "in": "query",
             "description": "Dirección del ordenamiento",
             "schema": {
+              "type": "string",
               "enum": [
                 "ASC",
                 "DESC"
-              ],
-              "type": "string"
+              ]
             }
           },
           {

@@ -30,10 +30,10 @@ paths:
           in: query
           description: Dirección del ordenamiento (ASC o DESC)
           schema:
+            type: string
             enum:
               - ASC
               - DESC
-            type: string
         - name: limit
           required: false
           in: query
@@ -122,10 +122,10 @@ paths:
           in: query
           description: Dirección del ordenamiento
           schema:
+            type: string
             enum:
               - ASC
               - DESC
-            type: string
         - name: limit
           required: false
           in: query
@@ -298,10 +298,10 @@ paths:
           in: query
           description: Dirección del ordenamiento
           schema:
+            type: string
             enum:
               - ASC
               - DESC
-            type: string
         - name: limit
           required: false
           in: query
@@ -585,10 +585,10 @@ paths:
           in: query
           description: Dirección del ordenamiento
           schema:
+            type: string
             enum:
               - ASC
               - DESC
-            type: string
         - name: limit
           required: false
           in: query
@@ -993,10 +993,10 @@ paths:
           in: query
           description: Dirección del ordenamiento
           schema:
+            type: string
             enum:
               - ASC
               - DESC
-            type: string
         - name: limit
           required: false
           in: query
