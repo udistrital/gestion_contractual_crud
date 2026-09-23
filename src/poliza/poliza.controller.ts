@@ -26,6 +26,7 @@ import { Poliza } from './entities/poliza.entity';
 import { AmparoPoliza } from '../amparo-poliza/entities/amparo-poliza.entity';
 import { StandardResponse } from '../utils/standardResponse.interface';
 import { BaseQueryParamsDto } from '../shared/dto/query-params.base.dto';
+import { buildErrorResponse } from '../utils/http-error.helper';
 
 @ApiTags('polizas')
 @Controller('polizas')
@@ -93,13 +94,12 @@ export class PolizaController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.INTERNAL_SERVER_ERROR,
-        Message: 'Error al obtener las pólizas',
-        Data: error.message,
-      };
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        'Error al obtener las pólizas',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -128,13 +128,12 @@ export class PolizaController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Póliza no encontrada',
-        Data: error.message,
-      };
-      res.status(HttpStatus.NOT_FOUND).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Póliza no encontrada',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -162,13 +161,12 @@ export class PolizaController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Póliza no encontrada',
-        Data: error.message,
-      };
-      res.status(HttpStatus.NOT_FOUND).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Póliza no encontrada',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -190,13 +188,12 @@ export class PolizaController {
       };
       res.status(HttpStatus.CREATED).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.INTERNAL_SERVER_ERROR,
-        Message: 'Error al crear la póliza',
-        Data: error.message,
-      };
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        'Error al crear la póliza',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -229,13 +226,12 @@ export class PolizaController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Póliza no encontrada',
-        Data: error.message,
-      };
-      res.status(HttpStatus.NOT_FOUND).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Póliza no encontrada',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -259,13 +255,12 @@ export class PolizaController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Póliza no encontrada',
-        Data: error.message,
-      };
-      res.status(HttpStatus.NOT_FOUND).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Póliza no encontrada',
+      );
+      res.status(status).json(response);
     }
   }
 }

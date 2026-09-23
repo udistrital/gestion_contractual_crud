@@ -26,6 +26,7 @@ import { ActualizarAmparoPolizaDto } from './dto/actualizar-amparo-poliza.dto';
 import { AmparoPoliza } from './entities/amparo-poliza.entity';
 import { StandardResponse } from '../utils/standardResponse.interface';
 import { BaseQueryParamsDto } from '../shared/dto/query-params.base.dto';
+import { buildErrorResponse } from '../utils/http-error.helper';
 
 @ApiTags('amparos-polizas')
 @Controller('amparos-polizas')
@@ -94,13 +95,12 @@ export class AmparoPolizaController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.INTERNAL_SERVER_ERROR,
-        Message: 'Error al obtener los amparos',
-        Data: error.message,
-      };
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        'Error al obtener los amparos',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -133,13 +133,12 @@ export class AmparoPolizaController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Amparo no encontrado',
-        Data: error.message,
-      };
-      res.status(HttpStatus.NOT_FOUND).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Amparo no encontrado',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -187,13 +186,12 @@ export class AmparoPolizaController {
       };
       res.status(HttpStatus.CREATED).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.INTERNAL_SERVER_ERROR,
-        Message: 'Error al crear los amparos',
-        Data: error.message,
-      };
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        'Error al crear los amparos',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -232,13 +230,12 @@ export class AmparoPolizaController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Amparo no encontrado',
-        Data: error.message,
-      };
-      res.status(HttpStatus.NOT_FOUND).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Amparo no encontrado',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -262,13 +259,12 @@ export class AmparoPolizaController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Amparo no encontrado',
-        Data: error.message,
-      };
-      res.status(HttpStatus.NOT_FOUND).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Amparo no encontrado',
+      );
+      res.status(status).json(response);
     }
   }
 }
