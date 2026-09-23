@@ -25,6 +25,10 @@ import { OrdenadorContrato } from './ordenador-contrato/entities/ordenador-contr
 import { OrdenadorContratoModule } from './ordenador-contrato/ordenador-contrato.module';
 import { SupervisorEntity } from './supervisor/entities/supervisor.entity';
 import { SupervisorModule } from './supervisor/supervisor.module';
+import { Poliza } from './poliza/entities/poliza.entity';
+import { PolizaModule } from './poliza/poliza.module';
+import { AmparoPoliza } from './amparo-poliza/entities/amparo-poliza.entity';
+import { AmparoPolizaModule } from './amparo-poliza/amparo-poliza.module';
 
 @Module({
   imports: [
@@ -55,6 +59,8 @@ import { SupervisorModule } from './supervisor/supervisor.module';
           SolicitanteEntity,
           OrdenadorContrato,
           SupervisorEntity,
+          Poliza,
+          AmparoPoliza,
         ],
         synchronize: configService.get('DEVELOPER_MODE'), // Solo para desarrollo, en producción se debe desactivar
         ssl: {
@@ -74,6 +80,8 @@ import { SupervisorModule } from './supervisor/supervisor.module';
     SolicitanteModule,
     OrdenadorContratoModule,
     SupervisorModule,
+    PolizaModule,
+    AmparoPolizaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
