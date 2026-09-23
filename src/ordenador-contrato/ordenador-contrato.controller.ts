@@ -16,6 +16,7 @@ import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { StandardResponse } from '../utils/standardResponse.interface';
 import { OrdenadorContrato } from './entities/ordenador-contrato.entity';
+import { buildErrorResponse } from '../utils/http-error.helper';
 
 @ApiTags('ordenadores-contrato')
 @Controller('ordenador-contrato')
@@ -90,13 +91,12 @@ export class OrdenadorContratoController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'No se encontraron supervisores para el contrato especificado',
-        Data: error,
-      };
-      res.status(HttpStatus.NOT_FOUND).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'No se encontraron supervisores para el contrato especificado',
+      );
+      res.status(status).json(response);
     }
   }
 }
