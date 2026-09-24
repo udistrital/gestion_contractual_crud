@@ -11,6 +11,8 @@ TRUNCATE TABLE especificacion_tecnica CASCADE;
 TRUNCATE TABLE estado_contrato CASCADE;
 TRUNCATE TABLE documento_contrato CASCADE;
 TRUNCATE TABLE solicitante CASCADE;
+TRUNCATE TABLE amparo_poliza CASCADE;
+TRUNCATE TABLE poliza CASCADE;
 
 INSERT INTO contrato_general (
     id,
@@ -385,3 +387,54 @@ INSERT INTO solicitante (
       (8, 108, 208, 8, true, NOW(), NOW()),
       (9, 109, 209, 9, true, NOW(), NOW()),
       (10, 110, 210, 10, true, NOW(), NOW());
+
+
+INSERT INTO poliza (
+    id,
+    numero_poliza,
+    entidad_aseguradora_id,
+    contrato_general_id,
+    descripcion,
+    fecha_inicio,
+    fecha_fin,
+    fecha_expedicion,
+    fecha_aprobacion,
+    usuario_id,
+    usuario_legado,
+    activo,
+    fecha_creacion,
+    fecha_modificacion
+) VALUES
+      (1, 'POL-2024-0001', 301, 1, 'Póliza de cumplimiento contrato 1', '2024-01-15', '2025-01-15', '2024-01-10', '2024-01-14', 1, 'usuario1', true, NOW(), NOW()),
+      (2, 'POL-2024-0002', 302, 2, 'Póliza de cumplimiento contrato 2', '2024-02-01', '2025-02-01', '2024-01-28', '2024-01-31', 2, 'usuario2', true, NOW(), NOW()),
+      (3, 'POL-2024-0003', 301, 3, 'Póliza de cumplimiento contrato 3', '2024-03-01', '2025-03-01', '2024-02-25', '2024-02-28', 3, 'usuario3', true, NOW(), NOW());
+
+SELECT setval('poliza_id_seq', (SELECT MAX(id) FROM poliza));
+
+-- Los amparos se registran con el contrato durante la elaboración de la minuta.
+-- Los de los contratos 1, 2 y 3 ya fueron asociados a su póliza; los de los contratos 4 y 5 aún no tienen póliza expedida.
+INSERT INTO amparo_poliza (
+    id,
+    contrato_general_id,
+    poliza_id,
+    amparo_id,
+    tipo_valor_amparo_id,
+    suficiencia,
+    valor,
+    descripcion,
+    fecha_inicio,
+    fecha_fin,
+    activo,
+    fecha_creacion,
+    fecha_modificacion
+) VALUES
+      (1, 1, 1, 1181, 1, 20.0000000, 10000000.0000000, 'Cumplimiento del contrato', '2024-01-15', '2025-01-15', true, NOW(), NOW()),
+      (2, 1, 1, 1182, 1, 10.0000000, 5000000.0000000, 'Calidad del servicio', '2024-01-15', '2025-01-15', true, NOW(), NOW()),
+      (3, 2, 2, 1181, 1, 20.0000000, 12000000.0000000, 'Cumplimiento del contrato', '2024-02-01', '2025-02-01', true, NOW(), NOW()),
+      (4, 2, 2, 1183, 2, 5.0000000, 6500000.0000000, 'Pago de salarios y prestaciones', '2024-02-01', '2025-02-01', true, NOW(), NOW()),
+      (5, 3, 3, 1181, 1, 15.0000000, 8000000.0000000, 'Cumplimiento del contrato', '2024-03-01', '2025-03-01', true, NOW(), NOW()),
+      (6, 4, NULL, 1181, 1, 20.0000000, 9000000.0000000, 'Cumplimiento del contrato', '2024-04-01', '2025-04-01', true, NOW(), NOW()),
+      (7, 4, NULL, 1182, 1, 10.0000000, 4500000.0000000, 'Calidad del servicio', '2024-04-01', '2025-04-01', true, NOW(), NOW()),
+      (8, 5, NULL, 1183, 2, 5.0000000, 7000000.0000000, 'Pago de salarios y prestaciones', '2024-05-01', '2025-05-01', true, NOW(), NOW());
+
+SELECT setval('amparo_poliza_id_seq', (SELECT MAX(id) FROM amparo_poliza));

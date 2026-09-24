@@ -113,3 +113,41 @@
 
 
 
+
+
+# Póliza
+
+Migración del módulo de pólizas desde `poliza_crud` (issue #351).
+
+| **poliza_crud**        | **ARGO V2 (gestion_contractual_crud)** | **NOTAS**                                                          |
+|------------------------|----------------------------------------|--------------------------------------------------------------------|
+| numero_poliza          | numero_poliza                          | Se define longitud explícita varchar(50). Sin restricción de unicidad |
+| entidad_aseguradora_id | entidad_aseguradora_id                 | Referencia a Parámetros CRUD                                        |
+| contrato_general_id    | contrato_general_id                    | Pasa a ser FK real contra `contrato_general`                        |
+| descripcion            | descripcion                            | varchar(255)                                                        |
+| fecha_inicio           | fecha_inicio                           |                                                                     |
+| fecha_fin              | fecha_fin                              |                                                                     |
+| fecha_expedicion       | fecha_expedicion                       |                                                                     |
+| fecha_aprobacion       | fecha_aprobacion                       |                                                                     |
+| usuario_id             | usuario_id                             |                                                                     |
+| usuario_legacy         | usuario_legado                         | Se unifica el nombre con el resto del modelo                        |
+| activo                 | activo                                 |                                                                     |
+| fecha_creacion         | fecha_creacion                         | timestamp                                                           |
+| fecha_modificacion     | fecha_modificacion                     | timestamp                                                           |
+
+# Amparo Póliza
+
+| **poliza_crud**      | **ARGO V2 (gestion_contractual_crud)** | **NOTAS**                                                                                       |
+|----------------------|----------------------------------------|-------------------------------------------------------------------------------------------------|
+| contrato_general_id  | contrato_general_id                    | Se conserva y pasa a FK NOT NULL: el amparo se registra con la minuta, antes de existir la póliza |
+| poliza_id            | poliza_id                              | FK nullable. Se asigna cuando la póliza es expedida y se asocia al amparo                         |
+| amparo_id            | amparo_id                              | Referencia a Parámetros CRUD                                                                      |
+| tipo_valor_amparo_id | tipo_valor_amparo_id                   | Referencia a Parámetros CRUD. Determina cómo se interpreta `suficiencia`                          |
+| suficiencia          | suficiencia                            | numeric(20,7). Almacena porcentaje o SMLV según `tipo_valor_amparo_id`                            |
+| valor                | valor                                  | numeric(20,7) según lineamiento de montos                                                         |
+| descripcion          | descripcion                            | varchar(255)                                                                                      |
+| fecha_inicio         | fecha_inicio                           |                                                                                                   |
+| fecha_final          | fecha_fin                              | Se unifica el nombre con `poliza` y `acta_inicio`                                                  |
+| activo               | activo                                 |                                                                                                   |
+| fecha_creacion       | fecha_creacion                         | timestamp                                                                                         |
+| fecha_modificacion   | fecha_modificacion                     | timestamp                                                                                         |

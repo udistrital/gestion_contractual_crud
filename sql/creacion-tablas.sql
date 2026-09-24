@@ -337,15 +337,79 @@ COMMENT ON COLUMN ordenador_contrato.resolucion IS 'Número de resolución que a
 COMMENT ON COLUMN ordenador_contrato.documento_identidad IS 'Número de documento de identidad del ordenador';
 COMMENT ON COLUMN ordenador_contrato.cargo_id IS 'Cargo del ordenador';
 
+-- Tabla de pólizas
+CREATE TABLE poliza (
+    id SERIAL PRIMARY KEY,
+    numero_poliza VARCHAR(50),
+    entidad_aseguradora_id INTEGER,
+    contrato_general_id INTEGER NOT NULL REFERENCES contrato_general(id),
+    descripcion VARCHAR(255),
+    fecha_inicio DATE,
+    fecha_fin DATE,
+    fecha_expedicion DATE,
+    fecha_aprobacion DATE,
+    usuario_id INTEGER,
+    usuario_legado VARCHAR(15),
+    activo BOOLEAN DEFAULT TRUE NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT NOW() NOT NULL,
+    fecha_modificacion TIMESTAMP DEFAULT NOW() NOT NULL
+);
+
+COMMENT ON TABLE poliza IS 'Pólizas expedidas para el cumplimiento de las garantías de un contrato';
+COMMENT ON COLUMN poliza.numero_poliza IS 'Número con el que la aseguradora identifica la póliza';
+COMMENT ON COLUMN poliza.entidad_aseguradora_id IS 'Identificador de la entidad aseguradora en Parámetros CRUD';
+COMMENT ON COLUMN poliza.contrato_general_id IS 'Referencia del contrato general que ampara la póliza';
+COMMENT ON COLUMN poliza.descripcion IS 'Descripción de la póliza';
+COMMENT ON COLUMN poliza.fecha_inicio IS 'Fecha de inicio de vigencia de la póliza';
+COMMENT ON COLUMN poliza.fecha_fin IS 'Fecha de finalización de vigencia de la póliza';
+COMMENT ON COLUMN poliza.fecha_expedicion IS 'Fecha en la que la aseguradora expide la póliza';
+COMMENT ON COLUMN poliza.fecha_aprobacion IS 'Fecha en la que la Universidad aprueba la póliza';
+COMMENT ON COLUMN poliza.usuario_id IS 'Identificador del usuario que registra la póliza';
+COMMENT ON COLUMN poliza.usuario_legado IS 'Campo Legado, usado para compatibilidad con la migración de ARGO v1';
+
+-- Tabla de amparos de póliza
+CREATE TABLE amparo_poliza (
+    id SERIAL PRIMARY KEY,
+    contrato_general_id INTEGER NOT NULL REFERENCES contrato_general(id),
+    poliza_id INTEGER REFERENCES poliza(id),
+    amparo_id INTEGER NOT NULL,
+    tipo_valor_amparo_id INTEGER,
+    suficiencia NUMERIC(20,7),
+    valor NUMERIC(20,7),
+    descripcion VARCHAR(255),
+    fecha_inicio DATE,
+    fecha_fin DATE,
+    activo BOOLEAN DEFAULT TRUE NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT NOW() NOT NULL,
+    fecha_modificacion TIMESTAMP DEFAULT NOW() NOT NULL
+);
+
+COMMENT ON TABLE amparo_poliza IS 'Amparos que cubren un contrato. Se registran durante la elaboración de la minuta y posteriormente se asocian a la póliza expedida';
+COMMENT ON COLUMN amparo_poliza.contrato_general_id IS 'Referencia del contrato general al que pertenece el amparo. Se registra antes de que exista la póliza';
+COMMENT ON COLUMN amparo_poliza.poliza_id IS 'Referencia de la póliza que cubre el amparo. Es nula hasta que la póliza es expedida y asociada';
+COMMENT ON COLUMN amparo_poliza.amparo_id IS 'Tipo de amparo según Parámetros CRUD';
+COMMENT ON COLUMN amparo_poliza.tipo_valor_amparo_id IS 'Tipo de valor de la suficiencia según Parámetros CRUD (porcentaje, SMLV, etc.)';
+COMMENT ON COLUMN amparo_poliza.suficiencia IS 'Valor numérico de la suficiencia del amparo. Se interpreta según tipo_valor_amparo_id (porcentaje o SMLV), por lo que no usa la escala de porcentaje del lineamiento';
+COMMENT ON COLUMN amparo_poliza.valor IS 'Valor asegurado del amparo';
+COMMENT ON COLUMN amparo_poliza.descripcion IS 'Descripción del amparo';
+COMMENT ON COLUMN amparo_poliza.fecha_inicio IS 'Fecha de inicio de vigencia del amparo';
+COMMENT ON COLUMN amparo_poliza.fecha_fin IS 'Fecha de finalización de vigencia del amparo';
+
 -- Índices
 CREATE INDEX idx_contrato_general_tipo_contrato ON contrato_general(tipo_contrato_id);
 CREATE INDEX idx_documento_contrato_contrato ON documento_contrato(contrato_general_id);
 CREATE INDEX idx_estado_contrato_contrato ON estado_contrato(contrato_general_id);
 CREATE INDEX idx_supervisor_contrato_supervisor ON supervisor_contrato(supervisor_id);
 CREATE INDEX idx_disponibilidad_presupuestal_contrato ON disponibilidad_presupuestal(contrato_general_id);
+CREATE INDEX idx_poliza_contrato_general ON poliza(contrato_general_id);
+CREATE INDEX idx_amparo_poliza_contrato_general ON amparo_poliza(contrato_general_id);
+CREATE INDEX idx_amparo_poliza_poliza ON amparo_poliza(poliza_id);
 
 COMMENT ON INDEX idx_contrato_general_tipo_contrato IS 'Índice para optimizar búsquedas por tipo de contrato';
 COMMENT ON INDEX idx_documento_contrato_contrato IS 'Índice para optimizar la relación entre documentos y contratos';
 COMMENT ON INDEX idx_estado_contrato_contrato IS 'Índice para optimizar consultas de estado de contratos';
 COMMENT ON INDEX idx_supervisor_contrato_supervisor IS 'Índice para optimizar búsquedas por supervisor';
 COMMENT ON INDEX idx_disponibilidad_presupuestal_contrato IS 'Índice para optimizar la relación entre CDP (disponibilidad presupuestal) y contratos';
+COMMENT ON INDEX idx_poliza_contrato_general IS 'Índice para optimizar la consulta de pólizas por contrato';
+COMMENT ON INDEX idx_amparo_poliza_contrato_general IS 'Índice para optimizar la consulta de amparos por contrato';
+COMMENT ON INDEX idx_amparo_poliza_poliza IS 'Índice para optimizar la consulta de amparos por póliza';
