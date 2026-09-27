@@ -70,6 +70,30 @@ pnpm run test:cov // Reporte de cobertura
 pnpm run test:e2e // Pruebas end to end
 ```
 
+#### Pruebas funcionales de póliza y amparo
+
+`test/funcionales-poliza.sh` ejerce los endpoints de `/polizas` y `/amparos-polizas` contra una instancia en ejecución y verifica el estado HTTP de cada caso. Sale con código distinto de cero si alguno no coincide.
+
+```
+./test/funcionales-poliza.sh [url_base]   // por defecto http://localhost:8099
+```
+
+Antes de ejecutarlo, la base debe tener el esquema de `sql/creacion-tablas.sql` y los contratos generales con id 1 y 2. `sql/datos-mock.sql` **no sirve para esto**: está desincronizado del esquema y su carga falla en `contrato_general`, lo que a su vez tumba todas las inserciones con llave foránea. Mientras se corrige, los contratos se siembran directamente:
+
+```sql
+INSERT INTO contrato_general (id, tipo_contrato_id, aplica_poliza, objeto, vigencia, numero_contrato, valor_pesos, fecha_inicial, fecha_final, activo, fecha_creacion, fecha_modificacion)
+VALUES
+ (1, 1, true, 'Contrato de prueba 1', '2026', 'CTO-2026-001', 85000000.00, '2026-01-15', '2026-12-15', true, NOW(), NOW()),
+ (2, 1, true, 'Contrato de prueba 2', '2026', 'CTO-2026-002', 120000000.00, '2026-02-01', '2026-11-30', true, NOW(), NOW());
+SELECT setval(pg_get_serial_sequence('contrato_general','id'), 2, true);
+```
+
+El script parte de `poliza` y `amparo_poliza` vacías, así que conviene ejecutar antes:
+
+```sql
+TRUNCATE TABLE amparo_poliza, poliza RESTART IDENTITY CASCADE;
+```
+
 ## Estado CI
 
 | Develop | Release 0.0.1 | Master |
