@@ -23,6 +23,7 @@ import {
 } from '@nestjs/swagger';
 import { SupervisorEntity } from './entities/supervisor.entity';
 import { StandardResponse } from '../utils/standardResponse.interface';
+import { buildErrorResponse } from '../utils/http-error.helper';
 
 @ApiTags('supervisores')
 @Controller('supervisores')
@@ -85,13 +86,12 @@ export class SupervisorController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.INTERNAL_SERVER_ERROR,
-        Message: 'Error al obtener los supervisores',
-        Data: error.message,
-      };
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        'Error al obtener los supervisores',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -124,13 +124,12 @@ export class SupervisorController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Supervisor no encontrado',
-        Data: error,
-      };
-      res.status(HttpStatus.NOT_FOUND).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Supervisor no encontrado',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -156,13 +155,12 @@ export class SupervisorController {
       };
       res.status(HttpStatus.CREATED).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.INTERNAL_SERVER_ERROR,
-        Message: 'Error al crear el supervisor',
-        Data: error,
-      };
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        'Error al crear el supervisor',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -198,13 +196,12 @@ export class SupervisorController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Supervisor no encontrado',
-        Data: error,
-      };
-      res.status(HttpStatus.NOT_FOUND).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Supervisor no encontrado',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -228,13 +225,12 @@ export class SupervisorController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Supervisor no encontrado',
-        Data: error,
-      };
-      res.status(HttpStatus.NOT_FOUND).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Supervisor no encontrado',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -266,13 +262,12 @@ export class SupervisorController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'No se encontraron supervisores para el contrato especificado',
-        Data: error,
-      };
-      res.status(HttpStatus.NOT_FOUND).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'No se encontraron supervisores para el contrato especificado',
+      );
+      res.status(status).json(response);
     }
   }
 }

@@ -29,6 +29,7 @@ import {
   ConteoConsecutivo,
   ConteoNumeroContrato,
 } from 'src/shared/interfaces/conteo.interface';
+import { buildErrorResponse } from '../utils/http-error.helper';
 
 @ApiTags('contratos-generales')
 @Controller('contratos-generales')
@@ -99,13 +100,12 @@ export class ContratoGeneralController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.INTERNAL_SERVER_ERROR,
-        Message: 'Error al obtener los contratos generales',
-        Data: error.message,
-      };
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        'Error al obtener los contratos generales',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -146,13 +146,12 @@ export class ContratoGeneralController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Contrato general no encontrado',
-        Data: error,
-      };
-      res.status(HttpStatus.NOT_FOUND).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Contrato general no encontrado',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -180,13 +179,12 @@ export class ContratoGeneralController {
       };
       res.status(HttpStatus.CREATED).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.INTERNAL_SERVER_ERROR,
-        Message: 'Error al crear el contrato general',
-        Data: error,
-      };
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        'Error al crear el contrato general',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -222,13 +220,12 @@ export class ContratoGeneralController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Contrato general no encontrado',
-        Data: error,
-      };
-      res.status(HttpStatus.NOT_FOUND).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Contrato general no encontrado',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -252,13 +249,12 @@ export class ContratoGeneralController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Contrato general no encontrado',
-        Data: error,
-      };
-      res.status(HttpStatus.NOT_FOUND).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Contrato general no encontrado',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -287,13 +283,12 @@ export class ContratoGeneralController {
       };
       res.status(HttpStatus.CREATED).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.INTERNAL_SERVER_ERROR,
-        Message: error.message,
-        Data: error,
-      };
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        error.message,
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -325,13 +320,12 @@ export class ContratoGeneralController {
       };
       res.status(HttpStatus.CREATED).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.INTERNAL_SERVER_ERROR,
-        Message: error.message,
-        Data: error,
-      };
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        error.message,
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -363,13 +357,12 @@ export class ContratoGeneralController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.INTERNAL_SERVER_ERROR,
-        Message: 'Error al obtener los IDs de contratos',
-        Data: error.message,
-      };
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        'Error al obtener los IDs de contratos',
+      );
+      res.status(status).json(response);
     }
   }
 }

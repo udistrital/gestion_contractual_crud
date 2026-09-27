@@ -7,6 +7,7 @@ import {
   Delete,
   Put,
   HttpStatus,
+  HttpException,
   Res,
   Query,
 } from '@nestjs/common';
@@ -24,6 +25,7 @@ import {
 import { StandardResponse } from '../utils/standardResponse.interface';
 import { ActualizarEspecificacionTecnicaDto } from './dto/actualizar-especificacion-tecnica';
 import { BaseQueryParamsDto } from 'src/shared/dto/query-params.base.dto';
+import { buildErrorResponse } from '../utils/http-error.helper';
 
 @ApiTags('especificaciones-tecnicas')
 @Controller('especificaciones-tecnicas')
@@ -55,13 +57,12 @@ export class EspecificacionTecnicaController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.INTERNAL_SERVER_ERROR,
-        Message: 'Error al obtener las especificaciones técnicas',
-        Data: error,
-      };
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        'Error al obtener las especificaciones técnicas',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -89,13 +90,12 @@ export class EspecificacionTecnicaController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Especificación técnica no encontrada',
-        Data: error,
-      };
-      res.status(HttpStatus.NOT_FOUND).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Especificación técnica no encontrada',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -123,13 +123,12 @@ export class EspecificacionTecnicaController {
       };
       res.status(HttpStatus.CREATED).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.INTERNAL_SERVER_ERROR,
-        Message: 'Error al crear la especificación técnica',
-        Data: error,
-      };
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        'Error al crear la especificación técnica',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -165,13 +164,12 @@ export class EspecificacionTecnicaController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Especificación técnica no encontrada',
-        Data: error,
-      };
-      res.status(HttpStatus.NOT_FOUND).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Especificación técnica no encontrada',
+      );
+      res.status(status).json(response);
     }
   }
 
@@ -187,12 +185,12 @@ export class EspecificacionTecnicaController {
         Data: especificacion,
       };
     } catch (error) {
-      return {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: error.message,
-        Data: null,
-      };
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Especificación técnica no encontrada',
+      );
+      throw new HttpException(response, status);
     }
   }
 

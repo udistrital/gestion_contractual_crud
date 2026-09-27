@@ -24,6 +24,7 @@ import { EstadoContrato } from './entities/estado-contrato.entity';
 import { BaseQueryParamsDto } from '../shared/dto/query-params.base.dto';
 import { Response } from 'express';
 import { StandardResponse } from '../utils/standardResponse.interface';
+import { buildErrorResponse } from '../utils/http-error.helper';
 
 @ApiTags('estados-contrato')
 @Controller('estados-contrato')
@@ -67,13 +68,12 @@ export class EstadoContratoController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.INTERNAL_SERVER_ERROR,
-        Message: 'Error al obtener los estados de contrato',
-        Data: error.message,
-      };
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        'Error al obtener los estados de contrato',
+      );
+      res.status(status).json(response);
     }
   }
 

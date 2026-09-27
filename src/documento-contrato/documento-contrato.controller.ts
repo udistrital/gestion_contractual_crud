@@ -24,6 +24,7 @@ import {
 import { StandardResponse } from '../utils/standardResponse.interface';
 import { DocumentoContrato } from './entities/documento-contrato.entity';
 import { BaseQueryParamsDto } from 'src/shared/dto/query-params.base.dto';
+import { buildErrorResponse } from '../utils/http-error.helper';
 
 @ApiTags('documentos-contratos')
 @Controller('documentos-contratos')
@@ -70,13 +71,12 @@ export class DocumentoContratoController {
       };
       res.status(HttpStatus.OK).json(response);
     } catch (error) {
-      const response: StandardResponse<any> = {
-        Success: false,
-        Status: HttpStatus.INTERNAL_SERVER_ERROR,
-        Message: 'Error al obtener los documentos de contrato',
-        Data: error,
-      };
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(response);
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        'Error al obtener los documentos de contrato',
+      );
+      res.status(status).json(response);
     }
   }
 

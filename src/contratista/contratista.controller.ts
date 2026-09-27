@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   HttpStatus,
+  HttpException,
 } from '@nestjs/common';
 import { ContratistaService } from './contratista.service';
 import { CreateContratistaDto } from './dto/create-contratista.dto';
@@ -20,6 +21,7 @@ import {
   ApiBody,
 } from '@nestjs/swagger';
 import { StandardResponse } from '../utils/standardResponse.interface';
+import { buildErrorResponse } from '../utils/http-error.helper';
 
 @ApiTags('contratistas')
 @Controller('contratistas')
@@ -47,12 +49,12 @@ export class ContratistaController {
         Data: saved,
       };
     } catch (error) {
-      return {
-        Success: false,
-        Status: HttpStatus.INTERNAL_SERVER_ERROR,
-        Message: 'Error al crear el contratista',
-        Data: error,
-      };
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        'Error al crear el contratista',
+      );
+      throw new HttpException(response, status);
     }
   }
 
@@ -73,12 +75,12 @@ export class ContratistaController {
         Data: contratistas,
       };
     } catch (error) {
-      return {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Contratistas no encontrados',
-        Data: error,
-      };
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Contratistas no encontrados',
+      );
+      throw new HttpException(response, status);
     }
   }
 
@@ -103,12 +105,12 @@ export class ContratistaController {
         Data: found,
       };
     } catch (error) {
-      return {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Contratista no encontrado',
-        Data: error,
-      };
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Contratista no encontrado',
+      );
+      throw new HttpException(response, status);
     }
   }
 
@@ -139,12 +141,12 @@ export class ContratistaController {
         Data: updated,
       };
     } catch (error) {
-      return {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Contratista no encontrado',
-        Data: error,
-      };
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Contratista no encontrado',
+      );
+      throw new HttpException(response, status);
     }
   }
 
@@ -166,12 +168,12 @@ export class ContratistaController {
         Data: null,
       };
     } catch (error) {
-      return {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Contratista no encontrado',
-        Data: error,
-      };
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Contratista no encontrado',
+      );
+      throw new HttpException(response, status);
     }
   }
 
@@ -200,12 +202,12 @@ export class ContratistaController {
         Data: result,
       };
     } catch (error) {
-      return {
-        Success: false,
-        Status: HttpStatus.NOT_FOUND,
-        Message: 'Contratista no encontrado',
-        Data: error,
-      };
+      const { status, response } = buildErrorResponse(
+        error,
+        HttpStatus.NOT_FOUND,
+        'Contratista no encontrado',
+      );
+      throw new HttpException(response, status);
     }
   }
 }
