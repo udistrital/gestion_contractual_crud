@@ -2511,6 +2511,649 @@
           "supervisores"
         ]
       }
+    },
+    "/polizas": {
+      "get": {
+        "operationId": "PolizaController_findAll",
+        "parameters": [
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Campos a incluir en la respuesta (separados por comas)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "description": "Campo por el cual ordenar",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderBy",
+            "required": false,
+            "in": "query",
+            "description": "Dirección del ordenamiento (ASC o DESC)",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Número máximo de registros a retornar",
+            "schema": {
+              "minimum": 0,
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "Número de registros a saltar",
+            "schema": {
+              "minimum": 0,
+              "type": "number"
+            }
+          },
+          {
+            "name": "query",
+            "required": false,
+            "in": "query",
+            "description": "Filtros en formato JSON. Ejemplo: {\"contrato_general_id\":1,\"activo\":true}",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "include",
+            "required": false,
+            "in": "query",
+            "description": "Relaciones a incluir (separadas por comas). Ejemplo: amparos,contrato_general",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de pólizas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Poliza"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Obtener todas las pólizas",
+        "tags": [
+          "polizas"
+        ]
+      },
+      "post": {
+        "operationId": "PolizaController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearPolizaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Póliza creada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Poliza"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Crear una nueva póliza",
+        "tags": [
+          "polizas"
+        ]
+      }
+    },
+    "/polizas/{id}": {
+      "get": {
+        "operationId": "PolizaController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID de la póliza",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Campos a retornar (separados por comas)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "description": "Campo por el cual ordenar",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderBy",
+            "required": false,
+            "in": "query",
+            "description": "Dirección del ordenamiento",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Número de registros a retornar",
+            "schema": {
+              "minimum": 0,
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "Número de registros a saltar",
+            "schema": {
+              "minimum": 0,
+              "type": "number"
+            }
+          },
+          {
+            "name": "query",
+            "required": false,
+            "in": "query",
+            "description": "Filtros dinámicos en formato JSON",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "include",
+            "required": false,
+            "in": "query",
+            "description": "Relaciones a incluir (separadas por comas). Ejemplo: amparos",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Póliza encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Poliza"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Póliza no encontrada"
+          }
+        },
+        "summary": "Obtener una póliza por ID",
+        "tags": [
+          "polizas"
+        ]
+      },
+      "put": {
+        "operationId": "PolizaController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID de la póliza a actualizar",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarPolizaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Póliza actualizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Poliza"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Póliza no encontrada"
+          }
+        },
+        "summary": "Actualizar una póliza",
+        "tags": [
+          "polizas"
+        ]
+      },
+      "delete": {
+        "operationId": "PolizaController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID de la póliza a eliminar",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Póliza eliminada"
+          },
+          "404": {
+            "description": "Póliza no encontrada"
+          }
+        },
+        "summary": "Eliminar lógicamente una póliza",
+        "tags": [
+          "polizas"
+        ]
+      }
+    },
+    "/polizas/{id}/amparos": {
+      "get": {
+        "operationId": "PolizaController_findAmparos",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID de la póliza",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Amparos encontrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AmparoPoliza"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Póliza no encontrada"
+          }
+        },
+        "summary": "Obtener los amparos cubiertos por una póliza",
+        "tags": [
+          "polizas"
+        ]
+      }
+    },
+    "/amparos-polizas": {
+      "get": {
+        "operationId": "AmparoPolizaController_findAll",
+        "parameters": [
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Campos a incluir en la respuesta (separados por comas)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "description": "Campo por el cual ordenar",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderBy",
+            "required": false,
+            "in": "query",
+            "description": "Dirección del ordenamiento (ASC o DESC)",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Número máximo de registros a retornar",
+            "schema": {
+              "minimum": 0,
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "Número de registros a saltar",
+            "schema": {
+              "minimum": 0,
+              "type": "number"
+            }
+          },
+          {
+            "name": "query",
+            "required": false,
+            "in": "query",
+            "description": "Filtros en formato JSON. Ejemplo: {\"contrato_general_id\":1} o {\"poliza_id\":3}",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "include",
+            "required": false,
+            "in": "query",
+            "description": "Relaciones a incluir (separadas por comas). Ejemplo: poliza,contrato_general",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de amparos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AmparoPoliza"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Obtener todos los amparos",
+        "tags": [
+          "amparos-polizas"
+        ]
+      },
+      "post": {
+        "operationId": "AmparoPolizaController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CrearAmparoPolizaDto"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Amparos creados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AmparoPoliza"
+                  }
+                }
+              }
+            }
+          },
+          "206": {
+            "description": "Algunos amparos no pudieron ser creados"
+          }
+        },
+        "summary": "Crear uno o varios amparos. Los amparos se registran con el contrato y la póliza se asocia posteriormente",
+        "tags": [
+          "amparos-polizas"
+        ]
+      }
+    },
+    "/amparos-polizas/{id}": {
+      "get": {
+        "operationId": "AmparoPolizaController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID del amparo",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "fields",
+            "required": false,
+            "in": "query",
+            "description": "Campos a retornar (separados por comas)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "description": "Campo por el cual ordenar",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderBy",
+            "required": false,
+            "in": "query",
+            "description": "Dirección del ordenamiento",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Número de registros a retornar",
+            "schema": {
+              "minimum": 0,
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "Número de registros a saltar",
+            "schema": {
+              "minimum": 0,
+              "type": "number"
+            }
+          },
+          {
+            "name": "query",
+            "required": false,
+            "in": "query",
+            "description": "Filtros dinámicos en formato JSON",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "include",
+            "required": false,
+            "in": "query",
+            "description": "Relaciones a incluir (separadas por comas). Ejemplo: poliza",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Amparo encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmparoPoliza"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Amparo no encontrado"
+          }
+        },
+        "summary": "Obtener un amparo por ID",
+        "tags": [
+          "amparos-polizas"
+        ]
+      },
+      "put": {
+        "operationId": "AmparoPolizaController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID del amparo a actualizar",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarAmparoPolizaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Amparo actualizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmparoPoliza"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Amparo no encontrado"
+          }
+        },
+        "summary": "Actualizar un amparo. También se usa para asociarlo a la póliza expedida",
+        "tags": [
+          "amparos-polizas"
+        ]
+      },
+      "delete": {
+        "operationId": "AmparoPolizaController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID del amparo a eliminar",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Amparo eliminado"
+          },
+          "404": {
+            "description": "Amparo no encontrado"
+          }
+        },
+        "summary": "Eliminar lógicamente un amparo",
+        "tags": [
+          "amparos-polizas"
+        ]
+      }
     }
   },
   "info": {
@@ -3179,6 +3822,251 @@
       "UpdateSupervisorDto": {
         "type": "object",
         "properties": {}
+      },
+      "Poliza": {
+        "type": "object",
+        "properties": {}
+      },
+      "AmparoPoliza": {
+        "type": "object",
+        "properties": {}
+      },
+      "CrearPolizaDto": {
+        "type": "object",
+        "properties": {
+          "numero_poliza": {
+            "type": "string",
+            "example": "POL-2024-0001",
+            "description": "Número con el que la aseguradora identifica la póliza"
+          },
+          "entidad_aseguradora_id": {
+            "type": "number",
+            "example": 301,
+            "description": "Id de la entidad aseguradora en Parámetros CRUD"
+          },
+          "contrato_general_id": {
+            "type": "number",
+            "example": 1,
+            "description": "Id del contrato general que ampara la póliza"
+          },
+          "descripcion": {
+            "type": "string",
+            "example": "Póliza de cumplimiento",
+            "description": "Descripción de la póliza"
+          },
+          "fecha_inicio": {
+            "type": "string",
+            "example": "2024-01-15",
+            "description": "Fecha de inicio de vigencia (formato ISO)"
+          },
+          "fecha_fin": {
+            "type": "string",
+            "example": "2025-01-15",
+            "description": "Fecha de finalización de vigencia (formato ISO)"
+          },
+          "fecha_expedicion": {
+            "type": "string",
+            "example": "2024-01-10",
+            "description": "Fecha de expedición de la póliza (formato ISO)"
+          },
+          "fecha_aprobacion": {
+            "type": "string",
+            "example": "2024-01-14",
+            "description": "Fecha de aprobación de la póliza (formato ISO)"
+          },
+          "usuario_id": {
+            "type": "number",
+            "example": 1,
+            "description": "Id del usuario que registra la póliza"
+          },
+          "usuario_legado": {
+            "type": "string",
+            "example": "usuario_legado",
+            "description": "Usuario heredado del sistema anterior"
+          },
+          "activo": {
+            "type": "boolean",
+            "example": true,
+            "description": "Indica si la póliza está activa"
+          }
+        },
+        "required": [
+          "contrato_general_id"
+        ]
+      },
+      "ActualizarPolizaDto": {
+        "type": "object",
+        "properties": {
+          "numero_poliza": {
+            "type": "string",
+            "example": "POL-2024-0001",
+            "description": "Número con el que la aseguradora identifica la póliza"
+          },
+          "entidad_aseguradora_id": {
+            "type": "number",
+            "example": 301,
+            "description": "Id de la entidad aseguradora en Parámetros CRUD"
+          },
+          "contrato_general_id": {
+            "type": "number",
+            "example": 1,
+            "description": "Id del contrato general que ampara la póliza"
+          },
+          "descripcion": {
+            "type": "string",
+            "example": "Póliza de cumplimiento",
+            "description": "Descripción de la póliza"
+          },
+          "fecha_inicio": {
+            "type": "string",
+            "example": "2024-01-15",
+            "description": "Fecha de inicio de vigencia (formato ISO)"
+          },
+          "fecha_fin": {
+            "type": "string",
+            "example": "2025-01-15",
+            "description": "Fecha de finalización de vigencia (formato ISO)"
+          },
+          "fecha_expedicion": {
+            "type": "string",
+            "example": "2024-01-10",
+            "description": "Fecha de expedición de la póliza (formato ISO)"
+          },
+          "fecha_aprobacion": {
+            "type": "string",
+            "example": "2024-01-14",
+            "description": "Fecha de aprobación de la póliza (formato ISO)"
+          },
+          "usuario_id": {
+            "type": "number",
+            "example": 1,
+            "description": "Id del usuario que registra la póliza"
+          },
+          "usuario_legado": {
+            "type": "string",
+            "example": "usuario_legado",
+            "description": "Usuario heredado del sistema anterior"
+          },
+          "activo": {
+            "type": "boolean",
+            "example": true,
+            "description": "Indica si la póliza está activa"
+          }
+        }
+      },
+      "CrearAmparoPolizaDto": {
+        "type": "object",
+        "properties": {
+          "contrato_general_id": {
+            "type": "number",
+            "example": 1,
+            "description": "Id del contrato general al que pertenece el amparo"
+          },
+          "poliza_id": {
+            "type": "number",
+            "example": 1,
+            "description": "Id de la póliza que cubre el amparo. Se omite mientras la póliza no haya sido expedida"
+          },
+          "amparo_id": {
+            "type": "number",
+            "example": 1181,
+            "description": "Id del tipo de amparo en Parámetros CRUD"
+          },
+          "tipo_valor_amparo_id": {
+            "type": "number",
+            "example": 1,
+            "description": "Id del tipo de valor de la suficiencia en Parámetros CRUD (porcentaje, SMLV, etc.)"
+          },
+          "suficiencia": {
+            "type": "number",
+            "example": 20,
+            "description": "Valor numérico de la suficiencia. Se interpreta según tipo_valor_amparo_id"
+          },
+          "valor": {
+            "type": "number",
+            "example": 10000000,
+            "description": "Valor asegurado del amparo"
+          },
+          "descripcion": {
+            "type": "string",
+            "example": "Cumplimiento del contrato",
+            "description": "Descripción del amparo"
+          },
+          "fecha_inicio": {
+            "type": "string",
+            "example": "2024-01-15",
+            "description": "Fecha de inicio de vigencia del amparo (formato ISO)"
+          },
+          "fecha_fin": {
+            "type": "string",
+            "example": "2025-01-15",
+            "description": "Fecha de finalización de vigencia del amparo (formato ISO)"
+          },
+          "activo": {
+            "type": "boolean",
+            "example": true,
+            "description": "Indica si el amparo está activo"
+          }
+        },
+        "required": [
+          "contrato_general_id",
+          "amparo_id"
+        ]
+      },
+      "ActualizarAmparoPolizaDto": {
+        "type": "object",
+        "properties": {
+          "contrato_general_id": {
+            "type": "number",
+            "example": 1,
+            "description": "Id del contrato general al que pertenece el amparo"
+          },
+          "poliza_id": {
+            "type": "number",
+            "example": 1,
+            "description": "Id de la póliza que cubre el amparo. Se omite mientras la póliza no haya sido expedida"
+          },
+          "amparo_id": {
+            "type": "number",
+            "example": 1181,
+            "description": "Id del tipo de amparo en Parámetros CRUD"
+          },
+          "tipo_valor_amparo_id": {
+            "type": "number",
+            "example": 1,
+            "description": "Id del tipo de valor de la suficiencia en Parámetros CRUD (porcentaje, SMLV, etc.)"
+          },
+          "suficiencia": {
+            "type": "number",
+            "example": 20,
+            "description": "Valor numérico de la suficiencia. Se interpreta según tipo_valor_amparo_id"
+          },
+          "valor": {
+            "type": "number",
+            "example": 10000000,
+            "description": "Valor asegurado del amparo"
+          },
+          "descripcion": {
+            "type": "string",
+            "example": "Cumplimiento del contrato",
+            "description": "Descripción del amparo"
+          },
+          "fecha_inicio": {
+            "type": "string",
+            "example": "2024-01-15",
+            "description": "Fecha de inicio de vigencia del amparo (formato ISO)"
+          },
+          "fecha_fin": {
+            "type": "string",
+            "example": "2025-01-15",
+            "description": "Fecha de finalización de vigencia del amparo (formato ISO)"
+          },
+          "activo": {
+            "type": "boolean",
+            "example": true,
+            "description": "Indica si el amparo está activo"
+          }
+        }
       }
     }
   }

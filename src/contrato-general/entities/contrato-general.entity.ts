@@ -13,6 +13,8 @@ import { Contratista } from '../../contratista/entities/contratista.entity';
 import { OrdenadorContrato } from 'src/ordenador-contrato/entities/ordenador-contrato.entity';
 import { SupervisorEntity } from '../../supervisor/entities/supervisor.entity';
 import { SolicitanteEntity } from '../../solicitante/entities/solicitante.entity';
+import { Poliza } from '../../poliza/entities/poliza.entity';
+import { AmparoPoliza } from '../../amparo-poliza/entities/amparo-poliza.entity';
 
 @Entity('contrato_general')
 export class ContratoGeneral {
@@ -171,6 +173,15 @@ export class ContratoGeneral {
     (supervisor) => supervisor.contrato_general,
   )
   supervisores: SupervisorEntity[];
+
+  @OneToMany(() => Poliza, (poliza) => poliza.contrato_general)
+  polizas: Poliza[];
+
+  @OneToMany(
+    () => AmparoPoliza,
+    (amparoPoliza) => amparoPoliza.contrato_general,
+  )
+  amparos: AmparoPoliza[];
 
   @OneToOne(
     () => SolicitanteEntity,
