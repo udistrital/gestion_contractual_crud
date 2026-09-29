@@ -10,8 +10,20 @@ describe('EspecificacionTecnicaService', () => {
   let service: EspecificacionTecnicaService;
   let repository: Repository<EspecificacionTecnica>;
 
+  const mockQueryBuilder: any = {
+    orderBy: jest.fn().mockReturnThis(),
+    addOrderBy: jest.fn().mockReturnThis(),
+    take: jest.fn().mockReturnThis(),
+    skip: jest.fn().mockReturnThis(),
+    where: jest.fn().mockReturnThis(),
+    andWhere: jest.fn().mockReturnThis(),
+    getManyAndCount: jest.fn(),
+  };
+
   const mockRepository = {
-    find: jest.fn(),
+    metadata: { columns: [], relations: [] },
+    createQueryBuilder: jest.fn(() => mockQueryBuilder),
+    create: jest.fn(),
     findOne: jest.fn(),
     save: jest.fn(),
     update: jest.fn(),
@@ -34,6 +46,10 @@ describe('EspecificacionTecnicaService', () => {
     );
   });
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('debería estar definido', () => {
     expect(service).toBeDefined();
   });
@@ -41,10 +57,13 @@ describe('EspecificacionTecnicaService', () => {
   describe('findAll', () => {
     it('debería devolver un array de especificaciones técnicas', async () => {
       const result = [{ id: 1 }, { id: 2 }];
-      mockRepository.find.mockResolvedValue(result);
+      mockQueryBuilder.getManyAndCount.mockResolvedValue([result, 2]);
 
-      expect(await service.findAll()).toBe(result);
-      expect(mockRepository.find).toHaveBeenCalled();
+      const [data, metadata] = await service.findAll({});
+
+      expect(data).toBe(result);
+      expect(metadata.total).toBe(2);
+      expect(mockRepository.createQueryBuilder).toHaveBeenCalled();
     });
   });
 
@@ -71,18 +90,21 @@ describe('EspecificacionTecnicaService', () => {
       const dto: CrearEspecificacionTecnicaDto = {
         descripcion: 'Descripción de prueba',
         cantidad: 10,
-        valorUnitario: 5000,
-        valorTotal: 50000,
-        contratoGeneralId: 1,
+        valor_unitario: 5000,
+        valor_total: 50000,
+        contrato_general_id: 1,
         activo: true,
-        fechaCreacion: new Date(), 
-        fechaModificacion: new Date(),
+        fecha_creacion: new Date(),
+        fecha_modificacion: new Date(),
       };
+      const entity = { ...dto };
       const result = { id: 1, ...dto };
+      mockRepository.create.mockReturnValue(entity);
       mockRepository.save.mockResolvedValue(result);
-  
+
       expect(await service.create(dto)).toBe(result);
-      expect(mockRepository.save).toHaveBeenCalledWith(dto);
+      expect(mockRepository.create).toHaveBeenCalledWith(dto);
+      expect(mockRepository.save).toHaveBeenCalledWith(entity);
     });
   });
 
@@ -108,6 +130,7 @@ describe('EspecificacionTecnicaService', () => {
       const id = 1;
       const dto: ActualizarEspecificacionTecnicaDto = { descripcion: 'Nueva descripción' };
       mockRepository.update.mockResolvedValue({ affected: 0 });
+      mockRepository.findOne.mockResolvedValue(null);
 
       await expect(service.update(id, dto)).rejects.toThrow(
         'EspecificacionTecnica con ID "1" no encontrada',
@@ -120,15 +143,18 @@ describe('EspecificacionTecnicaService', () => {
       const id = 1;
       const mockEspecificacion = { id, activo: true };
       mockRepository.findOne.mockResolvedValue(mockEspecificacion);
-      mockRepository.update.mockResolvedValue({ affected: 1 });
+      mockRepository.save.mockImplementation((entity) => Promise.resolve(entity));
 
       await service.remove(id);
 
       expect(mockRepository.findOne).toHaveBeenCalledWith({ where: { id } });
-      expect(mockRepository.update).toHaveBeenCalledWith(id, {
-        activo: false,
-        fechaModificacion: expect.any(Date),
-      });
+      expect(mockRepository.save).toHaveBeenCalledWith(
+        expect.objectContaining({
+          id,
+          activo: false,
+          fecha_modificacion: expect.any(Date),
+        }),
+      );
     });
 
     it('debería lanzar un error si la especificación técnica no se encuentra al eliminar', async () => {

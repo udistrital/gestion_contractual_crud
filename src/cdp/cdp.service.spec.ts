@@ -146,7 +146,7 @@ describe('CdpService', () => {
       mockContratoGeneralRepository.findOne.mockResolvedValue({ id: 2 });
       mockCdpRepository.save.mockResolvedValue(cdpActualizado);
 
-      const resultado = await service.update(1, updateCdpDto);
+      const resultado = await service.update(1, { ...updateCdpDto });
 
       expect(mockCdpRepository.findOne).toHaveBeenCalled();
       expect(mockContratoGeneralRepository.findOne).toHaveBeenCalled();
@@ -157,7 +157,7 @@ describe('CdpService', () => {
     it('debería lanzar un error si no se encuentra el CDP', async () => {
       mockCdpRepository.findOne.mockResolvedValue(null);
 
-      await expect(service.update(1, updateCdpDto)).rejects.toThrow(
+      await expect(service.update(1, { ...updateCdpDto })).rejects.toThrow(
         'CDP con ID "1" no encontrado',
       );
     });
@@ -166,7 +166,7 @@ describe('CdpService', () => {
       mockCdpRepository.findOne.mockResolvedValue(mockCdp);
       mockContratoGeneralRepository.findOne.mockResolvedValue(null);
 
-      await expect(service.update(1, updateCdpDto)).rejects.toThrow(
+      await expect(service.update(1, { ...updateCdpDto })).rejects.toThrow(
         'ContratoGeneral con ID "2" no encontrado',
       );
     });
@@ -198,7 +198,7 @@ describe('CdpService', () => {
       const resultado = await service.findByContratoGeneralId(1);
 
       expect(mockCdpRepository.find).toHaveBeenCalledWith({
-        where: { contrato_general_id: { id: 1 } },
+        where: { contrato_general: { id: 1 } },
       });
       expect(resultado).toEqual(mockCdps);
     });

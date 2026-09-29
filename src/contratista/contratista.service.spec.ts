@@ -1,3 +1,4 @@
+import { ConflictException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -48,6 +49,10 @@ describe('ContratistaService', () => {
     );
   });
 
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+
   it('debería estar definido', () => {
     expect(service).toBeDefined();
   });
@@ -57,6 +62,7 @@ describe('ContratistaService', () => {
       const createDto: CreateContratistaDto = {
         numero_documento: '123',
         tipo_persona_id: 1,
+        clase_contratista_id: 1,
         contrato_general_id: 1,
       };
       const contratoGeneral = { id: 1 };
@@ -66,6 +72,7 @@ describe('ContratistaService', () => {
         contrato_general_id: contratoGeneral,
       };
 
+      mockContratistaRepository.findOne.mockResolvedValue(null);
       mockContratoGeneralRepository.findOne.mockResolvedValue(contratoGeneral);
       mockContratistaRepository.create.mockReturnValue(createdContratista);
       mockContratistaRepository.save.mockResolvedValue(createdContratista);
@@ -76,9 +83,13 @@ describe('ContratistaService', () => {
       expect(mockContratoGeneralRepository.findOne).toHaveBeenCalledWith({
         where: { id: 1 },
       });
+      expect(mockContratistaRepository.findOne).toHaveBeenCalledWith({
+        where: { contrato_general_id: 1 },
+      });
       expect(mockContratistaRepository.create).toHaveBeenCalledWith({
         numero_documento: '123',
         tipo_persona_id: 1,
+        clase_contratista_id: 1,
       });
       expect(mockContratistaRepository.save).toHaveBeenCalledWith(
         createdContratista,
@@ -89,14 +100,31 @@ describe('ContratistaService', () => {
       const createDto: CreateContratistaDto = {
         numero_documento: '123',
         tipo_persona_id: 1,
+        clase_contratista_id: 1,
         contrato_general_id: 1,
       };
 
+      mockContratistaRepository.findOne.mockResolvedValue(null);
       mockContratoGeneralRepository.findOne.mockResolvedValue(null);
 
       await expect(service.create(createDto)).rejects.toThrow(
         'ContratoGeneral con ID "1" no encontrado',
       );
+    });
+
+    it('debería lanzar ConflictException si ya existe un contratista para el contrato', async () => {
+      const createDto: CreateContratistaDto = {
+        numero_documento: '123',
+        tipo_persona_id: 1,
+        clase_contratista_id: 1,
+        contrato_general_id: 1,
+      };
+      mockContratistaRepository.findOne.mockResolvedValue({ id: 1 });
+
+      await expect(service.create(createDto)).rejects.toThrow(
+        ConflictException,
+      );
+      expect(mockContratistaRepository.save).not.toHaveBeenCalled();
     });
   });
 
@@ -239,7 +267,7 @@ describe('ContratistaService', () => {
 
       expect(result).toEqual(contratista);
       expect(mockContratistaRepository.findOne).toHaveBeenCalledWith({
-        where: { contrato_general_id: { id: 1 } },
+        where: { contrato_general: { id: 1 } },
       });
     });
 
