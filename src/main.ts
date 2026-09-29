@@ -7,8 +7,39 @@ import * as compression from 'compression';
 import helmet from 'helmet';
 import { join } from 'path';
 import { ValidationPipe } from '@nestjs/common';
+import { SSMClient, GetParameterCommand } from '@aws-sdk/client-ssm';
+
+async function loadSsmParameters() {
+  const parameterStore = process.env.PARAMETER_STORE;
+  if (!parameterStore) return;
+
+  const client = new SSMClient({});
+
+  const [userRes, passRes] = await Promise.all([
+    client.send(
+      new GetParameterCommand({
+        Name: `/${parameterStore}/gestion_contractual_crud/db/username`,
+      }),
+    ),
+    client.send(
+      new GetParameterCommand({
+        Name: `/${parameterStore}/gestion_contractual_crud/db/password`,
+        WithDecryption: true,
+      }),
+    ),
+  ]);
+
+  if (!userRes.Parameter?.Value || !passRes.Parameter?.Value) {
+    throw new Error('No se pudieron cargar parámetros desde AWS SSM');
+  }
+
+  process.env.GESTION_CONTRACTUAL_CRUD_USERNAME = userRes.Parameter.Value;
+  process.env.GESTION_CONTRACTUAL_CRUD_PASS = passRes.Parameter.Value;
+}
 
 async function bootstrap() {
+  await loadSsmParameters();
+
   const app = await NestFactory.create(AppModule, {
     logger: ['error', 'warn', 'log', 'debug', 'verbose'],
   });
