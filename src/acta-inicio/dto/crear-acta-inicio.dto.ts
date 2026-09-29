@@ -1,4 +1,10 @@
-import { IsBoolean, IsDateString, IsNumber, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsDateString,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CrearActaInicioDto {
@@ -13,6 +19,7 @@ export class CrearActaInicioDto {
     example: 'usuario_legado',
     description: 'Usuario heredado del sistema anterior',
   })
+  @IsOptional()
   @IsString()
   usuario_legado: string;
 
