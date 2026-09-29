@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as fs from 'fs';
 import * as yaml from 'js-yaml';
-import * as compression from 'compression';
+import compression from 'compression';
 import helmet from 'helmet';
 import { join } from 'path';
 import { ValidationPipe } from '@nestjs/common';

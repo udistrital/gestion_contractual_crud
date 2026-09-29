@@ -21,7 +21,6 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "useUnknownInCatchVariables": false,
-    "ignoreDeprecations": "6.0",
     "types": ["node", "jest"]
   }
 }
