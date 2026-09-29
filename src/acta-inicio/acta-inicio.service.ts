@@ -1,22 +1,36 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CrearActaInicioDto } from './dto/crear-acta-inicio.dto';
 import { ActaInicio } from './entities/acta-inicio-entity';
 import { ActualizarActaInicioDto } from './dto/actualizar-acta-inicio.dto';
-import { ContratoGeneral } from 'src/contrato-general/entities/contrato-general.entity';
+import { ContratoGeneral } from '../contrato-general/entities/contrato-general.entity';
+import { BaseCrudService } from '../shared/services/base-crud.service';
+import { BaseQueryParamsDto } from '../shared/dto/query-params.base.dto';
+import { ResponseMetadata } from '../utils/response-metadata.interface';
 
 @Injectable()
-export class ActaInicioService {
+export class ActaInicioService extends BaseCrudService<ActaInicio> {
+  private readonly LOGGER = new Logger(ActaInicioService.name);
+
   constructor(
     @InjectRepository(ActaInicio)
     private readonly actaInicioRepository: Repository<ActaInicio>,
     @InjectRepository(ContratoGeneral)
     private readonly contratoGeneralRepository: Repository<ContratoGeneral>,
-  ) {}
+  ) {
+    super(actaInicioRepository, 'acta_inicio');
+  }
 
-  async findAll(): Promise<ActaInicio[]> {
-    return this.actaInicioRepository.find();
+  async findAll(
+    queryParams: BaseQueryParamsDto,
+  ): Promise<[ActaInicio[], ResponseMetadata]> {
+    return this.findAllWithFilters(queryParams);
   }
 
   async findOne(id: number): Promise<ActaInicio> {
@@ -53,7 +67,12 @@ export class ActaInicioService {
       fecha_modificacion: new Date(),
     });
 
-    return await this.actaInicioRepository.save(newActaInicio);
+    try {
+      return await this.actaInicioRepository.save(newActaInicio);
+    } catch (error) {
+      this.LOGGER.error(`Error al crear el acta de inicio: ${error.message}`);
+      throw new InternalServerErrorException('Error al crear el acta de inicio');
+    }
   }
 
   async update(

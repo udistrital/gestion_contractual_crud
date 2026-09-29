@@ -14,14 +14,16 @@ export function buildErrorResponse(
 ): { status: number; response: StandardResponse<string> } {
   const esHttpException = error instanceof HttpException;
   const status = esHttpException ? error.getStatus() : fallbackStatus;
-  const detalle = error instanceof Error ? error.message : String(error);
+  const detalle = esHttpException
+    ? error.message
+    : fallbackMessage;
 
   return {
     status,
     response: {
       Success: false,
       Status: status,
-      Message: esHttpException ? detalle : fallbackMessage,
+      Message: detalle,
       Data: detalle,
     },
   };

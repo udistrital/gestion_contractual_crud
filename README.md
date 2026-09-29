@@ -59,16 +59,43 @@ docker run --rm \
 > El repositorio cuenta únicamente con `Dockerfile` y `entrypoint.sh`. Ningún otro microservicio NestJS de Argo dispone de `docker-compose.yml`; el patrón de red compartida `back_end` utilizado en la organización es exclusivo de los repositorios Go/Beego y no se replica en este componente.
 
 ### Ejecución Pruebas
-```
-pnpm test
-```
+
+Hay tres niveles de prueba. Los dos primeros no necesitan base de datos, salvo el e2e de `test/app.e2e-spec.ts` (ver más abajo).
+
+| Nivel | Comando | Ubicación | ¿Requiere BD? |
+| -- | -- | -- | -- |
+| Unitarias | `pnpm test` | `src/**/*.spec.ts` | No: los repositorios TypeORM se reemplazan por mocks |
+| e2e | `pnpm run test:e2e` | `test/*.e2e-spec.ts` | Solo `app.e2e-spec.ts` |
+| Funcionales | `./test/funcionales-poliza.sh` | `test/funcionales-poliza.sh` | Sí, con la app corriendo |
 
 Otros comandos disponibles:
 ```
 pnpm run test:watch // Ejecución en modo watch
 pnpm run test:cov // Reporte de cobertura
-pnpm run test:e2e // Pruebas end to end
 ```
+
+#### Pruebas unitarias
+
+`pnpm test` ejecuta los `*.spec.ts` de `src/`. Cubren los services, los controllers de póliza y amparo, y las validaciones de los DTO de póliza y amparo (`class-validator`). Los repositorios se sustituyen por mocks de Jest, así que no se conectan a Postgres.
+
+#### Pruebas e2e
+
+`pnpm run test:e2e` usa `test/jest-e2e.json` y ejecuta los `*.e2e-spec.ts` de `test/`:
+
+- `poliza.e2e-spec.ts` y `amparo-poliza.e2e-spec.ts`: levantan los módulos reales de Nest y prueban el flujo HTTP completo (controller, service y `ValidationPipe` global, replicado de `src/main.ts`). Los repositorios TypeORM se sustituyen por `FakeRepository` (`test/utils/fake-repository.helper.ts`), un repositorio en memoria que solo emula lo que usa `BaseCrudService`. **No necesitan base de datos.**
+- `app.e2e-spec.ts`: importa `AppModule` completo y verifica el health check (`GET /`). Como carga la configuración de TypeORM, **necesita las variables de entorno y una base Postgres accesible** (ver `.env`).
+
+Como el fake no ejecuta SQL real, estos e2e no validan llaves foráneas, tipos de columna ni restricciones de la base. Eso se prueba con las pruebas funcionales.
+
+#### Cómo probar contra la base de datos
+
+1. Levantar Postgres y crear la base con el esquema de `sql/creacion-tablas.sql`.
+2. Definir en `.env` las variables `GESTION_CONTRACTUAL_CRUD_*` (host, puerto, usuario, contraseña, base y esquema) y `PORT`. Con `DEVELOPER_MODE=true` la conexión no usa SSL.
+3. Sembrar los datos necesarios (ver el SQL de la sección siguiente) y arrancar la API con `pnpm run start:dev`.
+4. Probar de una de estas formas:
+   - **Swagger:** abrir `http://localhost:<PORT>/swagger` y ejecutar los endpoints a mano. `POST /amparos-polizas` recibe un **arreglo** de objetos, no un objeto.
+   - **Script funcional:** `./test/funcionales-poliza.sh http://localhost:<PORT>`.
+   - **Consulta directa:** verificar en la base con `SELECT * FROM poliza;` y `SELECT * FROM amparo_poliza;`. Los `DELETE` de la API son borrados lógicos (`activo = false`), por lo que la fila sigue existiendo.
 
 #### Pruebas funcionales de póliza y amparo
 
@@ -93,6 +120,14 @@ El script parte de `poliza` y `amparo_poliza` vacías, así que conviene ejecuta
 ```sql
 TRUNCATE TABLE amparo_poliza, poliza RESTART IDENTITY CASCADE;
 ```
+
+## Acta de inicio
+
+Módulo `src/acta-inicio/`, ruta base `/actas-inicio`. Persiste en `acta_inicio` las actas de inicio de un contrato general y lo consume el formulario "Registrar Acta de Inicio" de `gestion_contractual_mf`.
+
+- Endpoints: `GET /`, `GET /:id`, `POST /`, `PUT /:id` y `DELETE /:id` (borrado lógico).
+- Respuestas con el envoltorio `{ Success, Status, Message, Data }`; el listado acepta `query`, `fields`, `sortBy`, `orderBy`, `limit`, `offset` e `include`, y devuelve `Metadata`.
+- `usuario_legado` es opcional: las actas nuevas no tienen usuario de ARGO v1.
 
 ## Estado CI
 

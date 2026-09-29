@@ -2,7 +2,7 @@ TRUNCATE TABLE contrato_general CASCADE;
 TRUNCATE TABLE convenio CASCADE;
 TRUNCATE TABLE contratista CASCADE;
 TRUNCATE TABLE contrato_arrendamiento CASCADE;
-TRUNCATE TABLE cdp CASCADE;
+TRUNCATE TABLE disponibilidad_presupuestal CASCADE;
 TRUNCATE TABLE registro_presupuestal CASCADE;
 TRUNCATE TABLE supervisor_contrato CASCADE;
 TRUNCATE TABLE lugar_ejecucion CASCADE;
@@ -21,7 +21,6 @@ INSERT INTO contrato_general (
     perfil_contratista_id,
     fecha_suscripcion_estudios,
     aplica_poliza,
-    ordenador_id,
     modalidad_seleccion_id,
     tipo_control_id,
     tipologia_especifica_id,
@@ -29,7 +28,6 @@ INSERT INTO contrato_general (
     procedimiento_id,
     plazo_ejecucion,
     unidad_ejecutora_id,
-    numero_constancia,
     tipo_moneda_id,
     valor_pesos,
     tipo_gasto_id,
@@ -49,27 +47,35 @@ INSERT INTO contrato_general (
     usuario_legado,
     numero_contrato,
     unidad_ejecucion_id,
-    activo
+    activo,
+    fecha_creacion,
+    fecha_modificacion
 ) VALUES
-      (1, 101, 201, 301, '2024-01-15', true, 401, 501, 1, 601, 701, 801, 180, 901, 10001, 1, 45000000.00, 1101, 1201, 1301, 1401, 0.000, 1.0000000000, 1501, true, 'Mensual', 'Contrato inicial del área de TI', '2024', 'CONT-2024-001', '2024-01-15', '2024-07-15', 'USR001', 'CT-2024-001', 1601, true),
+      (1, 101, 201, 301, '2024-01-15', true, 501, 1, 601, 701, 801, 180, 901, 1, 45000000.00, 1101, 1201, 1301, 1401, 0.000, 1.0000000000, 1501, true, 'Mensual', 'Contrato inicial del área de TI', '2024', 'CONT-2024-001', '2024-01-15', '2024-07-15', 'USR001', 'CT-2024-001', 1601, true, NOW(), NOW()),
 
-      (2, 102, 202, 302, '2024-01-20', true, 402, 502, 1, 602, 702, 802, 365, 902, 10002, 1, 120000000.00, 1102, 1202, 1302, 1402, 0.000, 1.0000000000, 1502, true, 'Bimestral', 'Contrato de consultoría estratégica', '2024', 'CONT-2024-002', '2024-02-01', '2025-01-31', 'USR002', 'CT-2024-002', 1602, true),
+      (2, 102, 202, 302, '2024-01-20', true, 502, 1, 602, 702, 802, 365, 902, 1, 120000000.00, 1102, 1202, 1302, 1402, 0.000, 1.0000000000, 1502, true, 'Bimestral', 'Contrato de consultoría estratégica', '2024', 'CONT-2024-002', '2024-02-01', '2025-01-31', 'USR002', 'CT-2024-002', 1602, true, NOW(), NOW()),
 
-      (3, 103, 203, 303, '2024-02-01', false, 403, 503, 2, 603, 703, 803, 90, 903, 10003, 1, 25000000.00, 1103, 1203, 1303, 1403, 0.000, 1.0000000000, 1503, true, 'Único pago', 'Compra de equipos departamento TI', '2024', 'CONT-2024-003', '2024-02-15', '2024-05-15', 'USR003', 'CT-2024-003', 1603, true),
+      (3, 103, 203, 303, '2024-02-01', false, 503, 2, 603, 703, 803, 90, 903, 1, 25000000.00, 1103, 1203, 1303, 1403, 0.000, 1.0000000000, 1503, true, 'Único pago', 'Compra de equipos departamento TI', '2024', 'CONT-2024-003', '2024-02-15', '2024-05-15', 'USR003', 'CT-2024-003', 1603, true, NOW(), NOW()),
 
-      (4, 104, 204, 304, '2024-02-15', true, 404, 504, 2, 604, 704, 804, 240, 904, 10004, 1, 180000000.00, 1104, 1204, 1304, 1404, 0.000, 1.0000000000, 1504, true, 'Trimestral', 'Auditoría general 2024', '2024', 'CONT-2024-004', '2024-03-01', '2024-10-31', 'USR004', 'CT-2024-004', 1604, true),
+      (4, 104, 204, 304, '2024-02-15', true, 504, 2, 604, 704, 804, 240, 904, 1, 180000000.00, 1104, 1204, 1304, 1404, 0.000, 1.0000000000, 1504, true, 'Trimestral', 'Auditoría general 2024', '2024', 'CONT-2024-004', '2024-03-01', '2024-10-31', 'USR004', 'CT-2024-004', 1604, true, NOW(), NOW()),
 
-      (5, 105, 205, 305, '2024-03-01', true, 405, 505, 1, 605, 705, 805, 150, 905, 10005, 1, 55000000.00, 1105, 1205, 1305, 1405, 0.000, 1.0000000000, 1505, false, 'Mensual', 'Mantenimiento sede principal', '2024', 'CONT-2024-005', '2024-03-15', '2024-08-15', 'USR005', 'CT-2024-005', 1605, true),
+      (5, 105, 205, 305, '2024-03-01', true, 505, 1, 605, 705, 805, 150, 905, 1, 55000000.00, 1105, 1205, 1305, 1405, 0.000, 1.0000000000, 1505, false, 'Mensual', 'Mantenimiento sede principal', '2024', 'CONT-2024-005', '2024-03-15', '2024-08-15', 'USR005', 'CT-2024-005', 1605, true, NOW(), NOW()),
 
-      (6, 106, 206, 306, '2024-03-15', true, 406, 506, 2, 606, 706, 806, 300, 906, 10006, 1, 220000000.00, 1106, 1206, 1306, 1406, 0.000, 1.0000000000, 1506, true, 'Bimestral', 'Proyecto ERP fase 1', '2024', 'CONT-2024-006', '2024-04-01', '2024-12-31', 'USR006', 'CT-2024-006', 1606, true),
+      (6, 106, 206, 306, '2024-03-15', true, 506, 2, 606, 706, 806, 300, 906, 1, 220000000.00, 1106, 1206, 1306, 1406, 0.000, 1.0000000000, 1506, true, 'Bimestral', 'Proyecto ERP fase 1', '2024', 'CONT-2024-006', '2024-04-01', '2024-12-31', 'USR006', 'CT-2024-006', 1606, true, NOW(), NOW()),
 
-      (7, 107, 207, 307, '2024-04-01', false, 407, 507, 1, 607, 707, 807, 120, 907, 10007, 1, 35000000.00, 1107, 1207, 1307, 1407, 0.000, 1.0000000000, 1507, true, 'Mensual', 'Programa capacitación TI', '2024', 'CONT-2024-007', '2024-04-15', '2024-08-15', 'USR007', 'CT-2024-007', 1607, true),
+      (7, 107, 207, 307, '2024-04-01', false, 507, 1, 607, 707, 807, 120, 907, 1, 35000000.00, 1107, 1207, 1307, 1407, 0.000, 1.0000000000, 1507, true, 'Mensual', 'Programa capacitación TI', '2024', 'CONT-2024-007', '2024-04-15', '2024-08-15', 'USR007', 'CT-2024-007', 1607, true, NOW(), NOW()),
 
-      (8, 108, 208, 308, '2024-04-15', true, 408, 508, 2, 608, 708, 808, 270, 908, 10008, 1, 160000000.00, 1108, 1208, 1308, 1408, 0.000, 1.0000000000, 1508, true, 'Trimestral', 'Transformación digital 2024', '2024', 'CONT-2024-008', '2024-05-01', '2025-01-31', 'USR008', 'CT-2024-008', 1608, true),
+      (8, 108, 208, 308, '2024-04-15', true, 508, 2, 608, 708, 808, 270, 908, 1, 160000000.00, 1108, 1208, 1308, 1408, 0.000, 1.0000000000, 1508, true, 'Trimestral', 'Transformación digital 2024', '2024', 'CONT-2024-008', '2024-05-01', '2025-01-31', 'USR008', 'CT-2024-008', 1608, true, NOW(), NOW()),
 
-      (9, 109, 209, 309, '2024-05-01', true, 409, 509, 1, 609, 709, 809, 60, 909, 10009, 1, 28000000.00, 1109, 1209, 1309, 1409, 0.000, 1.0000000000, 1509, false, 'Único pago', 'Licencias software 2024', '2024', 'CONT-2024-009', '2024-05-15', '2024-07-15', 'USR009', 'CT-2024-009', 1609, true),
+      (9, 109, 209, 309, '2024-05-01', true, 509, 1, 609, 709, 809, 60, 909, 1, 28000000.00, 1109, 1209, 1309, 1409, 0.000, 1.0000000000, 1509, false, 'Único pago', 'Licencias software 2024', '2024', 'CONT-2024-009', '2024-05-15', '2024-07-15', 'USR009', 'CT-2024-009', 1609, true, NOW(), NOW()),
 
-      (10, 110, 210, 310, '2024-05-15', true, 410, 510, 2, 610, 710, 810, 330, 910, 10010, 1, 250000000.00, 1110, 1210, 1310, 1410, 0.000, 1.0000000000, 1510, true, 'Mensual', 'Seguridad IT 2024', '2024', 'CONT-2024-010', '2024-06-01', '2025-04-30', 'USR010', 'CT-2024-010', 1610, true);
+      (10, 110, 210, 310, '2024-05-15', true, 510, 2, 610, 710, 810, 330, 910, 1, 250000000.00, 1110, 1210, 1310, 1410, 0.000, 1.0000000000, 1510, true, 'Mensual', 'Seguridad IT 2024', '2024', 'CONT-2024-010', '2024-06-01', '2025-04-30', 'USR010', 'CT-2024-010', 1610, true, NOW(), NOW()),
+
+      (11, 111, 211, 311, '2025-01-10', true, 511, 1, 611, 711, 811, 200, 911, 1, 95000000.00, 1111, 1211, 1311, 1411, 0.000, 1.0000000000, 1511, true, 'Mensual', 'Renovación de licencias corporativas 2025', '2025', 'CONT-2025-001', '2025-01-15', '2025-08-15', 'USR011', 'CT-2025-001', 1611, true, NOW(), NOW()),
+
+      (12, 112, 212, 312, '2026-01-05', true, 512, 2, 612, 712, 812, 365, 912, 1, 140000000.00, 1112, 1212, 1312, 1412, 0.000, 1.0000000000, 1512, true, 'Bimestral', 'Modernización de infraestructura 2026', '2026', 'CONT-2026-001', '2026-01-15', '2026-12-15', 'USR012', 'CT-2026-001', 1612, true, NOW(), NOW());
+
+SELECT setval('contrato_general_id_seq', (SELECT MAX(id) FROM contrato_general));
 
 
 INSERT INTO convenio (
@@ -438,3 +444,4 @@ INSERT INTO amparo_poliza (
       (8, 5, NULL, 1183, 2, 5.0000000, 7000000.0000000, 'Pago de salarios y prestaciones', '2024-05-01', '2025-05-01', true, NOW(), NOW());
 
 SELECT setval('amparo_poliza_id_seq', (SELECT MAX(id) FROM amparo_poliza));
+SELECT setval('acta_inicio_id_seq', (SELECT MAX(id) FROM acta_inicio));
