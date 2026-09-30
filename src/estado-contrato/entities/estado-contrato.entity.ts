@@ -34,7 +34,7 @@ export class EstadoContrato {
   actual: boolean;
 
   @Column({
-    name: 'fecha__evento',
+    name: 'fecha_evento',
     type: 'date',
     default: () => 'CURRENT_DATE',
   })
