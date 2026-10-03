@@ -1,4 +1,4 @@
-import { IsNumber, IsBoolean, IsString, IsOptional } from 'class-validator';
+import { IsNumber, IsBoolean, IsString, IsOptional, IsDate } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateDocumentoContratoDto {
@@ -36,4 +36,12 @@ export class CreateDocumentoContratoDto {
   @IsNumber()
   @IsOptional()
   tipo_documento_id: number;
+
+  @IsOptional()
+  @IsDate()
+  fecha_creacion?: Date;
+
+  @IsOptional()
+  @IsDate()
+  fecha_modificacion?: Date;
 }
