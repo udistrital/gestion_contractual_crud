@@ -39,19 +39,19 @@ export class DocumentoContrato {
   })
   @Column({ type: 'integer', nullable: true })
   documento_id: number;
-
+/* 
   @Column({ type: 'integer', nullable: true })
   usuario_id: number;
 
   @Column({ type: 'varchar', length: 40, nullable: true })
   usuario_rol: string;
-
+ */
   @Column({ default: true })
   activo: boolean;
-
-  @Column({ default: true, nullable: true })
+/*
+   @Column({ default: true, nullable: true })
   actual: boolean;
-
+ */
   @Column({ name: 'fecha_creacion', default: () => 'CURRENT_TIMESTAMP' })
   fecha_creacion: Date;
 

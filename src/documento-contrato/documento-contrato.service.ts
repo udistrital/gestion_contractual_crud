@@ -33,6 +33,10 @@ export class DocumentoContratoService extends BaseCrudService<DocumentoContrato>
       );
     }
 
+    createDocumentoDto.activo = true;
+    createDocumentoDto.fecha_creacion = new Date();
+    createDocumentoDto.fecha_modificacion = new Date();
+
     const documento =
       this.documentoContratoRepository.create(createDocumentoDto);
     try {

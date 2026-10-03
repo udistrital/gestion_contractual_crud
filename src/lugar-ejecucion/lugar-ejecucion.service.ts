@@ -50,6 +50,9 @@ export class LugarEjecucionService {
     const lugarEjecucion =
       this.lugarEjecucionRepository.create(lugarEjecucionData);
     lugarEjecucion.contrato_general = contratoGeneral;
+    lugarEjecucion.activo = true;
+    lugarEjecucion.fecha_creacion = new Date();
+    lugarEjecucion.fecha_modificacion = new Date();
 
     return await this.lugarEjecucionRepository.save(lugarEjecucion);
   }
