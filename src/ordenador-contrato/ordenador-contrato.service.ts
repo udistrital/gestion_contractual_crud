@@ -56,7 +56,7 @@ export class OrdenadorContratoService {
       documento_identidad: createOrdenadorContratoDto.documento_identidad,
       cargo_id: createOrdenadorContratoDto.cargo_id,
       contrato_general_id: createOrdenadorContratoDto.contrato_general_id,
-      activo: createOrdenadorContratoDto.activo,
+      activo: createOrdenadorContratoDto.activo ?? true,
       fecha_creacion: new Date(),
       fecha_modificacion: new Date(),
     });

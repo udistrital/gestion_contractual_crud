@@ -31,6 +31,8 @@ export class CdpService {
     const cdp = this.cdpRepository.create({
       ...cdpData,
       contrato_general: contratoGeneral,
+      fecha_creacion: new Date(),
+      fecha_modificacion: new Date(),
       activo: true,
     });
 

@@ -49,6 +49,9 @@ export class SolicitanteService {
     const solicitante =
       this.solicitanteEntityRepository.create(lugarEjecucionData);
     solicitante.contrato_general = contratoGeneral;
+    solicitante.activo = true;
+    solicitante.fecha_creacion = new Date();
+    solicitante.fecha_modificacion = new Date();
 
     return await this.solicitanteEntityRepository.save(solicitante);
   }

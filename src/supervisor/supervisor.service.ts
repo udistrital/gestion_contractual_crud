@@ -48,6 +48,9 @@ export class SupervisorService {
 
     const solicitante = this.supervisorEntityRepository.create(supervisorData);
     solicitante.contrato_general = contratoGeneral;
+    solicitante.activo = true;
+    solicitante.fecha_creacion = new Date();
+    solicitante.fecha_modificacion = new Date();
 
     return await this.supervisorEntityRepository.save(solicitante);
   }
