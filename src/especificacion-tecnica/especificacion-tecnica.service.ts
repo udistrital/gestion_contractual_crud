@@ -38,6 +38,9 @@ export class EspecificacionTecnicaService extends BaseCrudService<Especificacion
   async create(
     especificacionTecnicaDto: CrearEspecificacionTecnicaDto,
   ): Promise<EspecificacionTecnica> {
+    especificacionTecnicaDto.activo = true;
+    especificacionTecnicaDto.fecha_creacion = new Date();
+    especificacionTecnicaDto.fecha_modificacion = new Date();
     const especificacion = this.especificacionTecnicaRepository.create(
       especificacionTecnicaDto,
     );
