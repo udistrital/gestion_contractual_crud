@@ -44,6 +44,9 @@ export class ContratistaService {
 
     const contratista = this.contratistaRepository.create(contratistaData);
     contratista.contrato_general = contratoGeneral;
+    contratista.activo = true;
+    contratista.fecha_creacion = new Date();
+    contratista.fecha_modificacion = new Date();
 
     return await this.contratistaRepository.save(contratista);
   }
