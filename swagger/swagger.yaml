@@ -1116,10 +1116,67 @@ paths:
   /actas-inicio:
     get:
       operationId: ActaInicioController_findAll
-      parameters: []
+      parameters:
+        - name: fields
+          required: false
+          in: query
+          description: Campos a incluir en la respuesta (separados por comas)
+          schema:
+            type: string
+        - name: sortBy
+          required: false
+          in: query
+          description: Campo por el cual ordenar
+          schema:
+            type: string
+        - name: orderBy
+          required: false
+          in: query
+          description: Dirección del ordenamiento (ASC o DESC)
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+        - name: limit
+          required: false
+          in: query
+          description: Número máximo de registros a retornar
+          schema:
+            minimum: 0
+            type: number
+        - name: offset
+          required: false
+          in: query
+          description: Número de registros a saltar
+          schema:
+            minimum: 0
+            type: number
+        - name: query
+          required: false
+          in: query
+          description: >-
+            Filtros en formato JSON. Ejemplo:
+            {"contrato_general_id":1,"activo":true}
+          schema:
+            type: string
+        - name: include
+          required: false
+          in: query
+          description: >-
+            Relaciones a incluir (separadas por comas). Ejemplo:
+            contrato_general
+          schema:
+            type: string
       responses:
         '200':
-          description: ''
+          description: Lista de actas de inicio
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ActaInicio'
       summary: Obtener todas las actas de inicio
       tags: &ref_7
         - actas-inicio
@@ -1134,7 +1191,15 @@ paths:
               $ref: '#/components/schemas/CrearActaInicioDto'
       responses:
         '201':
-          description: ''
+          description: Acta de inicio creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActaInicio'
+        '400':
+          description: Datos de entrada inválidos
+        '404':
+          description: Contrato general no encontrado
       summary: Crear una nueva acta de inicio
       tags: *ref_7
   /actas-inicio/{id}:
@@ -1144,11 +1209,18 @@ paths:
         - name: id
           required: true
           in: path
+          description: ID del acta de inicio
           schema:
-            type: string
+            type: number
       responses:
         '200':
-          description: ''
+          description: Acta de inicio encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActaInicio'
+        '404':
+          description: Acta de inicio no encontrada
       summary: Obtener una acta de inicio por ID
       tags: *ref_7
     put:
@@ -1157,8 +1229,9 @@ paths:
         - name: id
           required: true
           in: path
+          description: ID del acta de inicio a actualizar
           schema:
-            type: string
+            type: number
       requestBody:
         required: true
         content:
@@ -1167,7 +1240,13 @@ paths:
               $ref: '#/components/schemas/ActualizarActaInicioDto'
       responses:
         '200':
-          description: ''
+          description: Acta de inicio actualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActaInicio'
+        '404':
+          description: Acta de inicio no encontrada
       summary: Actualizar una acta de inicio
       tags: *ref_7
     delete:
@@ -1176,12 +1255,15 @@ paths:
         - name: id
           required: true
           in: path
+          description: ID del acta de inicio a eliminar
           schema:
-            type: string
+            type: number
       responses:
         '200':
-          description: ''
-      summary: Eliminar una acta de inicio
+          description: Acta de inicio eliminada
+        '404':
+          description: Acta de inicio no encontrada
+      summary: Eliminar lógicamente una acta de inicio
       tags: *ref_7
   /solicitantes:
     post:
@@ -2354,6 +2436,9 @@ components:
         - fecha_creacion
         - fecha_modificacion
     ActualizarEspecificacionTecnicaDto:
+      type: object
+      properties: {}
+    ActaInicio:
       type: object
       properties: {}
     CrearActaInicioDto:

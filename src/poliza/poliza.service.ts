@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  InternalServerErrorException,
   Logger,
   NotFoundException,
 } from '@nestjs/common';
@@ -21,11 +22,11 @@ export class PolizaService extends BaseCrudService<Poliza> {
 
   constructor(
     @InjectRepository(Poliza)
-    private polizaRepository: Repository<Poliza>,
+    private readonly polizaRepository: Repository<Poliza>,
     @InjectRepository(AmparoPoliza)
-    private amparoPolizaRepository: Repository<AmparoPoliza>,
+    private readonly amparoPolizaRepository: Repository<AmparoPoliza>,
     @InjectRepository(ContratoGeneral)
-    private contratoGeneralRepository: Repository<ContratoGeneral>,
+    private readonly contratoGeneralRepository: Repository<ContratoGeneral>,
   ) {
     super(polizaRepository, 'poliza');
   }
@@ -58,7 +59,7 @@ export class PolizaService extends BaseCrudService<Poliza> {
         throw error;
       }
       this.LOGGER.error(`Error al buscar la póliza: ${error.message}`);
-      throw new Error(`Error al buscar la póliza: ${error.message}`);
+      throw new InternalServerErrorException('Error al buscar la póliza');
     }
   }
 
@@ -84,7 +85,8 @@ export class PolizaService extends BaseCrudService<Poliza> {
       });
       return await this.polizaRepository.save(nuevaPoliza);
     } catch (error) {
-      throw new Error(`Error al crear la póliza: ${error.message}`);
+      this.LOGGER.error(`Error al crear la póliza: ${error.message}`);
+      throw new InternalServerErrorException('Error al crear la póliza');
     }
   }
 
@@ -107,7 +109,8 @@ export class PolizaService extends BaseCrudService<Poliza> {
       });
       return this.findOne(id);
     } catch (error) {
-      throw new Error(`Error al actualizar la póliza: ${error.message}`);
+      this.LOGGER.error(`Error al actualizar la póliza: ${error.message}`);
+      throw new InternalServerErrorException('Error al actualizar la póliza');
     }
   }
 
@@ -120,7 +123,8 @@ export class PolizaService extends BaseCrudService<Poliza> {
         fecha_modificacion: new Date(),
       });
     } catch (error) {
-      throw new Error(`Error al eliminar la póliza: ${error.message}`);
+      this.LOGGER.error(`Error al eliminar la póliza: ${error.message}`);
+      throw new InternalServerErrorException('Error al eliminar la póliza');
     }
   }
 

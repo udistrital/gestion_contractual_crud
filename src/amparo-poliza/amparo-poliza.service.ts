@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  InternalServerErrorException,
   Logger,
   NotFoundException,
 } from '@nestjs/common';
@@ -26,11 +27,11 @@ export class AmparoPolizaService extends BaseCrudService<AmparoPoliza> {
 
   constructor(
     @InjectRepository(AmparoPoliza)
-    private amparoPolizaRepository: Repository<AmparoPoliza>,
+    private readonly amparoPolizaRepository: Repository<AmparoPoliza>,
     @InjectRepository(Poliza)
-    private polizaRepository: Repository<Poliza>,
+    private readonly polizaRepository: Repository<Poliza>,
     @InjectRepository(ContratoGeneral)
-    private contratoGeneralRepository: Repository<ContratoGeneral>,
+    private readonly contratoGeneralRepository: Repository<ContratoGeneral>,
   ) {
     super(amparoPolizaRepository, 'amparo');
   }
@@ -70,7 +71,7 @@ export class AmparoPolizaService extends BaseCrudService<AmparoPoliza> {
         throw error;
       }
       this.LOGGER.error(`Error al buscar el amparo: ${error.message}`);
-      throw new Error(`Error al buscar el amparo: ${error.message}`);
+      throw new InternalServerErrorException('Error al buscar el amparo');
     }
   }
 
@@ -135,7 +136,8 @@ export class AmparoPolizaService extends BaseCrudService<AmparoPoliza> {
       });
       return this.findOne(id);
     } catch (error) {
-      throw new Error(`Error al actualizar el amparo: ${error.message}`);
+      this.LOGGER.error(`Error al actualizar el amparo: ${error.message}`);
+      throw new InternalServerErrorException('Error al actualizar el amparo');
     }
   }
 
@@ -148,7 +150,8 @@ export class AmparoPolizaService extends BaseCrudService<AmparoPoliza> {
         fecha_modificacion: new Date(),
       });
     } catch (error) {
-      throw new Error(`Error al eliminar el amparo: ${error.message}`);
+      this.LOGGER.error(`Error al eliminar el amparo: ${error.message}`);
+      throw new InternalServerErrorException('Error al eliminar el amparo');
     }
   }
 

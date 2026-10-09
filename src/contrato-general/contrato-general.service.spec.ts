@@ -24,6 +24,7 @@ describe('ContratoGeneralService', () => {
   };
 
   const mockRepository = {
+    metadata: { columns: [], relations: [] },
     create: jest.fn(),
     save: jest.fn(),
     update: jest.fn(),
@@ -68,8 +69,6 @@ describe('ContratoGeneralService', () => {
 
       expect(result).toEqual(mockContratos);
       expect(metadata).toEqual({
-        totalItems: mockCount,
-        itemCount: mockContratos.length,
         currentPage: 1,
         hasNextPage: false,
         hasPreviousPage: false,
@@ -110,37 +109,41 @@ describe('ContratoGeneralService', () => {
   describe('create', () => {
     it('debería crear un nuevo contrato general', async () => {
       const dto: CrearContratoGeneralDto = {
-        tipoCompromisoId: 1,
-        tipoContratoId: 1,
-        perfilContratistaId: 1,
-        aplicaPoliza: true,
-        modalidadSeleccionId: 1,
-        tipologiaEspecificaId: 30,
-        regimenContratacionId: 1,
-        procedimientoId: 1,
-        plazoEjecucion: 30,
-        unidadEjecutoraId: 1,
-        fechaSuscripcionEstudios: new Date(),
-        ordenadorId: 1,
-        numeroConstancia: 123,
-        claseContratistaId: 1,
-        tipoMonedaId: 1,
-        valorPesos: 1000000,
-        tipoGastoId: 1,
-        origenRecursosId: 1,
-        origenPresupuestosId: 1,
-        temaGastoInversionId: 1,
-        valorContratoMe: 1000,
-        valorTasaCambio: 3800,
-        medioPogoId: 1,
-        clausulaRegistroPresupuestal: true,
-        modoPago: 'Mensual',
+        tipo_compromiso_id: 1,
+        tipo_contrato_id: 1,
+        perfil_contratista_id: 1,
+        fecha_suscripcion_estudios: new Date(),
+        aplica_poliza: true,
+        modalidad_seleccion_id: 1,
+        tipo_control_id: 1,
+        tipologia_especifica_id: 30,
+        regimen_contratacion_id: 1,
+        procedimiento_id: 1,
+        plazo_ejecucion: 30,
+        unidad_ejecucion_id: 1,
+        tipo_moneda_id: 1,
+        valor_pesos: 1000000,
+        tipo_gasto_id: 1,
+        origen_recursos_id: 1,
+        origen_presupuestos_id: 1,
+        tema_gasto_inversion_id: 1,
+        valor_contrato_me: 1000,
+        valor_tasa_cambio: 3800,
+        medio_pago_id: 1,
+        clausula_registro_presupuestal: true,
+        modo_pago: 'Mensual',
+        objeto: 'Objeto de prueba',
+        justificacion: 'Justificación de prueba',
+        actividades: 'Actividades de prueba',
+        condiciones: 'Condiciones de prueba',
         observaciones: 'Observaciones de prueba',
         vigencia: '2023',
-        consecutivoElaboracion: '2023-001',
-        fechaInicial: new Date(),
-        fechaFinal: new Date(),
-        usuarioLegado: 'usuario_test',
+        consecutivo_elaboracion: '2023-001',
+        fecha_inicial: new Date(),
+        fecha_final: new Date(),
+        usuario_legado: 'usuario_test',
+        numero_contrato: 'CT-2023-001',
+        unidad_ejecutora_id: 1,
       };
 
       const mockCreatedContrato = { id: 1, ...dto, activo: true };
@@ -153,6 +156,8 @@ describe('ContratoGeneralService', () => {
       expect(mockRepository.create).toHaveBeenCalledWith({
         ...dto,
         activo: true,
+        fecha_creacion: expect.any(Date),
+        fecha_modificacion: expect.any(Date),
       });
       expect(mockRepository.save).toHaveBeenCalledWith(mockCreatedContrato);
     });
@@ -165,23 +170,18 @@ describe('ContratoGeneralService', () => {
         observaciones: 'Observaciones actualizadas',
       };
 
-      const mockExistingContrato = { id, ...dto };
+      const mockExistingContrato = { id };
+      const mockUpdatedContrato = { id, ...dto };
       mockQueryBuilder.getOne
         .mockResolvedValueOnce(mockExistingContrato)
-        .mockResolvedValueOnce({
-          ...mockExistingContrato,
-          fechaModificacion: expect.any(Date),
-        });
+        .mockResolvedValueOnce(mockUpdatedContrato);
 
       const result = await service.update(id, dto);
 
-      expect(result).toEqual({
-        ...mockExistingContrato,
-        fechaModificacion: expect.any(Date),
-      });
+      expect(result).toEqual(mockUpdatedContrato);
       expect(mockRepository.update).toHaveBeenCalledWith(id, {
         ...dto,
-        fechaModificacion: expect.any(Date),
+        fecha_modificacion: expect.any(Date),
       });
     });
 
@@ -205,16 +205,17 @@ describe('ContratoGeneralService', () => {
 
       expect(mockRepository.update).toHaveBeenCalledWith(id, {
         activo: false,
-        fechaModificacion: expect.any(Date),
+        fecha_modificacion: expect.any(Date),
       });
     });
 
-    it('debería lanzar error cuando el contrato a eliminar no existe', async () => {
+    it('debería lanzar NotFoundException cuando el contrato a eliminar no existe', async () => {
       const id = 999;
       mockQueryBuilder.getOne.mockResolvedValue(null);
 
+      await expect(service.remove(id)).rejects.toThrow(NotFoundException);
       await expect(service.remove(id)).rejects.toThrow(
-        'Error al eliminar el contrato general: ContratoGeneral con ID "999" no encontrado',
+        'ContratoGeneral con ID "999" no encontrado',
       );
     });
   });

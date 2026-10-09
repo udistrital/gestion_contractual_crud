@@ -42,7 +42,7 @@ import { AmparoPolizaModule } from './amparo-poliza/amparo-poliza.module';
         type: 'postgres',
         logging: ['error'],
         host: configService.get('GESTION_CONTRACTUAL_CRUD_HOST'),
-        port: parseInt(configService.get('GESTION_CONTRACTUAL_CRUD_PORT'), 10),
+        port: Number.parseInt(configService.get('GESTION_CONTRACTUAL_CRUD_PORT'), 10),
         username: configService.get('GESTION_CONTRACTUAL_CRUD_USERNAME'),
         password: configService.get('GESTION_CONTRACTUAL_CRUD_PASS'),
         database: configService.get('GESTION_CONTRACTUAL_CRUD_DB'),
