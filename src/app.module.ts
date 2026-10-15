@@ -29,6 +29,8 @@ import { Poliza } from './poliza/entities/poliza.entity';
 import { PolizaModule } from './poliza/poliza.module';
 import { AmparoPoliza } from './amparo-poliza/entities/amparo-poliza.entity';
 import { AmparoPolizaModule } from './amparo-poliza/amparo-poliza.module';
+import { HuellaNavegador } from './huella-navegador/entities/huella-navegador.entity';
+import { HuellaNavegadorModule } from './huella-navegador/huella-navegador.module';
 
 @Module({
   imports: [
@@ -61,6 +63,7 @@ import { AmparoPolizaModule } from './amparo-poliza/amparo-poliza.module';
           SupervisorEntity,
           Poliza,
           AmparoPoliza,
+          HuellaNavegador,
         ],
         synchronize: configService.get('DEVELOPER_MODE'), // Solo para desarrollo, en producción se debe desactivar
         ssl: {
@@ -82,6 +85,7 @@ import { AmparoPolizaModule } from './amparo-poliza/amparo-poliza.module';
     SupervisorModule,
     PolizaModule,
     AmparoPolizaModule,
+    HuellaNavegadorModule,
   ],
   controllers: [AppController],
   providers: [AppService],
