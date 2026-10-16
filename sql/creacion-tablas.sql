@@ -413,3 +413,46 @@ COMMENT ON INDEX idx_disponibilidad_presupuestal_contrato IS 'Índice para optim
 COMMENT ON INDEX idx_poliza_contrato_general IS 'Índice para optimizar la consulta de pólizas por contrato';
 COMMENT ON INDEX idx_amparo_poliza_contrato_general IS 'Índice para optimizar la consulta de amparos por contrato';
 COMMENT ON INDEX idx_amparo_poliza_poliza IS 'Índice para optimizar la consulta de amparos por póliza';
+
+-- Tabla de huellas digitales del navegador
+CREATE TABLE huella_navegador (
+    id SERIAL,
+    huella VARCHAR(64) NOT NULL,
+    libreria VARCHAR(50) NOT NULL,
+    version_libreria VARCHAR(20) NOT NULL,
+    confianza NUMERIC(5,4),
+    componentes JSONB,
+    direccion_ip VARCHAR(45),
+    direccion_ip_servidor VARCHAR(45),
+    user_agent VARCHAR(512) NOT NULL,
+    usuario_id INTEGER,
+    usuario_rol VARCHAR(40),
+    microcliente VARCHAR(100) NOT NULL,
+    ruta VARCHAR(255),
+    fecha_captura TIMESTAMP NOT NULL,
+    activo BOOLEAN DEFAULT TRUE NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT NOW() NOT NULL,
+    fecha_modificacion TIMESTAMP DEFAULT NOW(),
+    CONSTRAINT pk_huella_navegador PRIMARY KEY (id)
+);
+
+COMMENT ON TABLE huella_navegador IS 'Registra la huella digital del navegador (browser fingerprinting) y la IP capturadas por los microclientes, con fines de auditoría y seguridad';
+COMMENT ON COLUMN huella_navegador.huella IS 'Identificador calculado por la librería de fingerprinting';
+COMMENT ON COLUMN huella_navegador.libreria IS 'Librería con la que se calculó la huella (fingerprintjs, thumbmarkjs)';
+COMMENT ON COLUMN huella_navegador.version_libreria IS 'Versión de la librería con la que se calculó la huella';
+COMMENT ON COLUMN huella_navegador.confianza IS 'Puntaje de confianza entre 0 y 1 reportado por la librería. Nulo si la librería no lo entrega';
+COMMENT ON COLUMN huella_navegador.componentes IS 'Componentes de la huella como hash SHA-256 truncado, duración y error. No almacena valores crudos';
+COMMENT ON COLUMN huella_navegador.direccion_ip IS 'Dirección IP pública reportada por el cliente mediante un servicio de eco';
+COMMENT ON COLUMN huella_navegador.direccion_ip_servidor IS 'Dirección IP con la que llega la petición al servidor (primer valor de X-Forwarded-For o IP del socket)';
+COMMENT ON COLUMN huella_navegador.user_agent IS 'User agent del navegador';
+COMMENT ON COLUMN huella_navegador.usuario_id IS 'Identificador del usuario autenticado al momento de la captura';
+COMMENT ON COLUMN huella_navegador.usuario_rol IS 'Rol del usuario autenticado al momento de la captura';
+COMMENT ON COLUMN huella_navegador.microcliente IS 'Microcliente que capturó la huella';
+COMMENT ON COLUMN huella_navegador.ruta IS 'Ruta de la página en la que se capturó la huella, sin query string';
+COMMENT ON COLUMN huella_navegador.fecha_captura IS 'Fecha y hora en la que el navegador capturó la huella';
+
+CREATE INDEX idx_huella_navegador_huella ON huella_navegador (huella);
+CREATE INDEX idx_huella_navegador_usuario_id ON huella_navegador (usuario_id);
+
+COMMENT ON INDEX idx_huella_navegador_huella IS 'Índice para optimizar la búsqueda de registros por huella';
+COMMENT ON INDEX idx_huella_navegador_usuario_id IS 'Índice para optimizar la búsqueda de huellas por usuario';

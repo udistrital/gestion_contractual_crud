@@ -1983,6 +1983,111 @@ paths:
           description: Amparo no encontrado
       summary: Eliminar lógicamente un amparo
       tags: *ref_12
+  /huellas-navegador:
+    post:
+      operationId: HuellaNavegadorController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateHuellaNavegadorDto'
+      responses:
+        '201':
+          description: Huella de navegador registrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HuellaNavegador'
+        '400':
+          description: Solicitud incorrecta.
+      summary: Registrar la huella digital del navegador capturada por un microcliente
+      tags: &ref_13
+        - huellas-navegador
+    get:
+      operationId: HuellaNavegadorController_findAll
+      parameters:
+        - name: fields
+          required: false
+          in: query
+          description: Campos a retornar (separados por comas)
+          schema:
+            type: string
+        - name: sortBy
+          required: false
+          in: query
+          description: Campo por el cual ordenar
+          schema:
+            type: string
+        - name: orderBy
+          required: false
+          in: query
+          description: Dirección del ordenamiento
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+        - name: limit
+          required: false
+          in: query
+          description: Número de registros a retornar
+          schema:
+            minimum: 0
+            type: number
+        - name: offset
+          required: false
+          in: query
+          description: Número de registros a saltar
+          schema:
+            minimum: 0
+            type: number
+        - name: query
+          required: false
+          in: query
+          description: >-
+            Filtros en formato JSON. Ejemplo:
+            {"usuario_id":123,"libreria":"fingerprintjs"}
+          schema:
+            type: string
+        - name: include
+          required: false
+          in: query
+          description: Relaciones a Incliur (separadas por comas)
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Devuelve las huellas de navegador registradas.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HuellaNavegador'
+      summary: Obtener las huellas de navegador registradas
+      tags: *ref_13
+  /huellas-navegador/{id}:
+    get:
+      operationId: HuellaNavegadorController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Devuelve la huella de navegador.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HuellaNavegador'
+        '404':
+          description: Huella de navegador no encontrada.
+      summary: Obtener una huella de navegador por id
+      tags: *ref_13
 info:
   title: Gestion Contractual CRUD
   description: API para la gestión contractual
@@ -2711,3 +2816,75 @@ components:
           type: boolean
           example: true
           description: Indica si el amparo está activo
+    CreateHuellaNavegadorDto:
+      type: object
+      properties:
+        huella:
+          type: string
+          example: 4f2a9c1e8b7d6a5f3e2d1c0b9a8f7e6d
+          description: Identificador calculado por la librería de fingerprinting
+        libreria:
+          type: string
+          example: fingerprintjs
+          description: Librería con la que se calculó la huella
+        version_libreria:
+          type: string
+          example: 5.0.1
+          description: Versión de la librería con la que se calculó la huella
+        confianza:
+          type: number
+          example: 0.4
+          description: >-
+            Puntaje de confianza entre 0 y 1 reportado por la librería, si lo
+            entrega
+        componentes:
+          type: object
+          example:
+            canvas:
+              hash: a1b2c3d4e5f60718
+              duracion_ms: 12
+              error: false
+          description: >-
+            Componentes de la huella, cada uno como hash truncado, duración y si
+            falló. No contiene valores crudos
+        direccion_ip:
+          type: string
+          example: 190.25.0.1
+          description: Dirección IP pública vista por el cliente (servicio de eco)
+        user_agent:
+          type: string
+          example: >-
+            Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like
+            Gecko) Chrome/141.0.0.0 Safari/537.36
+          description: User agent del navegador
+        usuario_id:
+          type: number
+          example: 123
+          description: Identificador del usuario autenticado
+        usuario_rol:
+          type: string
+          example: ASISTENTE_JURIDICA
+          description: Rol del usuario autenticado
+        microcliente:
+          type: string
+          example: gestion_contractual_mf
+          description: Microcliente que capturó la huella
+        ruta:
+          type: string
+          example: /gestion-contractual/consulta-contrato
+          description: Ruta de la página en la que se capturó, sin query string
+        fecha_captura:
+          format: date-time
+          type: string
+          example: '2026-10-16T15:00:00.000Z'
+          description: Fecha y hora en la que el navegador capturó la huella
+      required:
+        - huella
+        - libreria
+        - version_libreria
+        - user_agent
+        - microcliente
+        - fecha_captura
+    HuellaNavegador:
+      type: object
+      properties: {}
