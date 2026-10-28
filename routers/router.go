@@ -1,8 +1,7 @@
 // @APIVersion 1.0.0
-// @Title beego Test API
-// @Description beego has a very cool tools to autogenerate documents for your API
-// @Contact astaxie@gmail.com
-// @TermsOfServiceUrl http://beego.me/
+// @Title gestion_contractual_crud
+// @Description API CRUD de gestión contractual (ARGO) sobre las tablas del modelo conceptual ARGO
+// @Contact computo@udistrital.edu.co
 // @License Apache 2.0
 // @LicenseUrl http://www.apache.org/licenses/LICENSE-2.0.html
 package routers
