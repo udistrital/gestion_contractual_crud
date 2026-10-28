@@ -12,9 +12,9 @@ import (
 
 type ContratoGeneral struct {
 	Id                             int       `orm:"column(id);pk;auto"`
-	NumeroContrato                 string    `orm:"column(numero_contrato);null"`
+	NumeroContrato                 *string   `orm:"column(numero_contrato);size(50);null"`
 	VigenciaId                     int       `orm:"column(vigencia_id);null"`
-	ConsecutivoElaboracion         string    `orm:"column(consecutivo_elaboracion);null"`
+	ConsecutivoElaboracion         string    `orm:"column(consecutivo_elaboracion);size(50);null"`
 	UnidadEjecutoraId              int       `orm:"column(unidad_ejecutora_id)"`
 	TipoCompromisoId               int       `orm:"column(tipo_compromiso_id);null"`
 	TipoContratoId                 int       `orm:"column(tipo_contrato_id);null"`
@@ -38,16 +38,16 @@ type ContratoGeneral struct {
 	TemaGastoInversionId           int       `orm:"column(tema_gasto_inversion_id);null"`
 	MedioPagoId                    int       `orm:"column(medio_pago_id);null"`
 	ClausulaRegistroPresupuestal   bool      `orm:"column(clausula_registro_presupuestal);null"`
-	ModoPago                       string    `orm:"column(modo_pago);null"`
-	Objeto                         string    `orm:"column(objeto);null"`
-	Justificacion                  string    `orm:"column(justificacion);null"`
-	Actividades                    string    `orm:"column(actividades);null"`
-	Condiciones                    string    `orm:"column(condiciones);null"`
-	Observaciones                  string    `orm:"column(observaciones);null"`
+	ModoPago                       string    `orm:"column(modo_pago);null;size(1000)"`
+	Objeto                         string    `orm:"column(objeto);null;size(2000)"`
+	Justificacion                  string    `orm:"column(justificacion);null;size(4000)"`
+	Actividades                    string    `orm:"column(actividades);null;size(8000)"`
+	Condiciones                    string    `orm:"column(condiciones);null;size(4000)"`
+	Observaciones                  string    `orm:"column(observaciones);size(1000);null"`
 	FechaInicial                   time.Time `orm:"column(fecha_inicial);type(date);null"`
 	FechaFinal                     time.Time `orm:"column(fecha_final);type(date);null"`
 	FechaSuscripcion               time.Time `orm:"column(fecha_suscripcion);type(date);null"`
-	ProveedorNumeroDocumento       string    `orm:"column(proveedor_numero_documento);null"`
+	ProveedorNumeroDocumento       string    `orm:"column(proveedor_numero_documento);size(20);null"`
 	TipoPersonaId                  int       `orm:"column(tipo_persona_id);null"`
 	ClaseProveedorId               int       `orm:"column(clase_proveedor_id);null"`
 	DependenciaSolicitanteId       int       `orm:"column(dependencia_solicitante_id);null"`
@@ -55,11 +55,11 @@ type ContratoGeneral struct {
 	DependenciaSolicitanteLegadoId int       `orm:"column(dependencia_solicitante_legado_id);null"`
 	SedeSolicitanteLegadoId        int       `orm:"column(sede_solicitante_legado_id);null"`
 	UsuarioId                      int       `orm:"column(usuario_id);null"`
-	UsuarioRol                     string    `orm:"column(usuario_rol);null"`
-	UsuarioLegado                  string    `orm:"column(usuario_legado);null"`
+	UsuarioRol                     string    `orm:"column(usuario_rol);size(40);null"`
+	UsuarioLegado                  string    `orm:"column(usuario_legado);size(15);null"`
 	Activo                         bool      `orm:"column(activo)"`
-	FechaCreacion                  time.Time `orm:"column(fecha_creacion);type(timestamp without time zone)"`
-	FechaModificacion              time.Time `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	FechaCreacion                  time.Time `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
+	FechaModificacion              time.Time `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
 }
 
 func (t *ContratoGeneral) TableName() string {
@@ -182,16 +182,17 @@ func UpdateContratoGeneralById(m *ContratoGeneral) (err error) {
 	return
 }
 
-// DeleteContratoGeneral deletes ContratoGeneral by Id and returns error if
-// the record to be deleted doesn't exist
+// DeleteContratoGeneral desactiva el registro (borrado lógico: activo = false) y
+// returns error if the record to be deleted doesn't exist
 func DeleteContratoGeneral(id int) (err error) {
 	o := orm.NewOrm()
 	v := ContratoGeneral{Id: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&ContratoGeneral{Id: id}); err == nil {
-			fmt.Println("Number of records deleted in database:", num)
+		v.Activo = false
+		if num, err = o.Update(&v, "Activo", "FechaModificacion"); err == nil {
+			fmt.Println("Number of records updated in database:", num)
 		}
 	}
 	return

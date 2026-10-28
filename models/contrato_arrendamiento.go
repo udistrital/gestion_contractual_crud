@@ -13,16 +13,16 @@ import (
 type ContratoArrendamiento struct {
 	Id                  int              `orm:"column(id);pk;auto"`
 	ContratoGeneralId   *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)"`
-	Destinacion         string           `orm:"column(destinacion);null"`
+	Destinacion         string           `orm:"column(destinacion);null;size(1000)"`
 	PlazoPagoMensual    int              `orm:"column(plazo_pago_mensual);null"`
-	Reajuste            string           `orm:"column(reajuste);null"`
+	Reajuste            string           `orm:"column(reajuste);size(255);null"`
 	PlazoAdministracion int              `orm:"column(plazo_administracion);null"`
 	ValorAdministracion float64          `orm:"column(valor_administracion);null"`
 	PlazoEntrega        int              `orm:"column(plazo_entrega);null"`
 	ValorArrendamiento  float64          `orm:"column(valor_arrendamiento);null"`
 	Activo              bool             `orm:"column(activo)"`
-	FechaCreacion       time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone)"`
-	FechaModificacion   time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	FechaCreacion       time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
+	FechaModificacion   time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
 }
 
 func (t *ContratoArrendamiento) TableName() string {
@@ -145,16 +145,17 @@ func UpdateContratoArrendamientoById(m *ContratoArrendamiento) (err error) {
 	return
 }
 
-// DeleteContratoArrendamiento deletes ContratoArrendamiento by Id and returns error if
-// the record to be deleted doesn't exist
+// DeleteContratoArrendamiento desactiva el registro (borrado lógico: activo = false) y
+// returns error if the record to be deleted doesn't exist
 func DeleteContratoArrendamiento(id int) (err error) {
 	o := orm.NewOrm()
 	v := ContratoArrendamiento{Id: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&ContratoArrendamiento{Id: id}); err == nil {
-			fmt.Println("Number of records deleted in database:", num)
+		v.Activo = false
+		if num, err = o.Update(&v, "Activo", "FechaModificacion"); err == nil {
+			fmt.Println("Number of records updated in database:", num)
 		}
 	}
 	return

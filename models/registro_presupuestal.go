@@ -17,8 +17,8 @@ type RegistroPresupuestal struct {
 	VigenciaRpId                 int                         `orm:"column(vigencia_rp_id);null"`
 	FechaRegistro                time.Time                   `orm:"column(fecha_registro);type(date);null"`
 	Activo                       bool                        `orm:"column(activo)"`
-	FechaCreacion                time.Time                   `orm:"column(fecha_creacion);type(timestamp without time zone)"`
-	FechaModificacion            time.Time                   `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	FechaCreacion                time.Time                   `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
+	FechaModificacion            time.Time                   `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
 }
 
 func (t *RegistroPresupuestal) TableName() string {
@@ -141,16 +141,17 @@ func UpdateRegistroPresupuestalById(m *RegistroPresupuestal) (err error) {
 	return
 }
 
-// DeleteRegistroPresupuestal deletes RegistroPresupuestal by Id and returns error if
-// the record to be deleted doesn't exist
+// DeleteRegistroPresupuestal desactiva el registro (borrado lógico: activo = false) y
+// returns error if the record to be deleted doesn't exist
 func DeleteRegistroPresupuestal(id int) (err error) {
 	o := orm.NewOrm()
 	v := RegistroPresupuestal{Id: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&RegistroPresupuestal{Id: id}); err == nil {
-			fmt.Println("Number of records deleted in database:", num)
+		v.Activo = false
+		if num, err = o.Update(&v, "Activo", "FechaModificacion"); err == nil {
+			fmt.Println("Number of records updated in database:", num)
 		}
 	}
 	return

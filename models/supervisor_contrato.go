@@ -19,12 +19,12 @@ type SupervisorContrato struct {
 	CargoId            int              `orm:"column(cargo_id);null"`
 	SedeId             int              `orm:"column(sede_id)"`
 	DependenciaId      int              `orm:"column(dependencia_id)"`
-	SedeLegado         string           `orm:"column(sede_legado);null"`
-	DependenciaLegado  string           `orm:"column(dependencia_legado);null"`
-	CargoLegado        string           `orm:"column(cargo_legado);null"`
+	SedeLegado         string           `orm:"column(sede_legado);size(50);null"`
+	DependenciaLegado  string           `orm:"column(dependencia_legado);size(50);null"`
+	CargoLegado        string           `orm:"column(cargo_legado);null;size(250)"`
 	Activo             bool             `orm:"column(activo)"`
-	FechaCreacion      time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone)"`
-	FechaModificacion  time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	FechaCreacion      time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
+	FechaModificacion  time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
 }
 
 func (t *SupervisorContrato) TableName() string {
@@ -147,16 +147,17 @@ func UpdateSupervisorContratoById(m *SupervisorContrato) (err error) {
 	return
 }
 
-// DeleteSupervisorContrato deletes SupervisorContrato by Id and returns error if
-// the record to be deleted doesn't exist
+// DeleteSupervisorContrato desactiva el registro (borrado lógico: activo = false) y
+// returns error if the record to be deleted doesn't exist
 func DeleteSupervisorContrato(id int) (err error) {
 	o := orm.NewOrm()
 	v := SupervisorContrato{Id: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&SupervisorContrato{Id: id}); err == nil {
-			fmt.Println("Number of records deleted in database:", num)
+		v.Activo = false
+		if num, err = o.Update(&v, "Activo", "FechaModificacion"); err == nil {
+			fmt.Println("Number of records updated in database:", num)
 		}
 	}
 	return

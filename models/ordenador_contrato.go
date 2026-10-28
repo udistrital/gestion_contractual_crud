@@ -15,13 +15,13 @@ type OrdenadorContrato struct {
 	ContratoGeneralId    *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)"`
 	TerceroId            int              `orm:"column(tercero_id);null"`
 	CargoId              int              `orm:"column(cargo_id);null"`
-	DocumentoIdentidad   string           `orm:"column(documento_identidad);null"`
-	Resolucion           string           `orm:"column(resolucion);null"`
+	DocumentoIdentidad   string           `orm:"column(documento_identidad);null;size(20)"`
+	Resolucion           string           `orm:"column(resolucion);null;size(250)"`
 	OrdenadorArgoId      int              `orm:"column(ordenador_argo_id);null"`
 	OrdenadorSicapitalId int              `orm:"column(ordenador_sicapital_id);null"`
 	Activo               bool             `orm:"column(activo)"`
-	FechaCreacion        time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone)"`
-	FechaModificacion    time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	FechaCreacion        time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
+	FechaModificacion    time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
 }
 
 func (t *OrdenadorContrato) TableName() string {
@@ -144,16 +144,17 @@ func UpdateOrdenadorContratoById(m *OrdenadorContrato) (err error) {
 	return
 }
 
-// DeleteOrdenadorContrato deletes OrdenadorContrato by Id and returns error if
-// the record to be deleted doesn't exist
+// DeleteOrdenadorContrato desactiva el registro (borrado lógico: activo = false) y
+// returns error if the record to be deleted doesn't exist
 func DeleteOrdenadorContrato(id int) (err error) {
 	o := orm.NewOrm()
 	v := OrdenadorContrato{Id: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&OrdenadorContrato{Id: id}); err == nil {
-			fmt.Println("Number of records deleted in database:", num)
+		v.Activo = false
+		if num, err = o.Update(&v, "Activo", "FechaModificacion"); err == nil {
+			fmt.Println("Number of records updated in database:", num)
 		}
 	}
 	return

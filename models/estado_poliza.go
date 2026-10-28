@@ -14,12 +14,12 @@ type EstadoPoliza struct {
 	Id                int       `orm:"column(id);pk;auto"`
 	PolizaId          *Poliza   `orm:"column(poliza_id);rel(fk)"`
 	EstadoParametroId int       `orm:"column(estado_parametro_id)"`
-	Motivo            string    `orm:"column(motivo);null"`
+	Motivo            string    `orm:"column(motivo);size(250);null"`
 	UsuarioId         int       `orm:"column(usuario_id)"`
-	UsuarioRol        string    `orm:"column(usuario_rol);null"`
+	UsuarioRol        string    `orm:"column(usuario_rol);size(40);null"`
 	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp without time zone)"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
 }
 
 func (t *EstadoPoliza) TableName() string {
@@ -142,16 +142,17 @@ func UpdateEstadoPolizaById(m *EstadoPoliza) (err error) {
 	return
 }
 
-// DeleteEstadoPoliza deletes EstadoPoliza by Id and returns error if
-// the record to be deleted doesn't exist
+// DeleteEstadoPoliza desactiva el registro (borrado lógico: activo = false) y
+// returns error if the record to be deleted doesn't exist
 func DeleteEstadoPoliza(id int) (err error) {
 	o := orm.NewOrm()
 	v := EstadoPoliza{Id: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&EstadoPoliza{Id: id}); err == nil {
-			fmt.Println("Number of records deleted in database:", num)
+		v.Activo = false
+		if num, err = o.Update(&v, "Activo", "FechaModificacion"); err == nil {
+			fmt.Println("Number of records updated in database:", num)
 		}
 	}
 	return
