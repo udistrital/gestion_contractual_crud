@@ -13,19 +13,19 @@ import (
 type Poliza struct {
 	Id                   int              `orm:"column(id);pk;auto"`
 	ContratoGeneralId    *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)"`
-	NumeroPoliza         string           `orm:"column(numero_poliza);null"`
+	NumeroPoliza         string           `orm:"column(numero_poliza);size(50);null"`
 	EntidadAseguradoraId int              `orm:"column(entidad_aseguradora_id);null"`
-	Descripcion          string           `orm:"column(descripcion);null"`
+	Descripcion          string           `orm:"column(descripcion);size(255);null"`
 	FechaInicio          time.Time        `orm:"column(fecha_inicio);type(date);null"`
 	FechaFin             time.Time        `orm:"column(fecha_fin);type(date);null"`
 	FechaExpedicion      time.Time        `orm:"column(fecha_expedicion);type(date);null"`
 	FechaAprobacion      time.Time        `orm:"column(fecha_aprobacion);type(date);null"`
 	UsuarioId            int              `orm:"column(usuario_id);null"`
-	UsuarioRol           string           `orm:"column(usuario_rol);null"`
-	UsuarioLegado        string           `orm:"column(usuario_legado);null"`
+	UsuarioRol           string           `orm:"column(usuario_rol);size(40);null"`
+	UsuarioLegado        string           `orm:"column(usuario_legado);size(15);null"`
 	Activo               bool             `orm:"column(activo)"`
-	FechaCreacion        time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone)"`
-	FechaModificacion    time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	FechaCreacion        time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
+	FechaModificacion    time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
 }
 
 func (t *Poliza) TableName() string {
@@ -148,16 +148,17 @@ func UpdatePolizaById(m *Poliza) (err error) {
 	return
 }
 
-// DeletePoliza deletes Poliza by Id and returns error if
-// the record to be deleted doesn't exist
+// DeletePoliza desactiva el registro (borrado lógico: activo = false) y
+// returns error if the record to be deleted doesn't exist
 func DeletePoliza(id int) (err error) {
 	o := orm.NewOrm()
 	v := Poliza{Id: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&Poliza{Id: id}); err == nil {
-			fmt.Println("Number of records deleted in database:", num)
+		v.Activo = false
+		if num, err = o.Update(&v, "Activo", "FechaModificacion"); err == nil {
+			fmt.Println("Number of records updated in database:", num)
 		}
 	}
 	return

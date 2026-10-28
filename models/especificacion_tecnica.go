@@ -12,14 +12,14 @@ import (
 
 type EspecificacionTecnica struct {
 	Id                int              `orm:"column(id);pk;auto"`
-	ContratoGeneralId *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)"`
-	Descripcion       string           `orm:"column(descripcion);null"`
+	ContratoGeneralId *ContratoGeneral `orm:"column(contrato_general_id);rel(fk);null"`
+	Descripcion       string           `orm:"column(descripcion);null;size(2000)"`
 	Cantidad          int              `orm:"column(cantidad)"`
 	ValorUnitario     float64          `orm:"column(valor_unitario);null"`
 	ValorTotal        float64          `orm:"column(valor_total);null"`
 	Activo            bool             `orm:"column(activo)"`
-	FechaCreacion     time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone)"`
-	FechaModificacion time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	FechaCreacion     time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
+	FechaModificacion time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
 }
 
 func (t *EspecificacionTecnica) TableName() string {
@@ -142,16 +142,17 @@ func UpdateEspecificacionTecnicaById(m *EspecificacionTecnica) (err error) {
 	return
 }
 
-// DeleteEspecificacionTecnica deletes EspecificacionTecnica by Id and returns error if
-// the record to be deleted doesn't exist
+// DeleteEspecificacionTecnica desactiva el registro (borrado lógico: activo = false) y
+// returns error if the record to be deleted doesn't exist
 func DeleteEspecificacionTecnica(id int) (err error) {
 	o := orm.NewOrm()
 	v := EspecificacionTecnica{Id: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&EspecificacionTecnica{Id: id}); err == nil {
-			fmt.Println("Number of records deleted in database:", num)
+		v.Activo = false
+		if num, err = o.Update(&v, "Activo", "FechaModificacion"); err == nil {
+			fmt.Println("Number of records updated in database:", num)
 		}
 	}
 	return

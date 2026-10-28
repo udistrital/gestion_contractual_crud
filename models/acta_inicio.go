@@ -13,22 +13,22 @@ import (
 type ActaInicio struct {
 	Id                         int              `orm:"column(id);pk;auto"`
 	ContratoGeneralId          *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)"`
-	Descripcion                string           `orm:"column(descripcion);null"`
+	Descripcion                string           `orm:"column(descripcion);null;size(2000)"`
 	FechaInicio                time.Time        `orm:"column(fecha_inicio);type(date);null"`
 	FechaFin                   time.Time        `orm:"column(fecha_fin);type(date);null"`
 	FechaSuscripcion           time.Time        `orm:"column(fecha_suscripcion);type(date);null"`
-	NumeroActa                 string           `orm:"column(numero_acta);null"`
+	NumeroActa                 string           `orm:"column(numero_acta);size(50);null"`
 	ValorDisponibilidad        float64          `orm:"column(valor_disponibilidad);null"`
-	NumeroRegistroPresupuestal string           `orm:"column(numero_registro_presupuestal);null"`
+	NumeroRegistroPresupuestal string           `orm:"column(numero_registro_presupuestal);size(50);null"`
 	ValorRegistroPresupuestal  float64          `orm:"column(valor_registro_presupuestal);null"`
 	ValorAnticipo              float64          `orm:"column(valor_anticipo);null"`
-	NombreInterventor          string           `orm:"column(nombre_interventor);null"`
+	NombreInterventor          string           `orm:"column(nombre_interventor);size(250);null"`
 	UsuarioId                  int              `orm:"column(usuario_id);null"`
-	UsuarioRol                 string           `orm:"column(usuario_rol);null"`
-	UsuarioLegado              string           `orm:"column(usuario_legado);null"`
+	UsuarioRol                 string           `orm:"column(usuario_rol);size(40);null"`
+	UsuarioLegado              string           `orm:"column(usuario_legado);size(15);null"`
 	Activo                     bool             `orm:"column(activo)"`
-	FechaCreacion              time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone)"`
-	FechaModificacion          time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	FechaCreacion              time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
+	FechaModificacion          time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
 }
 
 func (t *ActaInicio) TableName() string {
@@ -151,16 +151,17 @@ func UpdateActaInicioById(m *ActaInicio) (err error) {
 	return
 }
 
-// DeleteActaInicio deletes ActaInicio by Id and returns error if
-// the record to be deleted doesn't exist
+// DeleteActaInicio desactiva el registro (borrado lógico: activo = false) y
+// returns error if the record to be deleted doesn't exist
 func DeleteActaInicio(id int) (err error) {
 	o := orm.NewOrm()
 	v := ActaInicio{Id: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&ActaInicio{Id: id}); err == nil {
-			fmt.Println("Number of records deleted in database:", num)
+		v.Activo = false
+		if num, err = o.Update(&v, "Activo", "FechaModificacion"); err == nil {
+			fmt.Println("Number of records updated in database:", num)
 		}
 	}
 	return

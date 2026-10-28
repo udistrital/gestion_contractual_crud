@@ -13,12 +13,12 @@ import (
 type Convenio struct {
 	Id                int              `orm:"column(id);pk;auto"`
 	ContratoGeneralId *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)"`
-	Nombre            string           `orm:"column(nombre);null"`
+	Nombre            string           `orm:"column(nombre);size(250);null"`
 	Vigencia          int              `orm:"column(vigencia);null"`
 	TipoConvenioId    int              `orm:"column(tipo_convenio_id);null"`
 	Activo            bool             `orm:"column(activo)"`
-	FechaCreacion     time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone)"`
-	FechaModificacion time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	FechaCreacion     time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
+	FechaModificacion time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
 }
 
 func (t *Convenio) TableName() string {
@@ -141,16 +141,17 @@ func UpdateConvenioById(m *Convenio) (err error) {
 	return
 }
 
-// DeleteConvenio deletes Convenio by Id and returns error if
-// the record to be deleted doesn't exist
+// DeleteConvenio desactiva el registro (borrado lógico: activo = false) y
+// returns error if the record to be deleted doesn't exist
 func DeleteConvenio(id int) (err error) {
 	o := orm.NewOrm()
 	v := Convenio{Id: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&Convenio{Id: id}); err == nil {
-			fmt.Println("Number of records deleted in database:", num)
+		v.Activo = false
+		if num, err = o.Update(&v, "Activo", "FechaModificacion"); err == nil {
+			fmt.Println("Number of records updated in database:", num)
 		}
 	}
 	return

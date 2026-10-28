@@ -13,19 +13,19 @@ import (
 type AmparoPoliza struct {
 	Id                int              `orm:"column(id);pk;auto"`
 	ContratoGeneralId *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)"`
-	PolizaId          *Poliza          `orm:"column(poliza_id);rel(fk)"`
+	PolizaId          *Poliza          `orm:"column(poliza_id);rel(fk);null"`
 	AmparoId          int              `orm:"column(amparo_id)"`
 	TipoValorAmparoId int              `orm:"column(tipo_valor_amparo_id);null"`
 	Suficiencia       float64          `orm:"column(suficiencia);null"`
 	Valor             float64          `orm:"column(valor);null"`
-	Descripcion       string           `orm:"column(descripcion);null"`
+	Descripcion       string           `orm:"column(descripcion);size(255);null"`
 	FechaInicio       time.Time        `orm:"column(fecha_inicio);type(date);null"`
 	FechaFin          time.Time        `orm:"column(fecha_fin);type(date);null"`
 	UsuarioId         int              `orm:"column(usuario_id);null"`
-	UsuarioRol        string           `orm:"column(usuario_rol);null"`
+	UsuarioRol        string           `orm:"column(usuario_rol);size(40);null"`
 	Activo            bool             `orm:"column(activo)"`
-	FechaCreacion     time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone)"`
-	FechaModificacion time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	FechaCreacion     time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
+	FechaModificacion time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
 }
 
 func (t *AmparoPoliza) TableName() string {
@@ -148,16 +148,17 @@ func UpdateAmparoPolizaById(m *AmparoPoliza) (err error) {
 	return
 }
 
-// DeleteAmparoPoliza deletes AmparoPoliza by Id and returns error if
-// the record to be deleted doesn't exist
+// DeleteAmparoPoliza desactiva el registro (borrado lógico: activo = false) y
+// returns error if the record to be deleted doesn't exist
 func DeleteAmparoPoliza(id int) (err error) {
 	o := orm.NewOrm()
 	v := AmparoPoliza{Id: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&AmparoPoliza{Id: id}); err == nil {
-			fmt.Println("Number of records deleted in database:", num)
+		v.Activo = false
+		if num, err = o.Update(&v, "Activo", "FechaModificacion"); err == nil {
+			fmt.Println("Number of records updated in database:", num)
 		}
 	}
 	return
