@@ -3,6 +3,7 @@ package controllers
 import (
 	"errors"
 	"fmt"
+	"net/http"
 	"strconv"
 	"strings"
 
@@ -58,9 +59,10 @@ func (c *BaseController) responder(status int, mensaje string, data interface{})
 	_ = c.ServeJSON()
 }
 
-// responderError sigue el lineamiento de manejo de errores de la OAS
-// (refactor_controller): registra el error con logs.Error, deja el mensaje en
-// c.Data["message"] y el detalle en c.Data["data"], y llama a c.Abort con el
+// responderError replica a mano el manejo de errores que deja refactor_controller
+// (control_error_json_crud.md; el script no se ejecutó): registra el error con
+// logs.Error, deja el mensaje del lineamiento en c.Data["message"] y el motivo
+// específico en c.Data["data"], y llama a c.Abort con el
 // código. La respuesta la arma customerror.CustomErrorController de utils_oas
 // (registrado en main.go) con el formato {Success, Status, Message, Data}.
 // customerror solo atiende 400, 401, 404 y 5xx, por eso un duplicado es 400.
@@ -87,7 +89,34 @@ func (c *BaseController) responderError(err error) {
 	}
 }
 
+// mensajeServicio es el Message que refactor_controller deja en cada operación.
+func (c *BaseController) mensajeServicio() string {
+	switch c.Ctx.Input.Method() {
+	case http.MethodPost:
+		return "Error service POST: The request contains an incorrect data type or an invalid parameter"
+	case http.MethodPut:
+		return "Error service Put: The request contains an incorrect data type or an invalid parameter"
+	case http.MethodDelete:
+		return "Error service Delete: Request contains incorrect parameter"
+	}
+	if c.Ctx.Input.Param(":id") != "" {
+		return "Error service GetOne: The request contains an incorrect parameter or no record exists"
+	}
+	return "Error service GetAll: The request contains an incorrect parameter or no record exists"
+}
+
+// abortar deja el Message del lineamiento en los errores 400 y 404; el motivo específico
+// (campo inválido, duplicado, relación inexistente) viaja en Data. El 500 conserva su texto.
 func (c *BaseController) abortar(status, mensaje string, data interface{}) {
+	if status != "500" {
+		switch d := data.(type) {
+		case nil:
+			data = mensaje
+		case string:
+			data = mensaje + ": " + d
+		}
+		mensaje = c.mensajeServicio()
+	}
 	c.Data["message"] = mensaje
 	c.Data["data"] = data
 	c.Abort(status)

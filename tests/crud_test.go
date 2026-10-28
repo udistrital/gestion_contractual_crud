@@ -100,7 +100,7 @@ func TestCrudCompletoPorTabla(t *testing.T) {
 			esperar(t, http.MethodGet, rc.ruta+"?sortby=CampoQueNoExiste&order=asc", "", http.StatusBadRequest)
 			esperar(t, http.MethodGet, rc.ruta+"?query=Id:abc", "", http.StatusBadRequest)
 			codigo, r = solicitar(t, http.MethodGet, rc.ruta+"?query=Id:999999", "")
-			if codigo != http.StatusOK || string(r.Data) != "[]" {
+			if codigo != http.StatusOK || string(r.Data) != "[{}]" {
 				t.Fatalf("GetAll sin resultados: %d %s", codigo, r.Data)
 			}
 

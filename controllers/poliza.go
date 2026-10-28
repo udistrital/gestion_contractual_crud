@@ -49,7 +49,7 @@ func (c *PolizaController) Post() {
 	if guardado, err := models.GetPolizaById(int(id)); err == nil {
 		v = *guardado
 	}
-	c.responder(http.StatusCreated, "Registro creado", v)
+	c.responder(http.StatusCreated, "Registration successful", v)
 }
 
 // GetOne ...
@@ -70,7 +70,7 @@ func (c *PolizaController) GetOne() {
 		c.responderError(err)
 		return
 	}
-	c.responder(http.StatusOK, "Registro encontrado", v)
+	c.responder(http.StatusOK, "Request successful", v)
 }
 
 // GetAll ...
@@ -132,9 +132,9 @@ func (c *PolizaController) GetAll() {
 		return
 	}
 	if l == nil {
-		l = []interface{}{}
+		l = append(l, map[string]interface{}{})
 	}
-	c.responder(http.StatusOK, "Registros encontrados", l)
+	c.responder(http.StatusOK, "Request successful", l)
 }
 
 // Put ...
@@ -175,7 +175,7 @@ func (c *PolizaController) Put() {
 		return
 	}
 	v, _ = models.GetPolizaById(id)
-	c.responder(http.StatusOK, "Registro actualizado", v)
+	c.responder(http.StatusOK, "Update successful", v)
 }
 
 // Delete ...
@@ -195,5 +195,5 @@ func (c *PolizaController) Delete() {
 		c.responderError(err)
 		return
 	}
-	c.responder(http.StatusOK, "Registro desactivado", map[string]int{"Id": id})
+	c.responder(http.StatusOK, "Delete successful", map[string]int{"Id": id})
 }

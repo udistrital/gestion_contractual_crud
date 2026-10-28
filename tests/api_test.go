@@ -55,7 +55,7 @@ func TestIdInvalidoResponde400(t *testing.T) {
 
 func TestCuerpoNoEsJSON(t *testing.T) {
 	codigo, r := solicitar(t, http.MethodPost, "/v1/convenio", `{"ContratoGeneralId":`)
-	if codigo != http.StatusBadRequest || r.Message != "El cuerpo de la solicitud no es válido" {
+	if codigo != http.StatusBadRequest || r.Message != "Error service POST: The request contains an incorrect data type or an invalid parameter" {
 		t.Fatalf("se esperaba 400, llegó %d %+v", codigo, r)
 	}
 }
@@ -100,7 +100,7 @@ func TestEntidadDeDocumento(t *testing.T) {
 
 func TestQueryMalFormado(t *testing.T) {
 	codigo, r := solicitar(t, http.MethodGet, "/v1/poliza?query=NumeroPoliza", "")
-	if codigo != http.StatusBadRequest || r.Message != "Parámetros de consulta inválidos" {
+	if codigo != http.StatusBadRequest || r.Message != "Error service GetAll: The request contains an incorrect parameter or no record exists" {
 		t.Fatalf("se esperaba 400, llegó %d %+v", codigo, r)
 	}
 }
