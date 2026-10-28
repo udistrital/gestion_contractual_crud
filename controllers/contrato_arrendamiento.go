@@ -3,16 +3,15 @@ package controllers
 import (
 	"encoding/json"
 	"errors"
-	"github.com/udistrital/gestion_contractual_crud/models"
-	"strconv"
+	"net/http"
 	"strings"
 
-	beego "github.com/beego/beego/v2/server/web"
+	"github.com/udistrital/gestion_contractual_crud/models"
 )
 
 // ContratoArrendamientoController operations for ContratoArrendamiento
 type ContratoArrendamientoController struct {
-	beego.Controller
+	BaseController
 }
 
 // URLMapping ...
@@ -28,22 +27,29 @@ func (c *ContratoArrendamientoController) URLMapping() {
 // @Title Post
 // @Description create ContratoArrendamiento
 // @Param	body		body 	models.ContratoArrendamiento	true		"body for ContratoArrendamiento content"
-// @Success 201 {int} models.ContratoArrendamiento
-// @Failure 403 body is empty
+// @Success 201 {object} models.ContratoArrendamiento
+// @Failure 400 cuerpo inválido
 // @router / [post]
 func (c *ContratoArrendamientoController) Post() {
-	var v models.ContratoArrendamiento
-	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		if _, err := models.AddContratoArrendamiento(&v); err == nil {
-			c.Ctx.Output.SetStatus(201)
-			c.Data["json"] = v
-		} else {
-			c.Data["json"] = err.Error()
-		}
-	} else {
-		c.Data["json"] = err.Error()
+	v := models.ContratoArrendamiento{Activo: true}
+	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err != nil {
+		c.responderError(errorCuerpo(err))
+		return
 	}
-	c.ServeJSON()
+	if err := models.Validar(&v); err != nil {
+		c.responderError(err)
+		return
+	}
+	id, err := models.AddContratoArrendamiento(&v)
+	if err != nil {
+		c.responderError(err)
+		return
+	}
+	// Se responde con el registro tal como quedó guardado.
+	if guardado, err := models.GetContratoArrendamientoById(int(id)); err == nil {
+		v = *guardado
+	}
+	c.responder(http.StatusCreated, "Registro creado", v)
 }
 
 // GetOne ...
@@ -51,18 +57,20 @@ func (c *ContratoArrendamientoController) Post() {
 // @Description get ContratoArrendamiento by id
 // @Param	id		path 	string	true		"The key for staticblock"
 // @Success 200 {object} models.ContratoArrendamiento
-// @Failure 403 :id is empty
+// @Failure 404 :id no encontrado
 // @router /:id [get]
 func (c *ContratoArrendamientoController) GetOne() {
-	idStr := c.Ctx.Input.Param(":id")
-	id, _ := strconv.Atoi(idStr)
+	id, err := c.id()
+	if err != nil {
+		c.responderError(err)
+		return
+	}
 	v, err := models.GetContratoArrendamientoById(id)
 	if err != nil {
-		c.Data["json"] = err.Error()
-	} else {
-		c.Data["json"] = v
+		c.responderError(err)
+		return
 	}
-	c.ServeJSON()
+	c.responder(http.StatusOK, "Registro encontrado", v)
 }
 
 // GetAll ...
@@ -75,7 +83,7 @@ func (c *ContratoArrendamientoController) GetOne() {
 // @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
 // @Param	offset	query	string	false	"Start position of result set. Must be an integer"
 // @Success 200 {object} models.ContratoArrendamiento
-// @Failure 403
+// @Failure 400 parámetros inválidos
 // @router / [get]
 func (c *ContratoArrendamientoController) GetAll() {
 	var fields []string
@@ -110,8 +118,7 @@ func (c *ContratoArrendamientoController) GetAll() {
 		for _, cond := range strings.Split(v, ",") {
 			kv := strings.SplitN(cond, ":", 2)
 			if len(kv) != 2 {
-				c.Data["json"] = errors.New("Error: invalid query key/value pair")
-				c.ServeJSON()
+				c.responderError(errorParametro(errors.New("Error: invalid query key/value pair")))
 				return
 			}
 			k, v := kv[0], kv[1]
@@ -121,11 +128,13 @@ func (c *ContratoArrendamientoController) GetAll() {
 
 	l, err := models.GetAllContratoArrendamiento(query, fields, sortby, order, offset, limit)
 	if err != nil {
-		c.Data["json"] = err.Error()
-	} else {
-		c.Data["json"] = l
+		c.responderError(errorParametro(err))
+		return
 	}
-	c.ServeJSON()
+	if l == nil {
+		l = []interface{}{}
+	}
+	c.responder(http.StatusOK, "Registros encontrados", l)
 }
 
 // Put ...
@@ -134,38 +143,57 @@ func (c *ContratoArrendamientoController) GetAll() {
 // @Param	id		path 	string	true		"The id you want to update"
 // @Param	body		body 	models.ContratoArrendamiento	true		"body for ContratoArrendamiento content"
 // @Success 200 {object} models.ContratoArrendamiento
-// @Failure 403 :id is not int
+// @Failure 400 cuerpo inválido o Id distinto al de la ruta
+// @Failure 404 :id no encontrado
 // @router /:id [put]
 func (c *ContratoArrendamientoController) Put() {
-	idStr := c.Ctx.Input.Param(":id")
-	id, _ := strconv.Atoi(idStr)
-	v := models.ContratoArrendamiento{Id: id}
-	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		if err := models.UpdateContratoArrendamientoById(&v); err == nil {
-			c.Data["json"] = "OK"
-		} else {
-			c.Data["json"] = err.Error()
-		}
-	} else {
-		c.Data["json"] = err.Error()
+	id, err := c.id()
+	if err != nil {
+		c.responderError(err)
+		return
 	}
-	c.ServeJSON()
+	// Se parte del registro guardado: los campos que no vienen en el cuerpo no cambian.
+	v, err := models.GetContratoArrendamientoById(id)
+	if err != nil {
+		c.responderError(err)
+		return
+	}
+	if err := json.Unmarshal(c.Ctx.Input.RequestBody, v); err != nil {
+		c.responderError(errorCuerpo(err))
+		return
+	}
+	if v.Id != id {
+		c.responderError(errorIdCuerpo(id, v.Id))
+		return
+	}
+	if err := models.Validar(v); err != nil {
+		c.responderError(err)
+		return
+	}
+	if err := models.UpdateContratoArrendamientoById(v); err != nil {
+		c.responderError(err)
+		return
+	}
+	v, _ = models.GetContratoArrendamientoById(id)
+	c.responder(http.StatusOK, "Registro actualizado", v)
 }
 
 // Delete ...
 // @Title Delete
-// @Description delete the ContratoArrendamiento
+// @Description desactiva el ContratoArrendamiento (borrado lógico)
 // @Param	id		path 	string	true		"The id you want to delete"
-// @Success 200 {string} delete success!
-// @Failure 403 id is empty
+// @Success 200 {string} registro desactivado (activo = false)
+// @Failure 404 :id no encontrado
 // @router /:id [delete]
 func (c *ContratoArrendamientoController) Delete() {
-	idStr := c.Ctx.Input.Param(":id")
-	id, _ := strconv.Atoi(idStr)
-	if err := models.DeleteContratoArrendamiento(id); err == nil {
-		c.Data["json"] = "OK"
-	} else {
-		c.Data["json"] = err.Error()
+	id, err := c.id()
+	if err != nil {
+		c.responderError(err)
+		return
 	}
-	c.ServeJSON()
+	if err := models.DeleteContratoArrendamiento(id); err != nil {
+		c.responderError(err)
+		return
+	}
+	c.responder(http.StatusOK, "Registro desactivado", map[string]int{"Id": id})
 }
