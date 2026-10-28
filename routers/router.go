@@ -1,4 +1,4 @@
-// @APIVersion 1.0.0
+// @APIVersion 0.1.0
 // @Title gestion_contractual_crud
 // @Description API CRUD de gestión contractual (ARGO) sobre las tablas del modelo conceptual ARGO
 // @Contact computo@udistrital.edu.co
