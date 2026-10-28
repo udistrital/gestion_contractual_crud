@@ -11,7 +11,7 @@ import (
 )
 
 type Convenio struct {
-	Id                int              `orm:"column(id);pk"`
+	Id                int              `orm:"column(id);pk;auto"`
 	ContratoGeneralId *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)"`
 	Nombre            string           `orm:"column(nombre);null"`
 	Vigencia          int              `orm:"column(vigencia);null"`
@@ -53,7 +53,7 @@ func GetConvenioById(id int) (v *Convenio, err error) {
 func GetAllConvenio(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(Convenio))
+	qs := o.QueryTable(new(Convenio)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute

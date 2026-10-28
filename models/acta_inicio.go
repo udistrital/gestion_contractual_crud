@@ -11,7 +11,7 @@ import (
 )
 
 type ActaInicio struct {
-	Id                         int              `orm:"column(id);pk"`
+	Id                         int              `orm:"column(id);pk;auto"`
 	ContratoGeneralId          *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)"`
 	Descripcion                string           `orm:"column(descripcion);null"`
 	FechaInicio                time.Time        `orm:"column(fecha_inicio);type(date);null"`
@@ -63,7 +63,7 @@ func GetActaInicioById(id int) (v *ActaInicio, err error) {
 func GetAllActaInicio(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(ActaInicio))
+	qs := o.QueryTable(new(ActaInicio)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute

@@ -11,7 +11,7 @@ import (
 )
 
 type DocumentoContrato struct {
-	Id                int       `orm:"column(id);pk"`
+	Id                int       `orm:"column(id);pk;auto"`
 	EntidadTipo       string    `orm:"column(entidad_tipo)"`
 	EntidadId         int       `orm:"column(entidad_id)"`
 	TipoDocumentoId   int       `orm:"column(tipo_documento_id);null"`
@@ -56,7 +56,7 @@ func GetDocumentoContratoById(id int) (v *DocumentoContrato, err error) {
 func GetAllDocumentoContrato(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(DocumentoContrato))
+	qs := o.QueryTable(new(DocumentoContrato)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute

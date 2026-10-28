@@ -11,7 +11,7 @@ import (
 )
 
 type Poliza struct {
-	Id                   int              `orm:"column(id);pk"`
+	Id                   int              `orm:"column(id);pk;auto"`
 	ContratoGeneralId    *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)"`
 	NumeroPoliza         string           `orm:"column(numero_poliza);null"`
 	EntidadAseguradoraId int              `orm:"column(entidad_aseguradora_id);null"`
@@ -60,7 +60,7 @@ func GetPolizaById(id int) (v *Poliza, err error) {
 func GetAllPoliza(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(Poliza))
+	qs := o.QueryTable(new(Poliza)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute

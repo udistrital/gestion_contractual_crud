@@ -11,7 +11,7 @@ import (
 )
 
 type DisponibilidadPresupuestal struct {
-	Id                int              `orm:"column(id);pk"`
+	Id                int              `orm:"column(id);pk;auto"`
 	ContratoGeneralId *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)"`
 	NumeroCdpId       int              `orm:"column(numero_cdp_id);null"`
 	VigenciaCdpId     int              `orm:"column(vigencia_cdp_id);null"`
@@ -53,7 +53,7 @@ func GetDisponibilidadPresupuestalById(id int) (v *DisponibilidadPresupuestal, e
 func GetAllDisponibilidadPresupuestal(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(DisponibilidadPresupuestal))
+	qs := o.QueryTable(new(DisponibilidadPresupuestal)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute

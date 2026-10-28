@@ -11,7 +11,7 @@ import (
 )
 
 type RegistroPresupuestal struct {
-	Id                           int                         `orm:"column(id);pk"`
+	Id                           int                         `orm:"column(id);pk;auto"`
 	DisponibilidadPresupuestalId *DisponibilidadPresupuestal `orm:"column(disponibilidad_presupuestal_id);rel(fk)"`
 	NumeroRegistroPresupuestal   int                         `orm:"column(numero_registro_presupuestal);null"`
 	VigenciaRpId                 int                         `orm:"column(vigencia_rp_id);null"`
@@ -53,7 +53,7 @@ func GetRegistroPresupuestalById(id int) (v *RegistroPresupuestal, err error) {
 func GetAllRegistroPresupuestal(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(RegistroPresupuestal))
+	qs := o.QueryTable(new(RegistroPresupuestal)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute

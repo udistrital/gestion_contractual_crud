@@ -11,7 +11,7 @@ import (
 )
 
 type OrdenadorContrato struct {
-	Id                   int              `orm:"column(id);pk"`
+	Id                   int              `orm:"column(id);pk;auto"`
 	ContratoGeneralId    *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)"`
 	TerceroId            int              `orm:"column(tercero_id);null"`
 	CargoId              int              `orm:"column(cargo_id);null"`
@@ -56,7 +56,7 @@ func GetOrdenadorContratoById(id int) (v *OrdenadorContrato, err error) {
 func GetAllOrdenadorContrato(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(OrdenadorContrato))
+	qs := o.QueryTable(new(OrdenadorContrato)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute

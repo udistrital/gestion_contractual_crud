@@ -1,0 +1,14 @@
+gestion_contractual_crud
+gestion_contractual_crud_beego
+*.exe
+*.env
+.env
+lastupdate.tmp
+.vscode/
+main
+.scannerwork/
+coverage.out
+coverage.xml
+swagger/**
+!swagger/swagger.json
+!swagger/swagger.yml
