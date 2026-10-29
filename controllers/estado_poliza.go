@@ -36,6 +36,8 @@ func (c *EstadoPolizaController) Post() {
 		c.responderError(errorCuerpo(err))
 		return
 	}
+	// El Id lo asigna la secuencia de la tabla: el que envíe el cliente se descarta.
+	v.Id = 0
 	if err := models.Validar(&v); err != nil {
 		c.responderError(err)
 		return
