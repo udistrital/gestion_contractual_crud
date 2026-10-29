@@ -1,96 +1,136 @@
 # gestion_contractual_crud
 
-API CRUD de gestión contractual de ARGO sobre PostgreSQL, construida con Beego v2. Implementa las tablas del modelo conceptual ARGO.
+API CRUD de gestión contractual (ARGO) construida con Beego v2 sobre PostgreSQL. Provee los servicios para administrar contratos, supervisores, ordenadores, estados, convenios, contratos de arrendamiento, especificaciones técnicas, disponibilidades y registros presupuestales, pólizas, amparos, actas de inicio y documentos del contrato.
 
-## Stack
+## Especificaciones Técnicas
 
-| Componente | Versión |
-|---|---|
-| Go | 1.25 |
-| Beego | `github.com/beego/beego/v2` 2.3.10 |
-| Driver PostgreSQL | `github.com/lib/pq` |
-| Utilidades OAS | `github.com/udistrital/utils_oas/v2` |
+### Tecnologías Implementadas y Versiones
 
-## Estructura
+* [Golang](https://github.com/udistrital/introduccion_oas/blob/master/instalacion_de_herramientas/golang.md) 1.25
+* [BeeGo](https://github.com/udistrital/introduccion_oas/blob/master/instalacion_de_herramientas/beego.md) v2.3.10 (`github.com/beego/beego/v2`) y Bee CLI v2.3.0
+* [PostgreSQL](https://www.postgresql.org/) 10 (driver `github.com/lib/pq`)
+* [utils_oas](https://github.com/udistrital/utils_oas) v2 (`github.com/udistrital/utils_oas/v2`)
+* [Docker](https://docs.docker.com/engine/install/ubuntu/)
+* [Docker Compose](https://docs.docker.com/compose/)
 
-```text
-conf/app.conf        configuración (variables GESTION_CONTRACTUAL_CRUD_*)
-controllers/         un controlador por tabla (generados con bee); base.go: formato de respuesta y errores
-models/              un modelo por tabla (generados con bee); reglas.go: validaciones y reglas del modelo
-routers/             namespace /v1 y commentsRouter generado por bee
-database/            gestion_contractual.dbml (modelo, fuente de verdad) y gestion_contractual.sql (lo implementa)
-swagger/             swagger.json y swagger.yml generados por bee
-tests/               pruebas
+### Variables de Entorno
+
+```shell
+GESTION_CONTRACTUAL_CRUD_HTTP_PORT=[puerto de ejecución, por defecto 8080]
+GESTION_CONTRACTUAL_CRUD_RUN_MODE=[modo de ejecución: dev | prod]
+PARAMETER_STORE=[prefijo del Parameter Store de AWS; vacío en local]
+GESTION_CONTRACTUAL_CRUD_PGUSER=[usuario con acceso a la base de datos]
+GESTION_CONTRACTUAL_CRUD_PGPASS=[password del usuario]
+GESTION_CONTRACTUAL_CRUD_PGHOST=[dirección de la base de datos]
+GESTION_CONTRACTUAL_CRUD_PGPORT=[puerto de la base de datos]
+GESTION_CONTRACTUAL_CRUD_PGDB=[nombre de la base de datos]
+GESTION_CONTRACTUAL_CRUD_PGSCHEMA=[esquema donde se ubican las tablas: contratacion]
 ```
 
-## Modelo de datos
+Variables adicionales usadas solo por `docker-compose.yml`:
 
-Tablas: `contrato_general`, `supervisor_contrato`, `ordenador_contrato`, `estado_contrato`, `convenio`, `contrato_arrendamiento`, `especificacion_tecnica`, `disponibilidad_presupuestal`, `registro_presupuestal`, `acta_inicio`, `poliza`, `estado_poliza`, `amparo_poliza` y `documento_contrato`.
-
-- Contratista, lugar de ejecución y solicitante ya no son tablas: el proveedor y el solicitante quedan en `contrato_general`.
-- Los campos conservan los tipos que generó bee (`int`, `string`, `float64`, `bool`, `time.Time`): un valor que no se envía se guarda como `0`, `""` o `false`, y las fechas vacías como NULL. La única excepción es `NumeroContrato` (`*string`), que es nulo hasta la suscripción.
-- `numero_contrato` es nulo hasta la suscripción y `(numero_contrato, vigencia_id)` es único.
-- `contrato_arrendamiento.contrato_general_id` es único (0..1 por contrato).
-- `amparo_poliza.poliza_id` es nulo hasta que la póliza se expide.
-- `estado_poliza` es un historial: el estado vigente es el registro más reciente.
-- `estado_contrato`: al registrar un estado queda como `Actual` y el anterior deja de serlo.
-- `documento_contrato` pertenece a un contrato, una póliza o un acta de inicio (`EntidadTipo` + `EntidadId`, sin llave foránea; el API valida que el registro exista).
-
-Para crear el esquema `contratacion` y las tablas: `database/gestion_contractual.sql`. El modelo (fuente de verdad, issue argo_documentacion#384) está en `database/gestion_contractual.dbml` y se puede abrir en dbdiagram.io; el SQL lo implementa tal cual.
-
-## Endpoints
-
-Cada tabla tiene `/v1/<tabla>` con `GET /`, `GET /:id`, `POST /`, `PUT /:id` y `DELETE /:id`; por ejemplo `/v1/contrato_general`, `/v1/poliza`, `/v1/estado_poliza`.
-
-- `GET /` acepta los parámetros de bee: `query=Campo:valor,Relacion.Campo:valor`, `fields`, `sortby`, `order` (`asc`/`desc`), `limit` (por defecto 10) y `offset`. Ejemplos:
-  - amparos de una póliza: `/v1/amparo_poliza?query=PolizaId.Id:1`
-  - estado actual de un contrato: `/v1/estado_contrato?query=ContratoGeneralId.Id:1,Actual:true`
-  - estado vigente de una póliza: `/v1/estado_poliza?query=PolizaId.Id:1&sortby=FechaCreacion&order=desc&limit=1`
-- Las relaciones se envían con su Id: `{"ContratoGeneralId": {"Id": 1}}`.
-- `PUT` solo cambia los campos enviados. Si el cuerpo trae un `Id` distinto al de la ruta responde 400.
-- `DELETE` es lógico: deja `Activo = false`.
-- Respuesta: `{ "Success", "Status", "Message", "Data" }`. Los errores siguen el lineamiento de la OAS (refactor_controller): se registran con `logs.Error`, se llama a `c.Abort` y los responde `customerror` de utils_oas con el mismo formato y `Success: false`. Códigos: 400 (cuerpo, parámetros —incluido un campo inexistente en `query`, `fields` o `sortby`—, validación, duplicado o relación inexistente), 404 (no existe), 500.
-
-## Ejecución local
-
-```bash
-cp .env.example .env   # ajustar valores
-set -a; source .env; set +a
-bee run -downdoc=true -gendoc=true
+```shell
+GESTION_CONTRACTUAL_CRUD_SERVICE_NAME=[nombre del contenedor del API]
+GESTION_CONTRACTUAL_CRUD_API_BASE_DIR=[carpeta base dentro de /go/src, ej: github.com/udistrital]
+GESTION_CONTRACTUAL_CRUD_API_NAME=[nombre de la carpeta del proyecto, ej: gestion_contractual_crud]
 ```
 
-Swagger (modo `dev`): `http://localhost:8080/swagger/`.
+**NOTA:** Las variables se pueden ver en el fichero [conf/app.conf](conf/app.conf) y están identificadas con `GESTION_CONTRACTUAL_CRUD_...`. Cuando `PARAMETER_STORE` tiene valor (AWS), el usuario y la contraseña de la base de datos se leen de `/<PARAMETER_STORE>/gestion_contractual_crud/db/username` y `/<PARAMETER_STORE>/gestion_contractual_crud/db/password`.
 
-Con Docker (API y PostgreSQL con `database/gestion_contractual.sql`):
+### Ejecución del Proyecto
 
-```bash
+```shell
+#1. Clonar el repositorio
+git clone https://github.com/udistrital/gestion_contractual_crud
+
+#2. Moverse a la carpeta del repositorio
+cd gestion_contractual_crud
+
+#3. Descargar las dependencias del proyecto
+go mod tidy
+
+#4. Instalar Bee CLI (si no está instalado)
+go install github.com/beego/bee/v2@v2.3.0
+
+#5. Crear el esquema y las tablas en la base de datos
+psql -h [host] -p [puerto] -U [usuario] -d [base de datos] -f database/gestion_contractual.sql
+
+#6. Alimentar todas las variables de entorno que utiliza el proyecto y ejecutar
+GESTION_CONTRACTUAL_CRUD_HTTP_PORT=[puerto] GESTION_CONTRACTUAL_CRUD_RUN_MODE=[dev|prod] GESTION_CONTRACTUAL_CRUD_PGHOST=[host] GESTION_CONTRACTUAL_CRUD_PGPORT=[puerto] GESTION_CONTRACTUAL_CRUD_PGUSER=[usuario] GESTION_CONTRACTUAL_CRUD_PGPASS=[password] GESTION_CONTRACTUAL_CRUD_PGDB=[base de datos] GESTION_CONTRACTUAL_CRUD_PGSCHEMA=[esquema] bee run -downdoc=true -gendoc=true
+
+```
+
+En modo `dev` la documentación Swagger queda disponible en `http://localhost:[puerto]/swagger/`.
+
+### Ejecución Dockerfile
+
+```shell
+# Compilar el binario (el Dockerfile copia el ejecutable "main" y conf/app.conf)
+GOOS=linux GOARCH=amd64 go build -o main
+
+# Construir la imagen
+docker build --tag=gestion_contractual_crud . --no-cache
+
+# Ejecutar el contenedor
+docker run -p 8080:8080 --env-file .env gestion_contractual_crud
+```
+
+### Ejecución docker-compose
+
+```shell
+#1. Clonar el repositorio
+git clone https://github.com/udistrital/gestion_contractual_crud
+
+#2. Moverse a la carpeta del repositorio
+cd gestion_contractual_crud
+
+#3. Crear un fichero con el nombre **.env** a partir del ejemplo
+# y agregar GESTION_CONTRACTUAL_CRUD_SERVICE_NAME, GESTION_CONTRACTUAL_CRUD_API_BASE_DIR y GESTION_CONTRACTUAL_CRUD_API_NAME
+# En windows ejecutar: copy .env.example .env
 cp .env.example .env
-docker network create back_end   # si no existe
-docker compose up
+
+#4. Crear la network **back_end** para los contenedores
+docker network create back_end
+
+#5. Ejecutar el compose del contenedor
+docker compose up --build
+
+#6. Comprobar que los contenedores estén en ejecución
+docker ps
 ```
 
-Variables: `GESTION_CONTRACTUAL_CRUD_HTTP_PORT`, `GESTION_CONTRACTUAL_CRUD_RUN_MODE`, `PARAMETER_STORE` (en AWS las credenciales se leen de `/<PARAMETER_STORE>/gestion_contractual_crud/db/username|password`), `GESTION_CONTRACTUAL_CRUD_PGUSER`, `GESTION_CONTRACTUAL_CRUD_PGPASS`, `GESTION_CONTRACTUAL_CRUD_PGHOST`, `GESTION_CONTRACTUAL_CRUD_PGPORT`, `GESTION_CONTRACTUAL_CRUD_PGDB`, `GESTION_CONTRACTUAL_CRUD_PGSCHEMA`.
+El compose levanta dos contenedores: el API (`golang:1.25` ejecutando `bee run`) y PostgreSQL 10, que al iniciar por primera vez crea el esquema y las tablas con `database/gestion_contractual.sql`.
 
-## Pruebas
+### Ejecución Pruebas
 
-```bash
-go test ./...
+Pruebas unitarias (no requieren base de datos):
+
+```shell
+go test ./... -v
 ```
 
-Siguen el lineamiento de la OAS (`unit_test_beego.md`): `tests/models` y `tests/controllers`, con un `<archivo>_test.go` por cada archivo probado. Cada `tests/controllers/<tabla>_test.go` prueba los 5 endpoints de su tabla (éxito y errores) contra PostgreSQL, y `tests/controllers/contrato_general_test.go` además recorre el flujo completo. Las pruebas contra PostgreSQL solo corren con `GESTION_CONTRACTUAL_CRUD_RUN_INTEGRATION=true` y las variables `GESTION_CONTRACTUAL_CRUD_PG*` apuntando a una base con `database/gestion_contractual.sql`.
+Pruebas de integración (requieren PostgreSQL con `database/gestion_contractual.sql` aplicado):
+
+```shell
+ go test ./... -v
+```
 
 Cobertura:
 
-```bash
+```shell
 go test ./... -coverpkg=./... -coverprofile=coverage.out
 go tool cover -func=coverage.out
+
+# Reporte en el navegador
+go tool cover -html=coverage.out
 ```
 
-Sin base de datos la cobertura es de 9.6% (solo validaciones); con la integración, 95.3%.
+## Licencia
 
-## CI/CD
+This file is part of gestion_contractual_crud.
 
-Siguen el lineamiento de gestion_personas_crud:
+gestion_contractual_crud is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
-- `.drone.yml`: SonarQube (`sonar-project.properties`), `go vet`, pruebas, `go fmt`, `golangci-lint`, compilación, imagen en ECR (`${DRONE_REPO_NAME}`) y despliegue en ECS.
-- `Dockerfile`: imagen distroless (`gcr.io/distroless/base-debian12`) con el binario y `conf/app.conf`.
+gestion_contractual_crud is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with gestion_contractual_crud. If not, see https://www.gnu.org/licenses/.
