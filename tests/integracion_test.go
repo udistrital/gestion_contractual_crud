@@ -114,8 +114,8 @@ func TestFlujoContratoPolizaEstados(t *testing.T) {
 
 	// Documento polimórfico: la entidad debe existir.
 	crear(t, "/v1/documento_contrato", fmt.Sprintf(`{"EntidadTipo":"poliza","EntidadId":%d}`, poliza))
-	if codigo, _ := solicitar(t, http.MethodPost, "/v1/documento_contrato", `{"EntidadTipo":"acta_inicio","EntidadId":999999}`); codigo != http.StatusNotFound {
-		t.Fatalf("documento de acta inexistente: se esperaba 404, llegó %d", codigo)
+	if codigo, _ := solicitar(t, http.MethodPost, "/v1/documento_contrato", `{"EntidadTipo":"acta_inicio","EntidadId":999999}`); codigo != http.StatusBadRequest {
+		t.Fatalf("documento de acta inexistente: se esperaba 400, llegó %d", codigo)
 	}
 
 	// Contrato de arrendamiento: uno por contrato.

@@ -79,7 +79,8 @@ func (c *BaseController) responderError(err error) {
 	case errors.Is(err, orm.ErrNoRows):
 		c.abortar("404", "Registro no encontrado", nil)
 	case errors.Is(err, models.ErrNoEncontrado):
-		c.abortar("404", "Registro relacionado no encontrado", err.Error())
+		// Es un parámetro inválido del cuerpo (entidad_id de documento_contrato): 400, como una FK inexistente.
+		c.abortar("400", "Registro relacionado no encontrado", strings.TrimPrefix(err.Error(), models.ErrNoEncontrado.Error()+": "))
 	case errors.As(err, &errPq) && errPq.Code == "23505":
 		c.abortar("400", "Ya existe un registro con los mismos datos", errPq.Detail)
 	case errors.As(err, &errPq) && errPq.Code == "23503":
