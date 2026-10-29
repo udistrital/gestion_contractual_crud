@@ -1,48 +1,19 @@
-package tests
+package controllers
 
 import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 	"testing"
 	"time"
-
-	"github.com/beego/beego/v2/client/orm"
-	_ "github.com/lib/pq"
 )
 
-// Prueba de punta a punta contra PostgreSQL con las tablas de
-// database/gestion_contractual.sql. Solo corre con GESTION_CONTRACTUAL_CRUD_RUN_INTEGRATION=true
-// y las variables GESTION_CONTRACTUAL_CRUD_PG* de .env.example.
-func conectar(t *testing.T) {
-	t.Helper()
-	if os.Getenv("GESTION_CONTRACTUAL_CRUD_RUN_INTEGRATION") != "true" {
-		t.Skip("prueba de integración deshabilitada")
-	}
-	conn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?search_path=%s&sslmode=disable",
-		os.Getenv("GESTION_CONTRACTUAL_CRUD_PGUSER"), os.Getenv("GESTION_CONTRACTUAL_CRUD_PGPASS"),
-		os.Getenv("GESTION_CONTRACTUAL_CRUD_PGHOST"), os.Getenv("GESTION_CONTRACTUAL_CRUD_PGPORT"),
-		os.Getenv("GESTION_CONTRACTUAL_CRUD_PGDB"), os.Getenv("GESTION_CONTRACTUAL_CRUD_PGSCHEMA"))
-	if _, err := orm.GetDB("default"); err != nil {
-		if err := orm.RegisterDataBase("default", "postgres", conn); err != nil {
-			t.Fatal(err)
-		}
-	}
+func TestContratoGeneralController(t *testing.T) {
+	probarCrud(t, "/v1/contrato_general")
 }
 
-// crear hace POST y devuelve el Id del registro creado.
-func crear(t *testing.T, ruta, cuerpo string) int {
-	t.Helper()
-	codigo, r := solicitar(t, http.MethodPost, ruta, cuerpo)
-	if codigo != http.StatusCreated {
-		t.Fatalf("POST %s: %d %s %s", ruta, codigo, r.Message, r.Data)
-	}
-	var d struct{ Id int }
-	_ = json.Unmarshal(r.Data, &d)
-	return d.Id
-}
-
+// Prueba de punta a punta contra PostgreSQL: contrato, póliza, estados,
+// documento, arrendamiento, CDP y RP.
 func TestFlujoContratoPolizaEstados(t *testing.T) {
 	conectar(t)
 	numero := fmt.Sprintf("IT-%d", time.Now().UnixNano())

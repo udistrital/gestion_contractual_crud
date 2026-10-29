@@ -77,7 +77,7 @@ Variables: `GESTION_CONTRACTUAL_CRUD_HTTP_PORT`, `GESTION_CONTRACTUAL_CRUD_RUN_M
 go test ./...
 ```
 
-`tests/integracion_test.go` recorre el flujo completo y `tests/crud_test.go` prueba los 5 endpoints de las 14 tablas (éxito y errores) contra PostgreSQL. Solo corren con `GESTION_CONTRACTUAL_CRUD_RUN_INTEGRATION=true` y las variables `GESTION_CONTRACTUAL_CRUD_PG*` apuntando a una base con `database/gestion_contractual.sql`.
+Siguen el lineamiento de la OAS (`unit_test_beego.md`): `tests/models` y `tests/controllers`, con un `<archivo>_test.go` por cada archivo probado. Cada `tests/controllers/<tabla>_test.go` prueba los 5 endpoints de su tabla (éxito y errores) contra PostgreSQL, y `tests/controllers/contrato_general_test.go` además recorre el flujo completo. Las pruebas contra PostgreSQL solo corren con `GESTION_CONTRACTUAL_CRUD_RUN_INTEGRATION=true` y las variables `GESTION_CONTRACTUAL_CRUD_PG*` apuntando a una base con `database/gestion_contractual.sql`.
 
 Cobertura:
 
