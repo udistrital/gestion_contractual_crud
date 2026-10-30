@@ -39,6 +39,8 @@ func init() {
 // last inserted Id on success.
 func AddSupervisorContrato(m *SupervisorContrato) (id int64, err error) {
 	o := orm.NewOrm()
+	// Las fechas las asigna el ORM (auto_now_add y auto_now), no el cliente.
+	m.FechaCreacion, m.FechaModificacion = time.Time{}, time.Time{}
 	id, err = o.Insert(m)
 	return
 }
@@ -139,6 +141,8 @@ func UpdateSupervisorContratoById(m *SupervisorContrato) (err error) {
 	v := SupervisorContrato{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
+		// La fecha de creación no cambia; fecha_modificacion la asigna auto_now.
+		m.FechaCreacion = v.FechaCreacion
 		var num int64
 		if num, err = o.Update(m); err == nil {
 			fmt.Println("Number of records updated in database:", num)

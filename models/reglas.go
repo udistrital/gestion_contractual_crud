@@ -127,6 +127,8 @@ func AddEstadoContratoActual(m *EstadoContrato) (id int64, err error) {
 			return err
 		}
 		m.Actual = true
+		// Las fechas las asigna el ORM (auto_now_add y auto_now), no el cliente.
+		m.FechaCreacion, m.FechaModificacion = time.Time{}, time.Time{}
 		var err error
 		id, err = txOrm.Insert(m)
 		return err
