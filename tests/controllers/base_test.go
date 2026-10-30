@@ -140,7 +140,7 @@ func TestTablasRetiradasNoTienenRuta(t *testing.T) {
 
 // Pruebas contra PostgreSQL con las tablas de database/gestion_contractual.sql.
 // Solo corren con GESTION_CONTRACTUAL_CRUD_RUN_INTEGRATION=true
-// y las variables GESTION_CONTRACTUAL_CRUD_PG* de .env.example.
+// y las variables GESTION_CONTRACTUAL_CRUD_PG* del README.
 func conectar(t *testing.T) {
 	t.Helper()
 	if os.Getenv("GESTION_CONTRACTUAL_CRUD_RUN_INTEGRATION") != "true" {

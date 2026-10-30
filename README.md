@@ -84,10 +84,8 @@ git clone https://github.com/udistrital/gestion_contractual_crud
 #2. Moverse a la carpeta del repositorio
 cd gestion_contractual_crud
 
-#3. Crear un fichero con el nombre **.env** a partir del ejemplo
-# y agregar GESTION_CONTRACTUAL_CRUD_SERVICE_NAME, GESTION_CONTRACTUAL_CRUD_API_BASE_DIR y GESTION_CONTRACTUAL_CRUD_API_NAME
-# En windows ejecutar: copy .env.example .env
-cp .env.example .env
+#3. Crear un fichero con el nombre **.env** con las variables de entorno
+# y las variables adicionales de docker-compose descritas arriba
 
 #4. Crear la network **back_end** para los contenedores
 docker network create back_end

@@ -13,7 +13,7 @@ import (
 
 // conectar registra la base de PostgreSQL de las pruebas. Solo corre con
 // GESTION_CONTRACTUAL_CRUD_RUN_INTEGRATION=true y las variables
-// GESTION_CONTRACTUAL_CRUD_PG* de .env.example.
+// GESTION_CONTRACTUAL_CRUD_PG* del README.
 func conectar(t *testing.T) {
 	t.Helper()
 	if os.Getenv("GESTION_CONTRACTUAL_CRUD_RUN_INTEGRATION") != "true" {
