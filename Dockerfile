@@ -1,8 +1,9 @@
-FROM node:24-alpine
+FROM gcr.io/distroless/base-debian12
 
-WORKDIR /app
+WORKDIR /
 
-COPY dist dist
-COPY node_modules node_modules
+COPY main main
+COPY conf/app.conf conf/app.conf
+# incluir otros archivos necesarios según el servicio
 
-CMD ["node", "dist/main"]
+ENTRYPOINT ["/main"]

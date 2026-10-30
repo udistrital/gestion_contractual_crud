@@ -1,112 +1,127 @@
-# Gestion Contractual CRUD
+# gestion_contractual_crud
 
-API CRUD de gestión contractual core para el ARGO V2.
+API CRUD de gestión contractual (ARGO) construida con Beego v2 sobre PostgreSQL. Provee los servicios para administrar contratos, supervisores, ordenadores, estados, convenios, contratos de arrendamiento, especificaciones técnicas, disponibilidades y registros presupuestales, pólizas, amparos, actas de inicio y documentos del contrato.
 
 ## Especificaciones Técnicas
 
 ### Tecnologías Implementadas y Versiones
--  [Node.js](https://nodejs.org/) v20
--  [NestJS](https://nestjs.com/) 10
--  [PostgreSQL](https://www.postgresql.org/)
+
+* [Golang](https://github.com/udistrital/introduccion_oas/blob/master/instalacion_de_herramientas/golang.md) 1.25
+* [BeeGo](https://github.com/udistrital/introduccion_oas/blob/master/instalacion_de_herramientas/beego.md) v2.3.10 (`github.com/beego/beego/v2`) y Bee CLI v2.3.0
+* [PostgreSQL](https://www.postgresql.org/) 10 (driver `github.com/lib/pq`)
+* [utils_oas](https://github.com/udistrital/utils_oas) v2 (`github.com/udistrital/utils_oas/v2`)
+* [Docker](https://docs.docker.com/engine/install/ubuntu/)
+* [Docker Compose](https://docs.docker.com/compose/)
 
 ### Variables de Entorno
+
+```shell
+GESTION_CONTRACTUAL_CRUD_HTTP_PORT=[puerto de ejecución, por defecto 8080]
+GESTION_CONTRACTUAL_CRUD_RUN_MODE=[modo de ejecución: dev | prod]
+PARAMETER_STORE=[prefijo del Parameter Store de AWS; vacío en local]
+GESTION_CONTRACTUAL_CRUD_PGUSER=[usuario con acceso a la base de datos]
+GESTION_CONTRACTUAL_CRUD_PGPASS=[password del usuario]
+GESTION_CONTRACTUAL_CRUD_PGHOST=[dirección de la base de datos]
+GESTION_CONTRACTUAL_CRUD_PGPORT=[puerto de la base de datos]
+GESTION_CONTRACTUAL_CRUD_PGDB=[nombre de la base de datos]
+GESTION_CONTRACTUAL_CRUD_PGSCHEMA=[esquema donde se ubican las tablas: contratacion]
 ```
-- GESTION_CONTRACTUAL_CRUD_HOST // Host de la base de datos
-- GESTION_CONTRACTUAL_CRUD_PORT // Puerto de la base de datos
-- GESTION_CONTRACTUAL_CRUD_USERNAME // Usuario de la base de datos
-- GESTION_CONTRACTUAL_CRUD_PASS // Contraseña de la base de datos
-- GESTION_CONTRACTUAL_CRUD_DB // Nombre de la base de datos
-- GESTION_CONTRACTUAL_CRUD_DB_SCHEMA // Esquema de la base de datos (PUBLIC por defecto)
+
+Variables adicionales usadas solo por `docker-compose.yml`:
+
+```shell
+GESTION_CONTRACTUAL_CRUD_SERVICE_NAME=[nombre del contenedor del API]
+GESTION_CONTRACTUAL_CRUD_API_BASE_DIR=[carpeta base dentro de /go/src, ej: github.com/udistrital]
+GESTION_CONTRACTUAL_CRUD_API_NAME=[nombre de la carpeta del proyecto, ej: gestion_contractual_crud]
 ```
+
+**NOTA:** Las variables se pueden ver en el fichero [conf/app.conf](conf/app.conf) y están identificadas con `GESTION_CONTRACTUAL_CRUD_...`. Cuando `PARAMETER_STORE` tiene valor (AWS), el usuario y la contraseña de la base de datos se leen de `/<PARAMETER_STORE>/gestion_contractual_crud/db/username` y `/<PARAMETER_STORE>/gestion_contractual_crud/db/password`.
+
 ### Ejecución del Proyecto
-```
-pnpm install
-pnpm run start:dev
-```
 
-#### Ejecución Docker
+```shell
+#1. Clonar el repositorio
+git clone https://github.com/udistrital/gestion_contractual_crud
 
-> **Nota:** la imagen definida en el `Dockerfile` es una **imagen de despliegue**, no de desarrollo local. No compila el proyecto dentro del contenedor: copia los directorios `dist` y `node_modules` ya construidos desde el contexto de build. Por lo tanto es necesario construir el proyecto antes de construir la imagen.
+#2. Moverse a la carpeta del repositorio
+cd gestion_contractual_crud
 
-Construcción de la imagen:
-```
-pnpm install
-pnpm run build
-docker build -t gestion_contractual_crud .
-```
+#3. Descargar las dependencias del proyecto
+go mod tidy
 
-Ejecución del contenedor:
-```
-docker run --rm \
-  -e PARAMETER_STORE=<nombre_del_parameter_store> \
-  -e AWS_ACCESS_KEY_ID=<access_key> \
-  -e AWS_SECRET_ACCESS_KEY=<secret_key> \
-  -e AWS_DEFAULT_REGION=<region> \
-  -e GESTION_CONTRACTUAL_CRUD_HOST=<host> \
-  -e GESTION_CONTRACTUAL_CRUD_PORT=<puerto> \
-  -e GESTION_CONTRACTUAL_CRUD_DB=<nombre_bd> \
-  -e GESTION_CONTRACTUAL_CRUD_DB_SCHEMA=<esquema> \
-  -p 3000:3000 \
-  gestion_contractual_crud
+#4. Instalar Bee CLI (si no está instalado)
+go install github.com/beego/bee/v2@v2.3.0
+
+#5. Crear el esquema y las tablas en la base de datos
+psql -h [host] -p [puerto] -U [usuario] -d [base de datos] -f database/gestion_contractual.sql
+
+#6. Alimentar todas las variables de entorno que utiliza el proyecto y ejecutar
+GESTION_CONTRACTUAL_CRUD_HTTP_PORT=[puerto] GESTION_CONTRACTUAL_CRUD_RUN_MODE=[dev|prod] GESTION_CONTRACTUAL_CRUD_PGHOST=[host] GESTION_CONTRACTUAL_CRUD_PGPORT=[puerto] GESTION_CONTRACTUAL_CRUD_PGUSER=[usuario] GESTION_CONTRACTUAL_CRUD_PGPASS=[password] GESTION_CONTRACTUAL_CRUD_PGDB=[base de datos] GESTION_CONTRACTUAL_CRUD_PGSCHEMA=[esquema] bee run -downdoc=true -gendoc=true
+
 ```
 
-> **Importante:** el `entrypoint.sh` obtiene `GESTION_CONTRACTUAL_CRUD_USERNAME` y `GESTION_CONTRACTUAL_CRUD_PASS` desde **AWS SSM Parameter Store**, usando la variable `PARAMETER_STORE` para construir la ruta del parámetro. El contenedor **no arranca con un `docker run` genérico sin credenciales de AWS válidas** con permisos de lectura sobre esos parámetros. Las demás variables de entorno sí se pasan directamente al contenedor.
+En modo `dev` la documentación Swagger queda disponible en `http://localhost:[puerto]/swagger/`.
 
-#### Ejecución docker-compose
+### Ejecución Dockerfile
 
-> **No aplica.** Este tipo de microservicio no usa `docker-compose`.
->
-> El repositorio cuenta únicamente con `Dockerfile` y `entrypoint.sh`. Ningún otro microservicio NestJS de Argo dispone de `docker-compose.yml`; el patrón de red compartida `back_end` utilizado en la organización es exclusivo de los repositorios Go/Beego y no se replica en este componente.
+```shell
+# Compilar el binario (el Dockerfile copia el ejecutable "main" y conf/app.conf)
+GOOS=linux GOARCH=amd64 go build -o main
+
+# Construir la imagen
+docker build --tag=gestion_contractual_crud . --no-cache
+
+# Ejecutar el contenedor
+docker run -p 8080:8080 --env-file .env gestion_contractual_crud
+```
+
+### Ejecución docker-compose
+
+```shell
+#1. Clonar el repositorio
+git clone https://github.com/udistrital/gestion_contractual_crud
+
+#2. Moverse a la carpeta del repositorio
+cd gestion_contractual_crud
+
+#3. Crear un fichero con el nombre **.env** con las variables de entorno
+# y las variables adicionales de docker-compose descritas arriba
+
+#4. Crear la network **back_end** para los contenedores
+docker network create back_end
+
+#5. Ejecutar el compose del contenedor
+docker compose up --build
+
+#6. Comprobar que los contenedores estén en ejecución
+docker ps
+```
+
+El compose levanta dos contenedores: el API (`golang:1.25` ejecutando `bee run`) y PostgreSQL 10, que al iniciar por primera vez crea el esquema y las tablas con `database/gestion_contractual.sql`.
 
 ### Ejecución Pruebas
-```
-pnpm test
-```
 
-Otros comandos disponibles:
-```
-pnpm run test:watch // Ejecución en modo watch
-pnpm run test:cov // Reporte de cobertura
-pnpm run test:e2e // Pruebas end to end
+Pruebas unitarias (no requieren base de datos):
+
+```shell
+go test ./... -v
 ```
 
-#### Pruebas funcionales de póliza y amparo
+Pruebas de integración (requieren PostgreSQL con `database/gestion_contractual.sql` aplicado):
 
-`test/funcionales-poliza.sh` ejerce los endpoints de `/polizas` y `/amparos-polizas` contra una instancia en ejecución y verifica el estado HTTP de cada caso. Sale con código distinto de cero si alguno no coincide.
-
-```
-./test/funcionales-poliza.sh [url_base]   // por defecto http://localhost:8099
+```shell
+ go test ./... -v
 ```
 
-Antes de ejecutarlo, la base debe tener el esquema de `sql/creacion-tablas.sql` y los contratos generales con id 1 y 2. `sql/datos-mock.sql` **no sirve para esto**: está desincronizado del esquema y su carga falla en `contrato_general`, lo que a su vez tumba todas las inserciones con llave foránea. Mientras se corrige, los contratos se siembran directamente:
+Cobertura:
 
-```sql
-INSERT INTO contrato_general (id, tipo_contrato_id, aplica_poliza, objeto, vigencia, numero_contrato, valor_pesos, fecha_inicial, fecha_final, activo, fecha_creacion, fecha_modificacion)
-VALUES
- (1, 1, true, 'Contrato de prueba 1', '2026', 'CTO-2026-001', 85000000.00, '2026-01-15', '2026-12-15', true, NOW(), NOW()),
- (2, 1, true, 'Contrato de prueba 2', '2026', 'CTO-2026-002', 120000000.00, '2026-02-01', '2026-11-30', true, NOW(), NOW());
-SELECT setval(pg_get_serial_sequence('contrato_general','id'), 2, true);
+```shell
+go test ./... -coverpkg=./... -coverprofile=coverage.out
+go tool cover -func=coverage.out
+
+# Reporte en el navegador
+go tool cover -html=coverage.out
 ```
-
-El script parte de `poliza` y `amparo_poliza` vacías, así que conviene ejecutar antes:
-
-```sql
-TRUNCATE TABLE amparo_poliza, poliza RESTART IDENTITY CASCADE;
-```
-
-## Estado CI
-
-| Develop | Release 0.0.1 | Master |
-| -- | -- | -- |
-| [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/gestion_contractual_crud/status.svg?ref=refs/heads/develop)](https://hubci.portaloas.udistrital.edu.co/udistrital/gestion_contractual_crud) | [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/gestion_contractual_crud/status.svg?ref=refs/heads/release/0.0.1)](https://hubci.portaloas.udistrital.edu.co/udistrital/gestion_contractual_crud) | [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/gestion_contractual_crud/status.svg)](https://hubci.portaloas.udistrital.edu.co/udistrital/gestion_contractual_crud) |
-
-
-# Modelo de Datos :card_file_box:
-
-- [Ver modelo de datos del core de Argo](/modelo-database/modelo-basedatos-core-Argo.jpg)
-
-[![Descargar Modelo de Datos](https://img.shields.io/badge/Descargar%20Modelo%20de%20Datos-Download-blue?style=for-the-badge)](/modelo-database/modelo-datos-core-argo.drawio)
-
 
 ## Licencia
 
