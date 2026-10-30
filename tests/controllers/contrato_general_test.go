@@ -162,3 +162,44 @@ func TestConteosParaElMid(t *testing.T) {
 		t.Fatalf("vigencia sin contratos en ese estado: se esperaba 0, llegó %d", n)
 	}
 }
+
+// GET / devuelve Metadata como el CRUD en NestJS: total de registros que cumplen
+// query (sin limit ni offset) y la paginación que usa el paginador del MF.
+func TestMetadataDelGetAll(t *testing.T) {
+	conectar(t)
+	unidad := time.Now().UnixNano()%1000000000 + 1000
+	var contratos []int
+	for i := 0; i < 3; i++ {
+		contratos = append(contratos, crear(t, "/v1/contrato_general", fmt.Sprintf(`{"UnidadEjecutoraId":%d}`, unidad)))
+	}
+	type metadata struct {
+		Total, Limit, Offset, CurrentPage, TotalPages int64
+		HasNextPage, HasPreviousPage                  bool
+	}
+	pedir := func(ruta string, filas int) metadata {
+		t.Helper()
+		codigo, r := solicitar(t, http.MethodGet, ruta, "")
+		var lista []interface{}
+		var m metadata
+		_ = json.Unmarshal(r.Data, &lista)
+		if err := json.Unmarshal(r.Metadata, &m); codigo != http.StatusOK || err != nil || len(lista) != filas {
+			t.Fatalf("GET %s: %d %s %s", ruta, codigo, r.Data, r.Metadata)
+		}
+		return m
+	}
+	filtro := fmt.Sprintf("/v1/contrato_general?query=UnidadEjecutoraId:%d", unidad)
+	if m := pedir(filtro+"&limit=2", 2); m != (metadata{3, 2, 0, 1, 2, true, false}) {
+		t.Fatalf("primera página: %+v", m)
+	}
+	if m := pedir(filtro+"&limit=2&offset=2", 1); m != (metadata{3, 2, 2, 2, 2, false, true}) {
+		t.Fatalf("segunda página: %+v", m)
+	}
+	if m := pedir(filtro+"&limit=0", 3); m != (metadata{3, 0, 0, 1, 1, false, false}) {
+		t.Fatalf("limit=0: %+v", m)
+	}
+	// El total también cuenta con filtros sobre la relación.
+	crear(t, "/v1/estado_contrato", fmt.Sprintf(`{"ContratoGeneralId":{"Id":%d},"EstadoParametroId":5,"UsuarioId":1}`, contratos[0]))
+	if m := pedir(fmt.Sprintf("/v1/estado_contrato?query=Actual:true,ContratoGeneralId.UnidadEjecutoraId:%d", unidad), 1); m.Total != 1 {
+		t.Fatalf("total con filtro sobre la relación: %+v", m)
+	}
+}

@@ -18,10 +18,23 @@ import (
 // Respuesta es el formato de respuesta de las APIs de la OAS
 // (el mismo que usa sicapital_crud).
 type Respuesta struct {
-	Success bool        `json:"Success"`
-	Status  string      `json:"Status"`
-	Message string      `json:"Message"`
-	Data    interface{} `json:"Data"`
+	Success  bool        `json:"Success"`
+	Status   string      `json:"Status"`
+	Message  string      `json:"Message"`
+	Data     interface{} `json:"Data"`
+	Metadata *Metadata   `json:"Metadata,omitempty"`
+}
+
+// Metadata es la paginación que devolvía el GET / del CRUD en NestJS
+// (generateMetadata de base-crud.service.ts); el MF la usa para el paginador.
+type Metadata struct {
+	Total           int64 `json:"total"`
+	Limit           int64 `json:"limit"`
+	Offset          int64 `json:"offset"`
+	CurrentPage     int64 `json:"currentPage"`
+	TotalPages      int64 `json:"totalPages"`
+	HasNextPage     bool  `json:"hasNextPage"`
+	HasPreviousPage bool  `json:"hasPreviousPage"`
 }
 
 // errSolicitud marca los errores del cliente (cuerpo o parámetros inválidos).
@@ -56,6 +69,30 @@ type BaseController struct {
 func (c *BaseController) responder(status int, mensaje string, data interface{}) {
 	c.Ctx.Output.SetStatus(status)
 	c.Data["json"] = Respuesta{Success: true, Status: strconv.Itoa(status), Message: mensaje, Data: data}
+	_ = c.ServeJSON()
+}
+
+// responderLista responde el GET / con Metadata, como el CRUD en NestJS: total
+// es el número de registros que cumplen query, sin limit ni offset. limit 0
+// trae todos (una sola página).
+func (c *BaseController) responderLista(l []interface{}, modelo interface{}, query map[string]string, limit, offset int64) {
+	total, err := models.ContarRegistros(modelo, query)
+	if err != nil {
+		c.responderError(errorParametro(err))
+		return
+	}
+	if limit < 0 {
+		limit = 0
+	}
+	m := &Metadata{Total: total, Limit: limit, Offset: offset, CurrentPage: 1, TotalPages: 1}
+	if limit > 0 {
+		m.CurrentPage = offset/limit + 1
+		m.TotalPages = (total + limit - 1) / limit
+		m.HasNextPage = m.CurrentPage < m.TotalPages
+	}
+	m.HasPreviousPage = m.CurrentPage > 1
+	c.Ctx.Output.SetStatus(http.StatusOK)
+	c.Data["json"] = Respuesta{Success: true, Status: strconv.Itoa(http.StatusOK), Message: "Request successful", Data: l, Metadata: m}
 	_ = c.ServeJSON()
 }
 

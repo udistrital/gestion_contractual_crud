@@ -136,7 +136,7 @@ func (c *EspecificacionTecnicaController) GetAll() {
 	if l == nil {
 		l = append(l, map[string]interface{}{})
 	}
-	c.responder(http.StatusOK, "Request successful", l)
+	c.responderLista(l, new(models.EspecificacionTecnica), query, limit, offset)
 }
 
 // Put ...

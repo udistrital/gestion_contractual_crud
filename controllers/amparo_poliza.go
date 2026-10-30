@@ -136,7 +136,7 @@ func (c *AmparoPolizaController) GetAll() {
 	if l == nil {
 		l = append(l, map[string]interface{}{})
 	}
-	c.responder(http.StatusOK, "Request successful", l)
+	c.responderLista(l, new(models.AmparoPoliza), query, limit, offset)
 }
 
 // Put ...

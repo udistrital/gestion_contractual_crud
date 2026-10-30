@@ -31,10 +31,11 @@ func TestMain(m *testing.M) {
 }
 
 type respuesta struct {
-	Success bool
-	Status  string
-	Message string
-	Data    json.RawMessage
+	Success  bool
+	Status   string
+	Message  string
+	Data     json.RawMessage
+	Metadata json.RawMessage
 }
 
 func solicitar(t *testing.T, metodo, ruta, cuerpo string) (int, respuesta) {

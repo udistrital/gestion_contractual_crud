@@ -138,7 +138,7 @@ func (c *ContratoGeneralController) GetAll() {
 	if l == nil {
 		l = append(l, map[string]interface{}{})
 	}
-	c.responder(http.StatusOK, "Request successful", l)
+	c.responderLista(l, new(models.ContratoGeneral), query, limit, offset)
 }
 
 // Put ...

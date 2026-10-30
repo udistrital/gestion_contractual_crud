@@ -134,6 +134,22 @@ func AddEstadoContratoActual(m *EstadoContrato) (id int64, err error) {
 	return
 }
 
+// ContarRegistros cuenta los registros que cumplen el query del GetAll, sin
+// limit ni offset, para el Metadata.total (el CRUD en NestJS usaba getManyAndCount).
+// Aplica los filtros igual que los GetAll generados por bee.
+func ContarRegistros(modelo interface{}, query map[string]string) (int64, error) {
+	qs := orm.NewOrm().QueryTable(modelo)
+	for k, v := range query {
+		k = strings.Replace(k, ".", "__", -1)
+		if strings.Contains(k, "isnull") {
+			qs = qs.Filter(k, (v == "true" || v == "1"))
+		} else {
+			qs = qs.Filter(k, v)
+		}
+	}
+	return qs.Count()
+}
+
 // desactivarDocumentos hace el borrado lógico de los documentos de una entidad
 // (contrato_general, poliza o acta_inicio) dentro de la transacción del DELETE
 // de esa entidad. QuerySeter.Update no aplica auto_now: la fecha va explícita.

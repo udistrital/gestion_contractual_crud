@@ -140,7 +140,7 @@ func (c *DocumentoContratoController) GetAll() {
 	if l == nil {
 		l = append(l, map[string]interface{}{})
 	}
-	c.responder(http.StatusOK, "Request successful", l)
+	c.responderLista(l, new(models.DocumentoContrato), query, limit, offset)
 }
 
 // Put ...
