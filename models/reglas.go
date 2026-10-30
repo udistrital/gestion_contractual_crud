@@ -7,6 +7,7 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+	"time"
 	"unicode/utf8"
 
 	"github.com/beego/beego/v2/client/orm"
@@ -67,6 +68,12 @@ func Validar(modelo interface{}) error {
 			errores = append(errores, "EntidadTipo debe ser contrato_general, poliza o acta_inicio")
 		}
 	}
+	if p, ok := modelo.(*Poliza); ok {
+		errores = append(errores, validarFechas(p.FechaInicio, p.FechaFin)...)
+	}
+	if a, ok := modelo.(*AmparoPoliza); ok {
+		errores = append(errores, validarFechas(a.FechaInicio, a.FechaFin)...)
+	}
 	if len(errores) > 0 {
 		return &ErrValidacion{Errores: errores}
 	}
@@ -87,6 +94,15 @@ func vacio(campo reflect.Value) bool {
 		return false
 	}
 	return campo.IsZero()
+}
+
+// validarFechas revisa que la fecha de inicio sea menor a la de fin (póliza y
+// amparo), como el CRUD en NestJS: si falta una de las dos no se valida.
+func validarFechas(inicio, fin time.Time) []string {
+	if inicio.IsZero() || fin.IsZero() || inicio.Before(fin) {
+		return nil
+	}
+	return []string{"La fecha de inicio debe ser menor a la fecha de fin"}
 }
 
 // ValidarEntidadDocumento revisa que exista el registro al que pertenece el
@@ -115,5 +131,63 @@ func AddEstadoContratoActual(m *EstadoContrato) (id int64, err error) {
 		id, err = txOrm.Insert(m)
 		return err
 	})
+	return
+}
+
+// desactivarDocumentos hace el borrado lógico de los documentos de una entidad
+// (contrato_general, poliza o acta_inicio) dentro de la transacción del DELETE
+// de esa entidad. QuerySeter.Update no aplica auto_now: la fecha va explícita.
+func desactivarDocumentos(txOrm orm.TxOrmer, entidadTipo string, entidadId int) error {
+	_, err := txOrm.QueryTable(new(DocumentoContrato)).
+		Filter("EntidadTipo", entidadTipo).Filter("EntidadId", entidadId).
+		Update(orm.Params{"activo": false, "fecha_modificacion": time.Now()})
+	return err
+}
+
+// ConteoConsecutivo es el cuerpo de POST /contrato_general/conteo-consecutivo,
+// con los mismos campos del CRUD en NestJS.
+type ConteoConsecutivo struct {
+	UnidadEjecutoraId int `json:"unidad_ejecutora_id"`
+}
+
+// ConteoNumeroContrato es el cuerpo de POST /contrato_general/conteo-numero-contrato.
+// Vigencia es el Id del parámetro de vigencia (contrato_general.vigencia_id) y
+// Estado el estado_parametro_id de estado_contrato.
+type ConteoNumeroContrato struct {
+	UnidadEjecutoraId int `json:"unidad_ejecutora_id"`
+	Vigencia          int `json:"vigencia"`
+	Estado            int `json:"estado"`
+}
+
+// ContarConsecutivo cuenta los contratos de una unidad ejecutora, activos e
+// inactivos. El MID le suma 1 para el consecutivo.
+func ContarConsecutivo(c ConteoConsecutivo) (int64, error) {
+	if c.UnidadEjecutoraId == 0 {
+		return 0, &ErrValidacion{Errores: []string{"unidad_ejecutora_id es obligatorio"}}
+	}
+	return orm.NewOrm().QueryTable(new(ContratoGeneral)).Filter("UnidadEjecutoraId", c.UnidadEjecutoraId).Count()
+}
+
+// ContarNumeroContrato cuenta los contratos de una unidad y una vigencia que
+// tienen o tuvieron el estado indicado (cualquier registro de estado_contrato,
+// no solo el actual), activos e inactivos. El MID arma prefijo + (conteo + 1) + sufijo.
+func ContarNumeroContrato(c ConteoNumeroContrato) (total int64, err error) {
+	var errores []string
+	if c.UnidadEjecutoraId == 0 {
+		errores = append(errores, "unidad_ejecutora_id es obligatorio")
+	}
+	if c.Vigencia == 0 {
+		errores = append(errores, "vigencia es obligatorio")
+	}
+	if c.Estado == 0 {
+		errores = append(errores, "estado es obligatorio")
+	}
+	if len(errores) > 0 {
+		return 0, &ErrValidacion{Errores: errores}
+	}
+	err = orm.NewOrm().Raw(`SELECT COUNT(DISTINCT cg.id) FROM contrato_general cg
+		INNER JOIN estado_contrato ec ON ec.contrato_general_id = cg.id
+		WHERE cg.unidad_ejecutora_id = ? AND cg.vigencia_id = ? AND ec.estado_parametro_id = ?`,
+		c.UnidadEjecutoraId, c.Vigencia, c.Estado).QueryRow(&total)
 	return
 }

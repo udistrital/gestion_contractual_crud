@@ -187,6 +187,24 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
+	beego.GlobalControllerRouter["github.com/udistrital/gestion_contractual_crud/controllers:ContratoGeneralController"] = append(beego.GlobalControllerRouter["github.com/udistrital/gestion_contractual_crud/controllers:ContratoGeneralController"],
+		beego.ControllerComments{
+			Method:           "ConteoConsecutivo",
+			Router:           `/conteo-consecutivo`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["github.com/udistrital/gestion_contractual_crud/controllers:ContratoGeneralController"] = append(beego.GlobalControllerRouter["github.com/udistrital/gestion_contractual_crud/controllers:ContratoGeneralController"],
+		beego.ControllerComments{
+			Method:           "ConteoNumeroContrato",
+			Router:           `/conteo-numero-contrato`,
+			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
 	beego.GlobalControllerRouter["github.com/udistrital/gestion_contractual_crud/controllers:ConvenioController"] = append(beego.GlobalControllerRouter["github.com/udistrital/gestion_contractual_crud/controllers:ConvenioController"],
 		beego.ControllerComments{
 			Method:           "Post",

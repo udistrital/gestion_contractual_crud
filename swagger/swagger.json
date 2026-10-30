@@ -638,6 +638,62 @@
                 }
             }
         },
+        "/contrato_general/conteo-consecutivo": {
+            "post": {
+                "tags": [
+                    "contrato_general"
+                ],
+                "description": "cuenta los contratos de una unidad ejecutora, activos e inactivos (el MID le suma 1 para el consecutivo)\n\u003cbr\u003e",
+                "operationId": "ContratoGeneralController.Conteo consecutivo",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "unidad_ejecutora_id",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ConteoConsecutivo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{int} número de contratos"
+                    },
+                    "400": {
+                        "description": "cuerpo inválido"
+                    }
+                }
+            }
+        },
+        "/contrato_general/conteo-numero-contrato": {
+            "post": {
+                "tags": [
+                    "contrato_general"
+                ],
+                "description": "cuenta los contratos de una unidad ejecutora y una vigencia que tienen o tuvieron el estado indicado, activos e inactivos\n\u003cbr\u003e",
+                "operationId": "ContratoGeneralController.Conteo número de contrato",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "unidad_ejecutora_id, vigencia (Id del parámetro) y estado (estado_parametro_id)",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ConteoNumeroContrato"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{int} número de contratos"
+                    },
+                    "400": {
+                        "description": "cuerpo inválido"
+                    }
+                }
+            }
+        },
         "/contrato_general/{id}": {
             "get": {
                 "tags": [
@@ -2650,6 +2706,34 @@
                 "Valor": {
                     "type": "number",
                     "format": "double"
+                }
+            }
+        },
+        "models.ConteoConsecutivo": {
+            "title": "ConteoConsecutivo",
+            "type": "object",
+            "properties": {
+                "unidad_ejecutora_id": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "models.ConteoNumeroContrato": {
+            "title": "ConteoNumeroContrato",
+            "type": "object",
+            "properties": {
+                "estado": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "unidad_ejecutora_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "vigencia": {
+                    "type": "integer",
+                    "format": "int64"
                 }
             }
         },

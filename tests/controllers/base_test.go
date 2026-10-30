@@ -102,6 +102,26 @@ func TestEntidadDeDocumento(t *testing.T) {
 	}
 }
 
+func TestFechasInvertidas(t *testing.T) {
+	codigo, r := solicitar(t, http.MethodPost, "/v1/poliza", `{"ContratoGeneralId":{"Id":1},"FechaInicio":"2026-12-31T00:00:00Z","FechaFin":"2026-01-01T00:00:00Z"}`)
+	var errores []string
+	_ = json.Unmarshal(r.Data, &errores)
+	if codigo != http.StatusBadRequest || len(errores) != 1 || errores[0] != "La fecha de inicio debe ser menor a la fecha de fin" {
+		t.Fatalf("se esperaba 400 por las fechas, llegó %d %s", codigo, r.Data)
+	}
+}
+
+func TestConteosSinDatos(t *testing.T) {
+	for _, ruta := range []string{"/v1/contrato_general/conteo-consecutivo", "/v1/contrato_general/conteo-numero-contrato"} {
+		if codigo, _ := solicitar(t, http.MethodPost, ruta, `{}`); codigo != http.StatusBadRequest {
+			t.Fatalf("%s sin datos: se esperaba 400, llegó %d", ruta, codigo)
+		}
+		if codigo, _ := solicitar(t, http.MethodPost, ruta, `{`); codigo != http.StatusBadRequest {
+			t.Fatalf("%s con cuerpo inválido: se esperaba 400, llegó %d", ruta, codigo)
+		}
+	}
+}
+
 func TestQueryMalFormado(t *testing.T) {
 	codigo, r := solicitar(t, http.MethodGet, "/v1/poliza?query=NumeroPoliza", "")
 	if codigo != http.StatusBadRequest || r.Message != "Error service GetAll: The request contains an incorrect parameter or no record exists" {

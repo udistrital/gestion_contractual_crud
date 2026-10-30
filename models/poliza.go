@@ -1,6 +1,7 @@
 package models
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"reflect"
@@ -148,18 +149,22 @@ func UpdatePolizaById(m *Poliza) (err error) {
 	return
 }
 
-// DeletePoliza desactiva el registro (borrado lógico: activo = false) y
-// returns error if the record to be deleted doesn't exist
+// DeletePoliza desactiva el registro (borrado lógico: activo = false) y sus
+// documentos (documento_contrato con entidad_tipo poliza), en una sola
+// transacción. Returns error if the record to be deleted doesn't exist
 func DeletePoliza(id int) (err error) {
-	o := orm.NewOrm()
-	v := Poliza{Id: id}
-	// ascertain id exists in the database
-	if err = o.Read(&v); err == nil {
-		var num int64
-		v.Activo = false
-		if num, err = o.Update(&v, "Activo", "FechaModificacion"); err == nil {
-			fmt.Println("Number of records updated in database:", num)
+	return orm.NewOrm().DoTx(func(_ context.Context, txOrm orm.TxOrmer) error {
+		v := Poliza{Id: id}
+		// ascertain id exists in the database
+		if err := txOrm.Read(&v); err != nil {
+			return err
 		}
-	}
-	return
+		v.Activo = false
+		num, err := txOrm.Update(&v, "Activo", "FechaModificacion")
+		if err != nil {
+			return err
+		}
+		fmt.Println("Number of records updated in database:", num)
+		return desactivarDocumentos(txOrm, "poliza", id)
+	})
 }

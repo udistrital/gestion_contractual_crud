@@ -21,6 +21,8 @@ func (c *ContratoGeneralController) URLMapping() {
 	c.Mapping("GetAll", c.GetAll)
 	c.Mapping("Put", c.Put)
 	c.Mapping("Delete", c.Delete)
+	c.Mapping("ConteoConsecutivo", c.ConteoConsecutivo)
+	c.Mapping("ConteoNumeroContrato", c.ConteoNumeroContrato)
 }
 
 // Post ...
@@ -198,4 +200,46 @@ func (c *ContratoGeneralController) Delete() {
 		return
 	}
 	c.responder(http.StatusOK, "Delete successful", map[string]int{"Id": id})
+}
+
+// ConteoConsecutivo ...
+// @Title Conteo consecutivo
+// @Description cuenta los contratos de una unidad ejecutora, activos e inactivos (el MID le suma 1 para el consecutivo)
+// @Param	body		body 	models.ConteoConsecutivo	true		"unidad_ejecutora_id"
+// @Success 200 {int} número de contratos
+// @Failure 400 cuerpo inválido
+// @router /conteo-consecutivo [post]
+func (c *ContratoGeneralController) ConteoConsecutivo() {
+	var v models.ConteoConsecutivo
+	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err != nil {
+		c.responderError(errorCuerpo(err))
+		return
+	}
+	total, err := models.ContarConsecutivo(v)
+	if err != nil {
+		c.responderError(err)
+		return
+	}
+	c.responder(http.StatusOK, "Request successful", total)
+}
+
+// ConteoNumeroContrato ...
+// @Title Conteo número de contrato
+// @Description cuenta los contratos de una unidad ejecutora y una vigencia que tienen o tuvieron el estado indicado, activos e inactivos
+// @Param	body		body 	models.ConteoNumeroContrato	true		"unidad_ejecutora_id, vigencia (Id del parámetro) y estado (estado_parametro_id)"
+// @Success 200 {int} número de contratos
+// @Failure 400 cuerpo inválido
+// @router /conteo-numero-contrato [post]
+func (c *ContratoGeneralController) ConteoNumeroContrato() {
+	var v models.ConteoNumeroContrato
+	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err != nil {
+		c.responderError(errorCuerpo(err))
+		return
+	}
+	total, err := models.ContarNumeroContrato(v)
+	if err != nil {
+		c.responderError(err)
+		return
+	}
+	c.responder(http.StatusOK, "Request successful", total)
 }
