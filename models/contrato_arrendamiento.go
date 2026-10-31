@@ -11,18 +11,18 @@ import (
 )
 
 type ContratoArrendamiento struct {
-	Id                  int              `orm:"column(id);pk;auto"`
-	ContratoGeneralId   *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)"`
-	Destinacion         string           `orm:"column(destinacion);null;size(1000)"`
-	PlazoPagoMensual    int              `orm:"column(plazo_pago_mensual);null"`
-	Reajuste            string           `orm:"column(reajuste);size(255);null"`
-	PlazoAdministracion int              `orm:"column(plazo_administracion);null"`
-	ValorAdministracion float64          `orm:"column(valor_administracion);null"`
-	PlazoEntrega        int              `orm:"column(plazo_entrega);null"`
-	ValorArrendamiento  float64          `orm:"column(valor_arrendamiento);null"`
-	Activo              bool             `orm:"column(activo)"`
-	FechaCreacion       time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
-	FechaModificacion   time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
+	Id                  int              `orm:"column(id);pk;auto" json:"id"`
+	ContratoGeneralId   *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)" json:"contrato_general_id"`
+	Destinacion         string           `orm:"column(destinacion);null;size(1000)" json:"destinacion"`
+	PlazoPagoMensual    int              `orm:"column(plazo_pago_mensual);null" json:"plazo_pago_mensual"`
+	Reajuste            string           `orm:"column(reajuste);size(255);null" json:"reajuste"`
+	PlazoAdministracion int              `orm:"column(plazo_administracion);null" json:"plazo_administracion"`
+	ValorAdministracion float64          `orm:"column(valor_administracion);null" json:"valor_administracion"`
+	PlazoEntrega        int              `orm:"column(plazo_entrega);null" json:"plazo_entrega"`
+	ValorArrendamiento  float64          `orm:"column(valor_arrendamiento);null" json:"valor_arrendamiento"`
+	Activo              bool             `orm:"column(activo)" json:"activo"`
+	FechaCreacion       time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add" json:"fecha_creacion"`
+	FechaModificacion   time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now" json:"fecha_modificacion"`
 }
 
 func (t *ContratoArrendamiento) TableName() string {

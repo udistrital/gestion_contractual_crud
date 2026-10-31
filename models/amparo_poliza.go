@@ -11,21 +11,21 @@ import (
 )
 
 type AmparoPoliza struct {
-	Id                int              `orm:"column(id);pk;auto"`
-	ContratoGeneralId *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)"`
-	PolizaId          *Poliza          `orm:"column(poliza_id);rel(fk);null"`
-	AmparoId          int              `orm:"column(amparo_id)"`
-	TipoValorAmparoId int              `orm:"column(tipo_valor_amparo_id);null"`
-	Suficiencia       float64          `orm:"column(suficiencia);null"`
-	Valor             float64          `orm:"column(valor);null"`
-	Descripcion       string           `orm:"column(descripcion);size(255);null"`
-	FechaInicio       time.Time        `orm:"column(fecha_inicio);type(date);null"`
-	FechaFin          time.Time        `orm:"column(fecha_fin);type(date);null"`
-	UsuarioId         int              `orm:"column(usuario_id);null"`
-	UsuarioRol        string           `orm:"column(usuario_rol);size(40);null"`
-	Activo            bool             `orm:"column(activo)"`
-	FechaCreacion     time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
-	FechaModificacion time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
+	Id                int              `orm:"column(id);pk;auto" json:"id"`
+	ContratoGeneralId *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)" json:"contrato_general_id"`
+	PolizaId          *Poliza          `orm:"column(poliza_id);rel(fk);null" json:"poliza_id"`
+	AmparoId          int              `orm:"column(amparo_id)" json:"amparo_id"`
+	TipoValorAmparoId int              `orm:"column(tipo_valor_amparo_id);null" json:"tipo_valor_amparo_id"`
+	Suficiencia       float64          `orm:"column(suficiencia);null" json:"suficiencia"`
+	Valor             float64          `orm:"column(valor);null" json:"valor"`
+	Descripcion       string           `orm:"column(descripcion);size(255);null" json:"descripcion"`
+	FechaInicio       time.Time        `orm:"column(fecha_inicio);type(date);null" json:"fecha_inicio"`
+	FechaFin          time.Time        `orm:"column(fecha_fin);type(date);null" json:"fecha_fin"`
+	UsuarioId         int              `orm:"column(usuario_id);null" json:"usuario_id"`
+	UsuarioRol        string           `orm:"column(usuario_rol);size(40);null" json:"usuario_rol"`
+	Activo            bool             `orm:"column(activo)" json:"activo"`
+	FechaCreacion     time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add" json:"fecha_creacion"`
+	FechaModificacion time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now" json:"fecha_modificacion"`
 }
 
 func (t *AmparoPoliza) TableName() string {

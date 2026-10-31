@@ -12,21 +12,21 @@ import (
 )
 
 type Poliza struct {
-	Id                   int              `orm:"column(id);pk;auto"`
-	ContratoGeneralId    *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)"`
-	NumeroPoliza         string           `orm:"column(numero_poliza);size(50);null"`
-	EntidadAseguradoraId int              `orm:"column(entidad_aseguradora_id);null"`
-	Descripcion          string           `orm:"column(descripcion);size(255);null"`
-	FechaInicio          time.Time        `orm:"column(fecha_inicio);type(date);null"`
-	FechaFin             time.Time        `orm:"column(fecha_fin);type(date);null"`
-	FechaExpedicion      time.Time        `orm:"column(fecha_expedicion);type(date);null"`
-	FechaAprobacion      time.Time        `orm:"column(fecha_aprobacion);type(date);null"`
-	UsuarioId            int              `orm:"column(usuario_id);null"`
-	UsuarioRol           string           `orm:"column(usuario_rol);size(40);null"`
-	UsuarioLegado        string           `orm:"column(usuario_legado);size(15);null"`
-	Activo               bool             `orm:"column(activo)"`
-	FechaCreacion        time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
-	FechaModificacion    time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
+	Id                   int              `orm:"column(id);pk;auto" json:"id"`
+	ContratoGeneralId    *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)" json:"contrato_general_id"`
+	NumeroPoliza         string           `orm:"column(numero_poliza);size(50);null" json:"numero_poliza"`
+	EntidadAseguradoraId int              `orm:"column(entidad_aseguradora_id);null" json:"entidad_aseguradora_id"`
+	Descripcion          string           `orm:"column(descripcion);size(255);null" json:"descripcion"`
+	FechaInicio          time.Time        `orm:"column(fecha_inicio);type(date);null" json:"fecha_inicio"`
+	FechaFin             time.Time        `orm:"column(fecha_fin);type(date);null" json:"fecha_fin"`
+	FechaExpedicion      time.Time        `orm:"column(fecha_expedicion);type(date);null" json:"fecha_expedicion"`
+	FechaAprobacion      time.Time        `orm:"column(fecha_aprobacion);type(date);null" json:"fecha_aprobacion"`
+	UsuarioId            int              `orm:"column(usuario_id);null" json:"usuario_id"`
+	UsuarioRol           string           `orm:"column(usuario_rol);size(40);null" json:"usuario_rol"`
+	UsuarioLegado        string           `orm:"column(usuario_legado);size(15);null" json:"usuario_legado"`
+	Activo               bool             `orm:"column(activo)" json:"activo"`
+	FechaCreacion        time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add" json:"fecha_creacion"`
+	FechaModificacion    time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now" json:"fecha_modificacion"`
 }
 
 func (t *Poliza) TableName() string {

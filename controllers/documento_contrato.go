@@ -138,7 +138,7 @@ func (c *DocumentoContratoController) GetAll() {
 		return
 	}
 	if l == nil {
-		l = append(l, map[string]interface{}{})
+		l = []interface{}{}
 	}
 	c.responderLista(l, new(models.DocumentoContrato), query, limit, offset)
 }

@@ -11,18 +11,18 @@ import (
 )
 
 type EstadoContrato struct {
-	Id                       int              `orm:"column(id);pk;auto"`
-	ContratoGeneralId        *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)"`
-	EstadoParametroId        int              `orm:"column(estado_parametro_id);null"`
-	EstadoInternoParametroId int              `orm:"column(estado_interno_parametro_id);null"`
-	Actual                   bool             `orm:"column(actual)"`
-	Motivo                   string           `orm:"column(motivo);size(250);null"`
-	FechaEvento              time.Time        `orm:"column(fecha_evento);type(date);null"`
-	UsuarioId                int              `orm:"column(usuario_id)"`
-	UsuarioRol               string           `orm:"column(usuario_rol);size(40);null"`
-	Activo                   bool             `orm:"column(activo)"`
-	FechaCreacion            time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
-	FechaModificacion        time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
+	Id                       int              `orm:"column(id);pk;auto" json:"id"`
+	ContratoGeneralId        *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)" json:"contrato_general_id"`
+	EstadoParametroId        int              `orm:"column(estado_parametro_id);null" json:"estado_parametro_id"`
+	EstadoInternoParametroId int              `orm:"column(estado_interno_parametro_id);null" json:"estado_interno_parametro_id"`
+	Actual                   bool             `orm:"column(actual)" json:"actual"`
+	Motivo                   string           `orm:"column(motivo);size(250);null" json:"motivo"`
+	FechaEvento              time.Time        `orm:"column(fecha_evento);type(date);null" json:"fecha_evento"`
+	UsuarioId                int              `orm:"column(usuario_id)" json:"usuario_id"`
+	UsuarioRol               string           `orm:"column(usuario_rol);size(40);null" json:"usuario_rol"`
+	Activo                   bool             `orm:"column(activo)" json:"activo"`
+	FechaCreacion            time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add" json:"fecha_creacion"`
+	FechaModificacion        time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now" json:"fecha_modificacion"`
 }
 
 func (t *EstadoContrato) TableName() string {

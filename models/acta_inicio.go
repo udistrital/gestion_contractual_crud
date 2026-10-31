@@ -12,24 +12,24 @@ import (
 )
 
 type ActaInicio struct {
-	Id                         int              `orm:"column(id);pk;auto"`
-	ContratoGeneralId          *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)"`
-	Descripcion                string           `orm:"column(descripcion);null;size(2000)"`
-	FechaInicio                time.Time        `orm:"column(fecha_inicio);type(date);null"`
-	FechaFin                   time.Time        `orm:"column(fecha_fin);type(date);null"`
-	FechaSuscripcion           time.Time        `orm:"column(fecha_suscripcion);type(date);null"`
-	NumeroActa                 string           `orm:"column(numero_acta);size(50);null"`
-	ValorDisponibilidad        float64          `orm:"column(valor_disponibilidad);null"`
-	NumeroRegistroPresupuestal string           `orm:"column(numero_registro_presupuestal);size(50);null"`
-	ValorRegistroPresupuestal  float64          `orm:"column(valor_registro_presupuestal);null"`
-	ValorAnticipo              float64          `orm:"column(valor_anticipo);null"`
-	NombreInterventor          string           `orm:"column(nombre_interventor);size(250);null"`
-	UsuarioId                  int              `orm:"column(usuario_id);null"`
-	UsuarioRol                 string           `orm:"column(usuario_rol);size(40);null"`
-	UsuarioLegado              string           `orm:"column(usuario_legado);size(15);null"`
-	Activo                     bool             `orm:"column(activo)"`
-	FechaCreacion              time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
-	FechaModificacion          time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
+	Id                         int              `orm:"column(id);pk;auto" json:"id"`
+	ContratoGeneralId          *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)" json:"contrato_general_id"`
+	Descripcion                string           `orm:"column(descripcion);null;size(2000)" json:"descripcion"`
+	FechaInicio                time.Time        `orm:"column(fecha_inicio);type(date);null" json:"fecha_inicio"`
+	FechaFin                   time.Time        `orm:"column(fecha_fin);type(date);null" json:"fecha_fin"`
+	FechaSuscripcion           time.Time        `orm:"column(fecha_suscripcion);type(date);null" json:"fecha_suscripcion"`
+	NumeroActa                 string           `orm:"column(numero_acta);size(50);null" json:"numero_acta"`
+	ValorDisponibilidad        float64          `orm:"column(valor_disponibilidad);null" json:"valor_disponibilidad"`
+	NumeroRegistroPresupuestal string           `orm:"column(numero_registro_presupuestal);size(50);null" json:"numero_registro_presupuestal"`
+	ValorRegistroPresupuestal  float64          `orm:"column(valor_registro_presupuestal);null" json:"valor_registro_presupuestal"`
+	ValorAnticipo              float64          `orm:"column(valor_anticipo);null" json:"valor_anticipo"`
+	NombreInterventor          string           `orm:"column(nombre_interventor);size(250);null" json:"nombre_interventor"`
+	UsuarioId                  int              `orm:"column(usuario_id);null" json:"usuario_id"`
+	UsuarioRol                 string           `orm:"column(usuario_rol);size(40);null" json:"usuario_rol"`
+	UsuarioLegado              string           `orm:"column(usuario_legado);size(15);null" json:"usuario_legado"`
+	Activo                     bool             `orm:"column(activo)" json:"activo"`
+	FechaCreacion              time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add" json:"fecha_creacion"`
+	FechaModificacion          time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now" json:"fecha_modificacion"`
 }
 
 func (t *ActaInicio) TableName() string {

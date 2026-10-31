@@ -134,7 +134,7 @@ func (c *EstadoContratoController) GetAll() {
 		return
 	}
 	if l == nil {
-		l = append(l, map[string]interface{}{})
+		l = []interface{}{}
 	}
 	c.responderLista(l, new(models.EstadoContrato), query, limit, offset)
 }

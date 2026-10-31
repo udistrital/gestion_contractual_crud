@@ -14,19 +14,19 @@ func TestDocumentoContratoController(t *testing.T) {
 // Reglas del documento polimórfico: la entidad debe existir y su tipo ser válido.
 func TestDocumentoSegunEntidad(t *testing.T) {
 	conectar(t)
-	contrato := crear(t, "/v1/contrato_general", `{"UnidadEjecutoraId":1}`)
-	documento := crear(t, "/v1/documento_contrato", fmt.Sprintf(`{"EntidadTipo":"contrato_general","EntidadId":%d}`, contrato))
-	esperar(t, http.MethodPost, "/v1/documento_contrato", `{"EntidadTipo":"poliza","EntidadId":999999}`, http.StatusBadRequest)
-	esperar(t, http.MethodPut, fmt.Sprintf("/v1/documento_contrato/%d", documento), `{"EntidadTipo":"contrato_general","EntidadId":999999}`, http.StatusBadRequest)
-	esperar(t, http.MethodPut, fmt.Sprintf("/v1/documento_contrato/%d", documento), `{"EntidadTipo":"contratista"}`, http.StatusBadRequest)
+	contrato := crear(t, "/v1/contrato_general", `{"unidad_ejecutora_id":1}`)
+	documento := crear(t, "/v1/documento_contrato", fmt.Sprintf(`{"entidad_tipo":"contrato_general","entidad_id":%d}`, contrato))
+	esperar(t, http.MethodPost, "/v1/documento_contrato", `{"entidad_tipo":"poliza","entidad_id":999999}`, http.StatusBadRequest)
+	esperar(t, http.MethodPut, fmt.Sprintf("/v1/documento_contrato/%d", documento), `{"entidad_tipo":"contrato_general","entidad_id":999999}`, http.StatusBadRequest)
+	esperar(t, http.MethodPut, fmt.Sprintf("/v1/documento_contrato/%d", documento), `{"entidad_tipo":"contratista"}`, http.StatusBadRequest)
 }
 
 // Al borrar un contrato, una póliza o un acta de inicio también se desactivan sus
 // documentos. Los documentos de otras entidades no cambian.
 func TestDocumentosSeDesactivanConSuEntidad(t *testing.T) {
 	conectar(t)
-	contrato := crear(t, "/v1/contrato_general", `{"UnidadEjecutoraId":1}`)
-	cg := fmt.Sprintf(`{"ContratoGeneralId":{"Id":%d}}`, contrato)
+	contrato := crear(t, "/v1/contrato_general", `{"unidad_ejecutora_id":1}`)
+	cg := fmt.Sprintf(`{"contrato_general_id":{"id":%d}}`, contrato)
 	entidades := map[string]int{
 		"poliza":           crear(t, "/v1/poliza", cg),
 		"acta_inicio":      crear(t, "/v1/acta_inicio", cg),
@@ -44,7 +44,7 @@ func TestDocumentosSeDesactivanConSuEntidad(t *testing.T) {
 	}
 	documentos := map[string]int{}
 	for tipo, id := range entidades {
-		documentos[tipo] = crear(t, "/v1/documento_contrato", fmt.Sprintf(`{"EntidadTipo":"%s","EntidadId":%d}`, tipo, id))
+		documentos[tipo] = crear(t, "/v1/documento_contrato", fmt.Sprintf(`{"entidad_tipo":"%s","entidad_id":%d}`, tipo, id))
 	}
 	// El contrato se borra primero: borrarlo no toca los documentos de su póliza ni de su acta.
 	borradas := map[string]bool{}

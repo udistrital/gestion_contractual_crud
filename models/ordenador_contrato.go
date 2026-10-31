@@ -11,17 +11,17 @@ import (
 )
 
 type OrdenadorContrato struct {
-	Id                   int              `orm:"column(id);pk;auto"`
-	ContratoGeneralId    *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)"`
-	TerceroId            int              `orm:"column(tercero_id);null"`
-	CargoId              int              `orm:"column(cargo_id);null"`
-	DocumentoIdentidad   string           `orm:"column(documento_identidad);null;size(20)"`
-	Resolucion           string           `orm:"column(resolucion);null;size(250)"`
-	OrdenadorArgoId      int              `orm:"column(ordenador_argo_id);null"`
-	OrdenadorSicapitalId int              `orm:"column(ordenador_sicapital_id);null"`
-	Activo               bool             `orm:"column(activo)"`
-	FechaCreacion        time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
-	FechaModificacion    time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
+	Id                   int              `orm:"column(id);pk;auto" json:"id"`
+	ContratoGeneralId    *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)" json:"contrato_general_id"`
+	TerceroId            int              `orm:"column(tercero_id);null" json:"tercero_id"`
+	CargoId              int              `orm:"column(cargo_id);null" json:"cargo_id"`
+	DocumentoIdentidad   string           `orm:"column(documento_identidad);null;size(20)" json:"documento_identidad"`
+	Resolucion           string           `orm:"column(resolucion);null;size(250)" json:"resolucion"`
+	OrdenadorArgoId      int              `orm:"column(ordenador_argo_id);null" json:"ordenador_argo_id"`
+	OrdenadorSicapitalId int              `orm:"column(ordenador_sicapital_id);null" json:"ordenador_sicapital_id"`
+	Activo               bool             `orm:"column(activo)" json:"activo"`
+	FechaCreacion        time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add" json:"fecha_creacion"`
+	FechaModificacion    time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now" json:"fecha_modificacion"`
 }
 
 func (t *OrdenadorContrato) TableName() string {

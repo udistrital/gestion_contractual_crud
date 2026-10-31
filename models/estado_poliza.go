@@ -11,15 +11,15 @@ import (
 )
 
 type EstadoPoliza struct {
-	Id                int       `orm:"column(id);pk;auto"`
-	PolizaId          *Poliza   `orm:"column(poliza_id);rel(fk)"`
-	EstadoParametroId int       `orm:"column(estado_parametro_id)"`
-	Motivo            string    `orm:"column(motivo);size(250);null"`
-	UsuarioId         int       `orm:"column(usuario_id)"`
-	UsuarioRol        string    `orm:"column(usuario_rol);size(40);null"`
-	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
+	Id                int       `orm:"column(id);pk;auto" json:"id"`
+	PolizaId          *Poliza   `orm:"column(poliza_id);rel(fk)" json:"poliza_id"`
+	EstadoParametroId int       `orm:"column(estado_parametro_id)" json:"estado_parametro_id"`
+	Motivo            string    `orm:"column(motivo);size(250);null" json:"motivo"`
+	UsuarioId         int       `orm:"column(usuario_id)" json:"usuario_id"`
+	UsuarioRol        string    `orm:"column(usuario_rol);size(40);null" json:"usuario_rol"`
+	Activo            bool      `orm:"column(activo)" json:"activo"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add" json:"fecha_creacion"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now" json:"fecha_modificacion"`
 }
 
 func (t *EstadoPoliza) TableName() string {

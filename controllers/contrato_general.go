@@ -136,7 +136,7 @@ func (c *ContratoGeneralController) GetAll() {
 		return
 	}
 	if l == nil {
-		l = append(l, map[string]interface{}{})
+		l = []interface{}{}
 	}
 	c.responderLista(l, new(models.ContratoGeneral), query, limit, offset)
 }

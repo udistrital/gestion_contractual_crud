@@ -11,17 +11,17 @@ import (
 )
 
 type DocumentoContrato struct {
-	Id                int       `orm:"column(id);pk;auto"`
-	EntidadTipo       string    `orm:"column(entidad_tipo);size(50)"`
-	EntidadId         int       `orm:"column(entidad_id)"`
-	TipoDocumentoId   int       `orm:"column(tipo_documento_id);null"`
-	DocumentoId       int       `orm:"column(documento_id);null"`
-	DocumentoEnlace   string    `orm:"column(documento_enlace);size(50);null"`
-	UsuarioId         int       `orm:"column(usuario_id);null"`
-	UsuarioRol        string    `orm:"column(usuario_rol);size(40);null"`
-	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
+	Id                int       `orm:"column(id);pk;auto" json:"id"`
+	EntidadTipo       string    `orm:"column(entidad_tipo);size(50)" json:"entidad_tipo"`
+	EntidadId         int       `orm:"column(entidad_id)" json:"entidad_id"`
+	TipoDocumentoId   int       `orm:"column(tipo_documento_id);null" json:"tipo_documento_id"`
+	DocumentoId       int       `orm:"column(documento_id);null" json:"documento_id"`
+	DocumentoEnlace   string    `orm:"column(documento_enlace);size(50);null" json:"documento_enlace"`
+	UsuarioId         int       `orm:"column(usuario_id);null" json:"usuario_id"`
+	UsuarioRol        string    `orm:"column(usuario_rol);size(40);null" json:"usuario_rol"`
+	Activo            bool      `orm:"column(activo)" json:"activo"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add" json:"fecha_creacion"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now" json:"fecha_modificacion"`
 }
 
 func (t *DocumentoContrato) TableName() string {

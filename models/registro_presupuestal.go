@@ -11,14 +11,14 @@ import (
 )
 
 type RegistroPresupuestal struct {
-	Id                           int                         `orm:"column(id);pk;auto"`
-	DisponibilidadPresupuestalId *DisponibilidadPresupuestal `orm:"column(disponibilidad_presupuestal_id);rel(fk)"`
-	NumeroRegistroPresupuestal   int                         `orm:"column(numero_registro_presupuestal);null"`
-	VigenciaRpId                 int                         `orm:"column(vigencia_rp_id);null"`
-	FechaRegistro                time.Time                   `orm:"column(fecha_registro);type(date);null"`
-	Activo                       bool                        `orm:"column(activo)"`
-	FechaCreacion                time.Time                   `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
-	FechaModificacion            time.Time                   `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
+	Id                           int                         `orm:"column(id);pk;auto" json:"id"`
+	DisponibilidadPresupuestalId *DisponibilidadPresupuestal `orm:"column(disponibilidad_presupuestal_id);rel(fk)" json:"disponibilidad_presupuestal_id"`
+	NumeroRegistroPresupuestal   int                         `orm:"column(numero_registro_presupuestal);null" json:"numero_registro_presupuestal"`
+	VigenciaRpId                 int                         `orm:"column(vigencia_rp_id);null" json:"vigencia_rp_id"`
+	FechaRegistro                time.Time                   `orm:"column(fecha_registro);type(date);null" json:"fecha_registro"`
+	Activo                       bool                        `orm:"column(activo)" json:"activo"`
+	FechaCreacion                time.Time                   `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add" json:"fecha_creacion"`
+	FechaModificacion            time.Time                   `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now" json:"fecha_modificacion"`
 }
 
 func (t *RegistroPresupuestal) TableName() string {

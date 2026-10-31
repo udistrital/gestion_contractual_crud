@@ -134,7 +134,7 @@ func (c *EspecificacionTecnicaController) GetAll() {
 		return
 	}
 	if l == nil {
-		l = append(l, map[string]interface{}{})
+		l = []interface{}{}
 	}
 	c.responderLista(l, new(models.EspecificacionTecnica), query, limit, offset)
 }
