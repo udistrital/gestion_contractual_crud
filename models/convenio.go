@@ -11,14 +11,14 @@ import (
 )
 
 type Convenio struct {
-	Id                int              `orm:"column(id);pk;auto"`
-	ContratoGeneralId *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)"`
-	Nombre            string           `orm:"column(nombre);size(250);null"`
-	Vigencia          int              `orm:"column(vigencia);null"`
-	TipoConvenioId    int              `orm:"column(tipo_convenio_id);null"`
-	Activo            bool             `orm:"column(activo)"`
-	FechaCreacion     time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
-	FechaModificacion time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
+	Id                int              `orm:"column(id);pk;auto" json:"id"`
+	ContratoGeneralId *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)" json:"contrato_general_id"`
+	Nombre            string           `orm:"column(nombre);size(250);null" json:"nombre"`
+	Vigencia          int              `orm:"column(vigencia);null" json:"vigencia"`
+	TipoConvenioId    int              `orm:"column(tipo_convenio_id);null" json:"tipo_convenio_id"`
+	Activo            bool             `orm:"column(activo)" json:"activo"`
+	FechaCreacion     time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add" json:"fecha_creacion"`
+	FechaModificacion time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now" json:"fecha_modificacion"`
 }
 
 func (t *Convenio) TableName() string {

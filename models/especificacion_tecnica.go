@@ -11,15 +11,15 @@ import (
 )
 
 type EspecificacionTecnica struct {
-	Id                int              `orm:"column(id);pk;auto"`
-	ContratoGeneralId *ContratoGeneral `orm:"column(contrato_general_id);rel(fk);null"`
-	Descripcion       string           `orm:"column(descripcion);null;size(2000)"`
-	Cantidad          int              `orm:"column(cantidad)"`
-	ValorUnitario     float64          `orm:"column(valor_unitario);null"`
-	ValorTotal        float64          `orm:"column(valor_total);null"`
-	Activo            bool             `orm:"column(activo)"`
-	FechaCreacion     time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add"`
-	FechaModificacion time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
+	Id                int              `orm:"column(id);pk;auto" json:"id"`
+	ContratoGeneralId *ContratoGeneral `orm:"column(contrato_general_id);rel(fk);null" json:"contrato_general_id"`
+	Descripcion       string           `orm:"column(descripcion);null;size(2000)" json:"descripcion"`
+	Cantidad          int              `orm:"column(cantidad)" json:"cantidad"`
+	ValorUnitario     float64          `orm:"column(valor_unitario);null" json:"valor_unitario"`
+	ValorTotal        float64          `orm:"column(valor_total);null" json:"valor_total"`
+	Activo            bool             `orm:"column(activo)" json:"activo"`
+	FechaCreacion     time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add" json:"fecha_creacion"`
+	FechaModificacion time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now" json:"fecha_modificacion"`
 }
 
 func (t *EspecificacionTecnica) TableName() string {

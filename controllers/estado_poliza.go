@@ -134,7 +134,7 @@ func (c *EstadoPolizaController) GetAll() {
 		return
 	}
 	if l == nil {
-		l = append(l, map[string]interface{}{})
+		l = []interface{}{}
 	}
 	c.responder(http.StatusOK, "Request successful", l)
 }

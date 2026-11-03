@@ -59,21 +59,21 @@ func TestIdInvalidoResponde400(t *testing.T) {
 }
 
 func TestCuerpoNoEsJSON(t *testing.T) {
-	codigo, r := solicitar(t, http.MethodPost, "/v1/convenio", `{"ContratoGeneralId":`)
+	codigo, r := solicitar(t, http.MethodPost, "/v1/convenio", `{"contrato_general_id":`)
 	if codigo != http.StatusBadRequest || r.Message != "Error service POST: The request contains an incorrect data type or an invalid parameter" {
 		t.Fatalf("se esperaba 400, llegó %d %+v", codigo, r)
 	}
 }
 
 func TestTipoInvalido(t *testing.T) {
-	codigo, _ := solicitar(t, http.MethodPost, "/v1/contrato_general", `{"UnidadEjecutoraId":"uno"}`)
+	codigo, _ := solicitar(t, http.MethodPost, "/v1/contrato_general", `{"unidad_ejecutora_id":"uno"}`)
 	if codigo != http.StatusBadRequest {
 		t.Fatalf("se esperaba 400, llegó %d", codigo)
 	}
 }
 
 func TestCampoObligatorio(t *testing.T) {
-	codigo, r := solicitar(t, http.MethodPost, "/v1/poliza", `{"NumeroPoliza":"P-1"}`)
+	codigo, r := solicitar(t, http.MethodPost, "/v1/poliza", `{"numero_poliza":"P-1"}`)
 	var errores []string
 	_ = json.Unmarshal(r.Data, &errores)
 	if codigo != http.StatusBadRequest || len(errores) != 1 || errores[0] != "ContratoGeneralId es obligatorio" {
@@ -82,7 +82,7 @@ func TestCampoObligatorio(t *testing.T) {
 }
 
 func TestRelacionSinId(t *testing.T) {
-	codigo, _ := solicitar(t, http.MethodPost, "/v1/amparo_poliza", `{"ContratoGeneralId":{},"AmparoId":1}`)
+	codigo, _ := solicitar(t, http.MethodPost, "/v1/amparo_poliza", `{"contrato_general_id":{},"amparo_id":1}`)
 	if codigo != http.StatusBadRequest {
 		t.Fatalf("se esperaba 400, llegó %d", codigo)
 	}
@@ -90,21 +90,21 @@ func TestRelacionSinId(t *testing.T) {
 
 func TestLongitudMaxima(t *testing.T) {
 	largo := string(bytes.Repeat([]byte("x"), 51))
-	codigo, _ := solicitar(t, http.MethodPost, "/v1/poliza", `{"ContratoGeneralId":{"Id":1},"NumeroPoliza":"`+largo+`"}`)
+	codigo, _ := solicitar(t, http.MethodPost, "/v1/poliza", `{"contrato_general_id":{"id":1},"numero_poliza":"`+largo+`"}`)
 	if codigo != http.StatusBadRequest {
 		t.Fatalf("se esperaba 400, llegó %d", codigo)
 	}
 }
 
 func TestEntidadDeDocumento(t *testing.T) {
-	codigo, _ := solicitar(t, http.MethodPost, "/v1/documento_contrato", `{"EntidadTipo":"solicitante","EntidadId":1}`)
+	codigo, _ := solicitar(t, http.MethodPost, "/v1/documento_contrato", `{"entidad_tipo":"solicitante","entidad_id":1}`)
 	if codigo != http.StatusBadRequest {
 		t.Fatalf("se esperaba 400, llegó %d", codigo)
 	}
 }
 
 func TestFechasInvertidas(t *testing.T) {
-	codigo, r := solicitar(t, http.MethodPost, "/v1/poliza", `{"ContratoGeneralId":{"Id":1},"FechaInicio":"2026-12-31T00:00:00Z","FechaFin":"2026-01-01T00:00:00Z"}`)
+	codigo, r := solicitar(t, http.MethodPost, "/v1/poliza", `{"contrato_general_id":{"id":1},"fecha_inicio":"2026-12-31T00:00:00Z","fecha_fin":"2026-01-01T00:00:00Z"}`)
 	var errores []string
 	_ = json.Unmarshal(r.Data, &errores)
 	if codigo != http.StatusBadRequest || len(errores) != 1 || errores[0] != "La fecha de inicio debe ser menor a la fecha de fin" {
@@ -157,16 +157,21 @@ func conectar(t *testing.T) {
 	}
 }
 
-// crear hace POST y devuelve el Id del registro creado.
+// crear hace POST y devuelve el id del registro creado. Data trae el registro
+// guardado, con su id en minúscula (snake_case).
 func crear(t *testing.T, ruta, cuerpo string) int {
 	t.Helper()
 	codigo, r := solicitar(t, http.MethodPost, ruta, cuerpo)
 	if codigo != http.StatusCreated {
 		t.Fatalf("POST %s: %d %s %s", ruta, codigo, r.Message, r.Data)
 	}
-	var d struct{ Id int }
+	var d map[string]interface{}
 	_ = json.Unmarshal(r.Data, &d)
-	return d.Id
+	id, _ := d["id"].(float64)
+	if id < 1 {
+		t.Fatalf("POST %s: Data sin id: %s", ruta, r.Data)
+	}
+	return int(id)
 }
 
 func esperar(t *testing.T, metodo, ruta, cuerpo string, codigo int) {
@@ -192,45 +197,45 @@ type recurso struct {
 }
 
 func recursos(contrato, poliza, cdp, acta int) []recurso {
-	cg := fmt.Sprintf(`"ContratoGeneralId":{"Id":%d}`, contrato)
+	cg := fmt.Sprintf(`"contrato_general_id":{"id":%d}`, contrato)
 	return []recurso{
-		{"/v1/contrato_general", fmt.Sprintf(`{"UnidadEjecutoraId":1,"NumeroContrato":"CRUD-%d","VigenciaId":2026}`, time.Now().UnixNano()),
-			`{"Objeto":"Nuevo objeto"}`, "Objeto", "Nuevo objeto", `{"VigenciaId":2026}`, "UnidadEjecutoraId:1", "VigenciaId"},
-		{"/v1/supervisor_contrato", `{` + cg + `,"SedeId":1,"DependenciaId":2}`,
-			`{"CargoLegado":"Supervisor"}`, "CargoLegado", "Supervisor", `{` + cg + `,"SedeId":1}`, "SedeId:1", "DependenciaId"},
-		{"/v1/ordenador_contrato", `{` + cg + `,"TerceroId":3}`,
-			`{"Resolucion":"R-1"}`, "Resolucion", "R-1", `{"TerceroId":3}`, "TerceroId:3", "TerceroId"},
-		{"/v1/estado_contrato", `{` + cg + `,"EstadoParametroId":1,"UsuarioId":1}`,
-			`{"Motivo":"Ajuste"}`, "Motivo", "Ajuste", `{` + cg + `}`, "UsuarioId:1", "EstadoParametroId"},
-		{"/v1/convenio", `{` + cg + `,"Nombre":"Convenio"}`,
-			`{"Vigencia":2027}`, "Vigencia", float64(2027), `{"Nombre":"Sin contrato"}`, "Nombre:Convenio", "Nombre"},
-		{"/v1/contrato_arrendamiento", `{` + cg + `,"ValorArrendamiento":100}`,
-			`{"Reajuste":"IPC"}`, "Reajuste", "IPC", `{"ValorArrendamiento":100}`, "ValorArrendamiento:100", "ValorArrendamiento"},
-		{"/v1/especificacion_tecnica", `{` + cg + `,"Cantidad":2,"ValorUnitario":10}`,
-			`{"Cantidad":3}`, "Cantidad", float64(3), `{"ValorUnitario":10}`, "Cantidad:2", "Cantidad"},
-		{"/v1/disponibilidad_presupuestal", `{` + cg + `,"NumeroCdpId":10}`,
-			`{"VigenciaCdpId":2026}`, "VigenciaCdpId", float64(2026), `{"NumeroCdpId":10}`, "NumeroCdpId:10", "NumeroCdpId"},
-		{"/v1/registro_presupuestal", fmt.Sprintf(`{"DisponibilidadPresupuestalId":{"Id":%d},"NumeroRegistroPresupuestal":20}`, cdp),
-			`{"VigenciaRpId":2026}`, "VigenciaRpId", float64(2026), `{"NumeroRegistroPresupuestal":20}`, "NumeroRegistroPresupuestal:20", "NumeroRegistroPresupuestal"},
-		{"/v1/acta_inicio", `{` + cg + `,"NumeroActa":"A-1"}`,
-			`{"NombreInterventor":"Interventor"}`, "NombreInterventor", "Interventor", `{"NumeroActa":"A-1"}`, "NumeroActa:A-1", "NumeroActa"},
-		{"/v1/poliza", `{` + cg + `,"NumeroPoliza":"P-1"}`,
-			`{"Descripcion":"Póliza"}`, "Descripcion", "Póliza", `{"NumeroPoliza":"P-1"}`, "NumeroPoliza:P-1", "NumeroPoliza"},
-		{"/v1/estado_poliza", fmt.Sprintf(`{"PolizaId":{"Id":%d},"EstadoParametroId":5,"UsuarioId":1}`, poliza),
-			`{"Motivo":"Aprobada"}`, "Motivo", "Aprobada", `{"EstadoParametroId":5,"UsuarioId":1}`, "EstadoParametroId:5", "EstadoParametroId"},
-		{"/v1/amparo_poliza", fmt.Sprintf(`{`+cg+`,"PolizaId":{"Id":%d},"AmparoId":1}`, poliza),
-			`{"Valor":500}`, "Valor", float64(500), `{"AmparoId":1}`, "AmparoId:1", "AmparoId"},
-		{"/v1/documento_contrato", fmt.Sprintf(`{"EntidadTipo":"acta_inicio","EntidadId":%d}`, acta),
-			`{"DocumentoEnlace":"enlace"}`, "DocumentoEnlace", "enlace", `{"EntidadTipo":"otra","EntidadId":1}`, "EntidadTipo:acta_inicio", "EntidadId"},
+		{"/v1/contrato_general", fmt.Sprintf(`{"unidad_ejecutora_id":1,"numero_contrato":"CRUD-%d","vigencia_id":2026}`, time.Now().UnixNano()),
+			`{"objeto":"Nuevo objeto"}`, "objeto", "Nuevo objeto", `{"vigencia_id":2026}`, "unidad_ejecutora_id:1", "VigenciaId"},
+		{"/v1/supervisor_contrato", `{` + cg + `,"sede_id":1,"dependencia_id":2}`,
+			`{"cargo_legado":"Supervisor"}`, "cargo_legado", "Supervisor", `{` + cg + `,"sede_id":1}`, "sede_id:1", "DependenciaId"},
+		{"/v1/ordenador_contrato", `{` + cg + `,"tercero_id":3}`,
+			`{"resolucion":"R-1"}`, "resolucion", "R-1", `{"tercero_id":3}`, "tercero_id:3", "TerceroId"},
+		{"/v1/estado_contrato", `{` + cg + `,"estado_parametro_id":1,"usuario_id":1}`,
+			`{"motivo":"Ajuste"}`, "motivo", "Ajuste", `{` + cg + `}`, "usuario_id:1", "EstadoParametroId"},
+		{"/v1/convenio", `{` + cg + `,"nombre":"Convenio"}`,
+			`{"vigencia":2027}`, "vigencia", float64(2027), `{"nombre":"Sin contrato"}`, "nombre:Convenio", "Nombre"},
+		{"/v1/contrato_arrendamiento", `{` + cg + `,"valor_arrendamiento":100}`,
+			`{"reajuste":"IPC"}`, "reajuste", "IPC", `{"valor_arrendamiento":100}`, "valor_arrendamiento:100", "ValorArrendamiento"},
+		{"/v1/especificacion_tecnica", `{` + cg + `,"cantidad":2,"valor_unitario":10}`,
+			`{"cantidad":3}`, "cantidad", float64(3), `{"valor_unitario":10}`, "cantidad:2", "Cantidad"},
+		{"/v1/disponibilidad_presupuestal", `{` + cg + `,"numero_cdp_id":10}`,
+			`{"vigencia_cdp_id":2026}`, "vigencia_cdp_id", float64(2026), `{"numero_cdp_id":10}`, "numero_cdp_id:10", "NumeroCdpId"},
+		{"/v1/registro_presupuestal", fmt.Sprintf(`{"disponibilidad_presupuestal_id":{"id":%d},"numero_registro_presupuestal":20}`, cdp),
+			`{"vigencia_rp_id":2026}`, "vigencia_rp_id", float64(2026), `{"numero_registro_presupuestal":20}`, "numero_registro_presupuestal:20", "NumeroRegistroPresupuestal"},
+		{"/v1/acta_inicio", `{` + cg + `,"numero_acta":"A-1"}`,
+			`{"nombre_interventor":"Interventor"}`, "nombre_interventor", "Interventor", `{"numero_acta":"A-1"}`, "numero_acta:A-1", "NumeroActa"},
+		{"/v1/poliza", `{` + cg + `,"numero_poliza":"P-1"}`,
+			`{"descripcion":"Póliza"}`, "descripcion", "Póliza", `{"numero_poliza":"P-1"}`, "numero_poliza:P-1", "NumeroPoliza"},
+		{"/v1/estado_poliza", fmt.Sprintf(`{"poliza_id":{"id":%d},"estado_parametro_id":5,"usuario_id":1}`, poliza),
+			`{"motivo":"Aprobada"}`, "motivo", "Aprobada", `{"estado_parametro_id":5,"usuario_id":1}`, "estado_parametro_id:5", "EstadoParametroId"},
+		{"/v1/amparo_poliza", fmt.Sprintf(`{`+cg+`,"poliza_id":{"id":%d},"amparo_id":1}`, poliza),
+			`{"valor":500}`, "valor", float64(500), `{"amparo_id":1}`, "amparo_id:1", "AmparoId"},
+		{"/v1/documento_contrato", fmt.Sprintf(`{"entidad_tipo":"acta_inicio","entidad_id":%d}`, acta),
+			`{"documento_enlace":"enlace"}`, "documento_enlace", "enlace", `{"entidad_tipo":"otra","entidad_id":1}`, "entidad_tipo:acta_inicio", "EntidadId"},
 	}
 }
 
 func probarCrud(t *testing.T, ruta string) {
 	conectar(t)
-	contrato := crear(t, "/v1/contrato_general", `{"UnidadEjecutoraId":1,"VigenciaId":2026}`)
-	poliza := crear(t, "/v1/poliza", fmt.Sprintf(`{"ContratoGeneralId":{"Id":%d}}`, contrato))
-	cdp := crear(t, "/v1/disponibilidad_presupuestal", fmt.Sprintf(`{"ContratoGeneralId":{"Id":%d}}`, contrato))
-	acta := crear(t, "/v1/acta_inicio", fmt.Sprintf(`{"ContratoGeneralId":{"Id":%d}}`, contrato))
+	contrato := crear(t, "/v1/contrato_general", `{"unidad_ejecutora_id":1,"vigencia_id":2026}`)
+	poliza := crear(t, "/v1/poliza", fmt.Sprintf(`{"contrato_general_id":{"id":%d}}`, contrato))
+	cdp := crear(t, "/v1/disponibilidad_presupuestal", fmt.Sprintf(`{"contrato_general_id":{"id":%d}}`, contrato))
+	acta := crear(t, "/v1/acta_inicio", fmt.Sprintf(`{"contrato_general_id":{"id":%d}}`, contrato))
 
 	for _, rc := range recursos(contrato, poliza, cdp, acta) {
 		if rc.ruta != ruta {
@@ -268,7 +273,7 @@ func probarCrud(t *testing.T, ruta string) {
 		esperar(t, http.MethodGet, rc.ruta+"?sortby=CampoQueNoExiste&order=asc", "", http.StatusBadRequest)
 		esperar(t, http.MethodGet, rc.ruta+"?query=Id:abc", "", http.StatusBadRequest)
 		codigo, r = solicitar(t, http.MethodGet, rc.ruta+"?query=Id:999999", "")
-		if codigo != http.StatusOK || string(r.Data) != "[{}]" {
+		if codigo != http.StatusOK || string(r.Data) != "[]" {
 			t.Fatalf("GetAll sin resultados: %d %s", codigo, r.Data)
 		}
 
@@ -276,10 +281,10 @@ func probarCrud(t *testing.T, ruta string) {
 		codigo, r = solicitar(t, http.MethodPut, uno, rc.cambio)
 		var actualizado map[string]interface{}
 		_ = json.Unmarshal(r.Data, &actualizado)
-		if codigo != http.StatusOK || actualizado[rc.campo] != rc.valor {
-			t.Fatalf("PUT: %d %s", codigo, r.Data)
+		if codigo != http.StatusOK || actualizado[rc.campo] != rc.valor || actualizado["id"] != float64(id) {
+			t.Fatalf("p_u_t: %d %s", codigo, r.Data)
 		}
-		esperar(t, http.MethodPut, uno, `{"Id":999999}`, http.StatusBadRequest)
+		esperar(t, http.MethodPut, uno, `{"id":999999}`, http.StatusBadRequest)
 		esperar(t, http.MethodPut, uno, `{`, http.StatusBadRequest)
 		esperar(t, http.MethodPut, rc.ruta+"/999999", rc.cambio, http.StatusNotFound)
 		esperar(t, http.MethodPut, rc.ruta+"/abc", rc.cambio, http.StatusBadRequest)
