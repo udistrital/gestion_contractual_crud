@@ -2,9 +2,10 @@ package controllers
 
 import (
 	"encoding/json"
-	"errors"
 	"net/http"
 	"strings"
+
+	"github.com/beego/beego/v2/core/logs"
 
 	"github.com/udistrital/gestion_contractual_crud/models"
 )
@@ -35,18 +36,21 @@ func (c *ContratoGeneralController) URLMapping() {
 func (c *ContratoGeneralController) Post() {
 	v := models.ContratoGeneral{Activo: true}
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err != nil {
-		c.responderError(errorCuerpo(err))
-		return
+		logs.Error(err)
+		c.Data["message"] = "Error service POST: The request contains an incorrect data type or an invalid parameter"
+		c.Abort("400")
 	}
 	// ADVERTENCIA: no enviar Id en el POST, ni en pruebas. Se inserta tal cual y mueve la secuencia; con 2147483647 bloquea las altas de la tabla.
 	if err := models.Validar(&v); err != nil {
-		c.responderError(err)
-		return
+		logs.Error(err)
+		c.Data["message"] = "Error service POST: The request contains an incorrect data type or an invalid parameter"
+		c.Abort("400")
 	}
 	id, err := models.AddContratoGeneral(&v)
 	if err != nil {
-		c.responderError(err)
-		return
+		logs.Error(err)
+		c.Data["message"] = "Error service POST: The request contains an incorrect data type or an invalid parameter"
+		c.Abort("400")
 	}
 	// Se responde con el registro tal como quedó guardado.
 	if guardado, err := models.GetContratoGeneralById(int(id)); err == nil {
@@ -65,13 +69,15 @@ func (c *ContratoGeneralController) Post() {
 func (c *ContratoGeneralController) GetOne() {
 	id, err := c.id()
 	if err != nil {
-		c.responderError(err)
-		return
+		logs.Error(err)
+		c.Data["message"] = "Error service GetOne: The request contains an incorrect parameter or no record exists"
+		c.Abort("400")
 	}
 	v, err := models.GetContratoGeneralById(id)
 	if err != nil {
-		c.responderError(err)
-		return
+		logs.Error(err)
+		c.Data["message"] = "Error service GetOne: The request contains an incorrect parameter or no record exists"
+		c.Abort("404")
 	}
 	c.responder(http.StatusOK, "Request successful", v)
 }
@@ -121,8 +127,9 @@ func (c *ContratoGeneralController) GetAll() {
 		for _, cond := range strings.Split(v, ",") {
 			kv := strings.SplitN(cond, ":", 2)
 			if len(kv) != 2 {
-				c.responderError(errorParametro(errors.New("Error: invalid query key/value pair")))
-				return
+				logs.Error("Error: invalid query key/value pair")
+				c.Data["message"] = "Error service GetAll: invalid query parameter. Expected format: query=campo:valor,campo2:valor2"
+				c.Abort("400")
 			}
 			k, v := kv[0], kv[1]
 			query[k] = v
@@ -131,8 +138,9 @@ func (c *ContratoGeneralController) GetAll() {
 
 	l, err := models.GetAllContratoGeneral(query, fields, sortby, order, offset, limit)
 	if err != nil {
-		c.responderError(errorParametro(err))
-		return
+		logs.Error(err)
+		c.Data["message"] = "Error service GetAll: The request contains an incorrect parameter or no record exists"
+		c.Abort("400")
 	}
 	if l == nil {
 		l = []interface{}{}
@@ -152,30 +160,36 @@ func (c *ContratoGeneralController) GetAll() {
 func (c *ContratoGeneralController) Put() {
 	id, err := c.id()
 	if err != nil {
-		c.responderError(err)
-		return
+		logs.Error(err)
+		c.Data["message"] = "Error service Put: The request contains an incorrect data type or an invalid parameter"
+		c.Abort("400")
 	}
 	// Se parte del registro guardado: los campos que no vienen en el cuerpo no cambian.
 	v, err := models.GetContratoGeneralById(id)
 	if err != nil {
-		c.responderError(err)
-		return
+		logs.Error(err)
+		c.Data["message"] = "Error service Put: The request contains an incorrect data type or an invalid parameter"
+		c.Abort("404")
 	}
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, v); err != nil {
-		c.responderError(errorCuerpo(err))
-		return
+		logs.Error(err)
+		c.Data["message"] = "Error service Put: The request contains an incorrect data type or an invalid parameter"
+		c.Abort("400")
 	}
 	if v.Id != id {
-		c.responderError(errorIdCuerpo(id, v.Id))
-		return
+		logs.Error("El Id del cuerpo no coincide con el de la ruta")
+		c.Data["message"] = "Error service Put: The id cannot be modified"
+		c.Abort("400")
 	}
 	if err := models.Validar(v); err != nil {
-		c.responderError(err)
-		return
+		logs.Error(err)
+		c.Data["message"] = "Error service Put: The request contains an incorrect data type or an invalid parameter"
+		c.Abort("400")
 	}
 	if err := models.UpdateContratoGeneralById(v); err != nil {
-		c.responderError(err)
-		return
+		logs.Error(err)
+		c.Data["message"] = "Error service Put: The request contains an incorrect data type or an invalid parameter"
+		c.Abort("400")
 	}
 	v, _ = models.GetContratoGeneralById(id)
 	c.responder(http.StatusOK, "Update successful", v)
@@ -191,12 +205,14 @@ func (c *ContratoGeneralController) Put() {
 func (c *ContratoGeneralController) Delete() {
 	id, err := c.id()
 	if err != nil {
-		c.responderError(err)
-		return
+		logs.Error(err)
+		c.Data["message"] = "Error service Delete: Request contains incorrect parameter"
+		c.Abort("400")
 	}
 	if err := models.DeleteContratoGeneral(id); err != nil {
-		c.responderError(err)
-		return
+		logs.Error(err)
+		c.Data["message"] = "Error service Delete: Request contains incorrect parameter"
+		c.Abort("404")
 	}
 	c.responder(http.StatusOK, "Delete successful", map[string]int{"Id": id})
 }
@@ -211,13 +227,15 @@ func (c *ContratoGeneralController) Delete() {
 func (c *ContratoGeneralController) ConteoConsecutivo() {
 	var v models.ConteoConsecutivo
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err != nil {
-		c.responderError(errorCuerpo(err))
-		return
+		logs.Error(err)
+		c.Data["message"] = "Error service POST: The request contains an incorrect data type or an invalid parameter"
+		c.Abort("400")
 	}
 	total, err := models.ContarConsecutivo(v)
 	if err != nil {
-		c.responderError(err)
-		return
+		logs.Error(err)
+		c.Data["message"] = "Error service POST: The request contains an incorrect data type or an invalid parameter"
+		c.Abort("400")
 	}
 	c.responder(http.StatusOK, "Request successful", total)
 }
@@ -232,13 +250,15 @@ func (c *ContratoGeneralController) ConteoConsecutivo() {
 func (c *ContratoGeneralController) ConteoNumeroContrato() {
 	var v models.ConteoNumeroContrato
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err != nil {
-		c.responderError(errorCuerpo(err))
-		return
+		logs.Error(err)
+		c.Data["message"] = "Error service POST: The request contains an incorrect data type or an invalid parameter"
+		c.Abort("400")
 	}
 	total, err := models.ContarNumeroContrato(v)
 	if err != nil {
-		c.responderError(err)
-		return
+		logs.Error(err)
+		c.Data["message"] = "Error service POST: The request contains an incorrect data type or an invalid parameter"
+		c.Abort("400")
 	}
 	c.responder(http.StatusOK, "Request successful", total)
 }

@@ -21,9 +21,6 @@ type ErrValidacion struct {
 
 func (e *ErrValidacion) Error() string { return strings.Join(e.Errores, "; ") }
 
-// ErrNoEncontrado indica que un registro relacionado no existe.
-var ErrNoEncontrado = errors.New("registro relacionado no encontrado")
-
 // Entidades a las que puede pertenecer un documento_contrato (relación
 // polimórfica: entidad_tipo + entidad_id, sin llave foránea).
 var EntidadesDocumento = map[string]func(id int) interface{}{
@@ -126,7 +123,7 @@ func HoraBogota() time.Time {
 func ValidarEntidadDocumento(d *DocumentoContrato) error {
 	if err := orm.NewOrm().Read(EntidadesDocumento[d.EntidadTipo](d.EntidadId)); err != nil {
 		if errors.Is(err, orm.ErrNoRows) {
-			return fmt.Errorf("%w: %s con Id %d", ErrNoEncontrado, d.EntidadTipo, d.EntidadId)
+			return fmt.Errorf("Registro relacionado no encontrado: %s con Id %d", d.EntidadTipo, d.EntidadId)
 		}
 		return err
 	}

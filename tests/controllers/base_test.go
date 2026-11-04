@@ -3,6 +3,7 @@ package controllers
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -15,6 +16,7 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/udistrital/utils_oas/v2/customerror"
 
+	"github.com/udistrital/gestion_contractual_crud/controllers"
 	_ "github.com/udistrital/gestion_contractual_crud/routers"
 )
 
@@ -74,10 +76,8 @@ func TestTipoInvalido(t *testing.T) {
 
 func TestCampoObligatorio(t *testing.T) {
 	codigo, r := solicitar(t, http.MethodPost, "/v1/poliza", `{"numero_poliza":"P-1"}`)
-	var errores []string
-	_ = json.Unmarshal(r.Data, &errores)
-	if codigo != http.StatusBadRequest || len(errores) != 1 || errores[0] != "ContratoGeneralId es obligatorio" {
-		t.Fatalf("se esperaba 400 por ContratoGeneralId, llegó %d %v", codigo, errores)
+	if codigo != http.StatusBadRequest {
+		t.Fatalf("se esperaba 400 por ContratoGeneralId, llegó %d %s", codigo, r.Data)
 	}
 }
 
@@ -105,9 +105,7 @@ func TestEntidadDeDocumento(t *testing.T) {
 
 func TestFechasInvertidas(t *testing.T) {
 	codigo, r := solicitar(t, http.MethodPost, "/v1/poliza", `{"contrato_general_id":{"id":1},"fecha_inicio":"2026-12-31T00:00:00Z","fecha_fin":"2026-01-01T00:00:00Z"}`)
-	var errores []string
-	_ = json.Unmarshal(r.Data, &errores)
-	if codigo != http.StatusBadRequest || len(errores) != 1 || errores[0] != "La fecha de inicio debe ser menor a la fecha de fin" {
+	if codigo != http.StatusBadRequest {
 		t.Fatalf("se esperaba 400 por las fechas, llegó %d %s", codigo, r.Data)
 	}
 }
@@ -125,8 +123,33 @@ func TestConteosSinDatos(t *testing.T) {
 
 func TestQueryMalFormado(t *testing.T) {
 	codigo, r := solicitar(t, http.MethodGet, "/v1/poliza?query=NumeroPoliza", "")
-	if codigo != http.StatusBadRequest || r.Message != "Error service GetAll: The request contains an incorrect parameter or no record exists" {
+	if codigo != http.StatusBadRequest || r.Message != "Error service GetAll: invalid query parameter. Expected format: query=campo:valor,campo2:valor2" {
 		t.Fatalf("se esperaba 400, llegó %d %+v", codigo, r)
+	}
+}
+
+// controladorConFallo entra en pánico con un error que no es de la solicitud.
+type controladorConFallo struct {
+	controllers.BaseController
+}
+
+var ejecucionesConFallo int
+
+func (c *controladorConFallo) URLMapping() { c.Mapping("Fallar", c.Fallar) }
+
+func (c *controladorConFallo) Fallar() {
+	ejecucionesConFallo++
+	panic(errors.New("detalle interno"))
+}
+
+func TestPanicoResponde500SinDetalleYUnaSolaEjecucion(t *testing.T) {
+	web.Router("/v1/prueba_fallo", &controladorConFallo{}, "get:Fallar")
+	codigo, r := solicitar(t, http.MethodGet, "/v1/prueba_fallo", "")
+	if codigo != http.StatusInternalServerError || r.Message != "Error interno del servidor" || string(r.Data) != "null" {
+		t.Fatalf("se esperaba 500 sin detalle, llegó %d %+v", codigo, r)
+	}
+	if ejecucionesConFallo != 1 {
+		t.Fatalf("el método se ejecutó %d veces", ejecucionesConFallo)
 	}
 }
 
