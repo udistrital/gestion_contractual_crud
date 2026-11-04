@@ -13,16 +13,16 @@ import (
 type EstadoContrato struct {
 	Id                       int              `orm:"column(id);pk;auto" json:"id"`
 	ContratoGeneralId        *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)" json:"contrato_general_id"`
-	EstadoParametroId        int              `orm:"column(estado_parametro_id);null" json:"estado_parametro_id"`
-	EstadoInternoParametroId int              `orm:"column(estado_interno_parametro_id);null" json:"estado_interno_parametro_id"`
+	EstadoParametroId        *int             `orm:"column(estado_parametro_id);null" json:"estado_parametro_id"`
+	EstadoInternoParametroId *int             `orm:"column(estado_interno_parametro_id);null" json:"estado_interno_parametro_id"`
 	Actual                   bool             `orm:"column(actual)" json:"actual"`
-	Motivo                   string           `orm:"column(motivo);size(250);null" json:"motivo"`
-	FechaEvento              time.Time        `orm:"column(fecha_evento);type(date);null" json:"fecha_evento"`
+	Motivo                   *string          `orm:"column(motivo);size(250);null" json:"motivo"`
+	FechaEvento              *time.Time       `orm:"column(fecha_evento);type(date);null" json:"fecha_evento"`
 	UsuarioId                int              `orm:"column(usuario_id)" json:"usuario_id"`
-	UsuarioRol               string           `orm:"column(usuario_rol);size(40);null" json:"usuario_rol"`
+	UsuarioRol               *string          `orm:"column(usuario_rol);size(40);null" json:"usuario_rol"`
 	Activo                   bool             `orm:"column(activo)" json:"activo"`
 	FechaCreacion            time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add" json:"fecha_creacion"`
-	FechaModificacion        time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now" json:"fecha_modificacion"`
+	FechaModificacion        time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone)" json:"fecha_modificacion"`
 }
 
 func (t *EstadoContrato) TableName() string {
@@ -37,8 +37,9 @@ func init() {
 // last inserted Id on success.
 func AddEstadoContrato(m *EstadoContrato) (id int64, err error) {
 	o := orm.NewOrm()
-	// Las fechas las asigna el ORM (auto_now_add y auto_now), no el cliente.
-	m.FechaCreacion, m.FechaModificacion = time.Time{}, time.Time{}
+	// Las fechas las asigna el repositorio con la hora de Bogotá, no el cliente.
+	m.FechaCreacion = HoraBogota()
+	m.FechaModificacion = m.FechaCreacion
 	id, err = o.Insert(m)
 	return
 }
@@ -139,8 +140,9 @@ func UpdateEstadoContratoById(m *EstadoContrato) (err error) {
 	v := EstadoContrato{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
-		// La fecha de creación no cambia; fecha_modificacion la asigna auto_now.
+		// La fecha de creación no cambia; fecha_modificacion es la hora de Bogotá.
 		m.FechaCreacion = v.FechaCreacion
+		m.FechaModificacion = HoraBogota()
 		var num int64
 		if num, err = o.Update(m); err == nil {
 			fmt.Println("Number of records updated in database:", num)
@@ -158,6 +160,7 @@ func DeleteEstadoContrato(id int) (err error) {
 	if err = o.Read(&v); err == nil {
 		var num int64
 		v.Activo = false
+		v.FechaModificacion = HoraBogota()
 		if num, err = o.Update(&v, "Activo", "FechaModificacion"); err == nil {
 			fmt.Println("Number of records updated in database:", num)
 		}

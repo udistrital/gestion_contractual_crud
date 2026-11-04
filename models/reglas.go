@@ -11,6 +11,7 @@ import (
 	"unicode/utf8"
 
 	"github.com/beego/beego/v2/client/orm"
+	timebogota "github.com/udistrital/utils_oas/v2/time_bogota"
 )
 
 // ErrValidacion agrupa los errores de validación de un registro.
@@ -42,11 +43,17 @@ func Validar(modelo interface{}) error {
 	var errores []string
 	for i := 0; i < t.NumField(); i++ {
 		tag := t.Field(i).Tag.Get("orm")
-		if tag == "" || tag == "-" || strings.Contains(tag, "pk") || strings.Contains(tag, "auto_now") {
+		if tag == "" || tag == "-" || strings.Contains(tag, "pk") || strings.Contains(tag, "auto_now") ||
+			strings.Contains(tag, "column(fecha_modificacion)") {
 			continue
 		}
 		nombre := t.Field(i).Name
 		campo := v.Field(i)
+		// Un texto opcional vacío se guarda como NULL, no como cadena vacía.
+		if campo.Kind() == reflect.Ptr && campo.Type().Elem().Kind() == reflect.String &&
+			!campo.IsNil() && strings.TrimSpace(campo.Elem().String()) == "" {
+			campo.Set(reflect.Zero(campo.Type()))
+		}
 		if !strings.Contains(tag, ";null") && campo.Kind() != reflect.Bool && vacio(campo) {
 			errores = append(errores, nombre+" es obligatorio")
 			continue
@@ -98,11 +105,20 @@ func vacio(campo reflect.Value) bool {
 
 // validarFechas revisa que la fecha de inicio sea menor a la de fin (póliza y
 // amparo), como el CRUD en NestJS: si falta una de las dos no se valida.
-func validarFechas(inicio, fin time.Time) []string {
-	if inicio.IsZero() || fin.IsZero() || inicio.Before(fin) {
+func validarFechas(inicio, fin *time.Time) []string {
+	if inicio == nil || fin == nil || inicio.Before(*fin) {
 		return nil
 	}
 	return []string{"La fecha de inicio debe ser menor a la fecha de fin"}
+}
+
+// HoraBogota da la hora actual de Bogotá (timebogota de utils_oas) para
+// fecha_creacion y fecha_modificacion. Conserva la hora de Bogotá con la zona
+// UTC que usa el ORM (main.go), para que la base de datos guarde la hora de
+// Bogotá sin que el ORM la convierta.
+func HoraBogota() time.Time {
+	t := timebogota.TiempoBogota()
+	return time.Date(t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), time.UTC)
 }
 
 // ValidarEntidadDocumento revisa que exista el registro al que pertenece el
@@ -127,8 +143,9 @@ func AddEstadoContratoActual(m *EstadoContrato) (id int64, err error) {
 			return err
 		}
 		m.Actual = true
-		// Las fechas las asigna el ORM (auto_now_add y auto_now), no el cliente.
-		m.FechaCreacion, m.FechaModificacion = time.Time{}, time.Time{}
+		// Las fechas las asigna el repositorio con la hora de Bogotá, no el cliente.
+		m.FechaCreacion = HoraBogota()
+		m.FechaModificacion = m.FechaCreacion
 		var err error
 		id, err = txOrm.Insert(m)
 		return err
@@ -158,7 +175,7 @@ func ContarRegistros(modelo interface{}, query map[string]string) (int64, error)
 func desactivarDocumentos(txOrm orm.TxOrmer, entidadTipo string, entidadId int) error {
 	_, err := txOrm.QueryTable(new(DocumentoContrato)).
 		Filter("EntidadTipo", entidadTipo).Filter("EntidadId", entidadId).
-		Update(orm.Params{"activo": false, "fecha_modificacion": time.Now()})
+		Update(orm.Params{"activo": false, "fecha_modificacion": HoraBogota()})
 	return err
 }
 

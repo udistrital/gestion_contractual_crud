@@ -18,7 +18,7 @@ func errores(err error) []string {
 
 func TestValidarObligatoriosYLongitud(t *testing.T) {
 	largo := "123456789012345678901"
-	e := errores(models.Validar(&models.ContratoGeneral{ProveedorNumeroDocumento: largo}))
+	e := errores(models.Validar(&models.ContratoGeneral{ProveedorNumeroDocumento: &largo}))
 	if len(e) != 2 {
 		t.Fatalf("se esperaban 2 errores (UnidadEjecutoraId y longitud), llegaron %v", e)
 	}
@@ -63,14 +63,14 @@ func TestFechasPolizaYAmparo(t *testing.T) {
 	dic := time.Date(2026, 12, 31, 0, 0, 0, 0, time.UTC)
 	casos := []struct {
 		nombre      string
-		inicio, fin time.Time
+		inicio, fin *time.Time
 		valido      bool
 	}{
-		{"inicio menor a fin", ene, dic, true},
-		{"inicio mayor a fin", dic, ene, false},
-		{"fechas iguales", ene, ene, false},
-		{"sin fecha de fin", dic, time.Time{}, true},
-		{"sin fecha de inicio", time.Time{}, ene, true},
+		{"inicio menor a fin", &ene, &dic, true},
+		{"inicio mayor a fin", &dic, &ene, false},
+		{"fechas iguales", &ene, &ene, false},
+		{"sin fecha de fin", &dic, nil, true},
+		{"sin fecha de inicio", nil, &ene, true},
 	}
 	for _, c := range casos {
 		poliza := &models.Poliza{ContratoGeneralId: cg, FechaInicio: c.inicio, FechaFin: c.fin}

@@ -13,12 +13,12 @@ import (
 type RegistroPresupuestal struct {
 	Id                           int                         `orm:"column(id);pk;auto" json:"id"`
 	DisponibilidadPresupuestalId *DisponibilidadPresupuestal `orm:"column(disponibilidad_presupuestal_id);rel(fk)" json:"disponibilidad_presupuestal_id"`
-	NumeroRegistroPresupuestal   int                         `orm:"column(numero_registro_presupuestal);null" json:"numero_registro_presupuestal"`
-	VigenciaRpId                 int                         `orm:"column(vigencia_rp_id);null" json:"vigencia_rp_id"`
-	FechaRegistro                time.Time                   `orm:"column(fecha_registro);type(date);null" json:"fecha_registro"`
+	NumeroRegistroPresupuestal   *int                        `orm:"column(numero_registro_presupuestal);null" json:"numero_registro_presupuestal"`
+	VigenciaRpId                 *int                        `orm:"column(vigencia_rp_id);null" json:"vigencia_rp_id"`
+	FechaRegistro                *time.Time                  `orm:"column(fecha_registro);type(date);null" json:"fecha_registro"`
 	Activo                       bool                        `orm:"column(activo)" json:"activo"`
 	FechaCreacion                time.Time                   `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add" json:"fecha_creacion"`
-	FechaModificacion            time.Time                   `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now" json:"fecha_modificacion"`
+	FechaModificacion            time.Time                   `orm:"column(fecha_modificacion);type(timestamp without time zone)" json:"fecha_modificacion"`
 }
 
 func (t *RegistroPresupuestal) TableName() string {
@@ -33,8 +33,9 @@ func init() {
 // last inserted Id on success.
 func AddRegistroPresupuestal(m *RegistroPresupuestal) (id int64, err error) {
 	o := orm.NewOrm()
-	// Las fechas las asigna el ORM (auto_now_add y auto_now), no el cliente.
-	m.FechaCreacion, m.FechaModificacion = time.Time{}, time.Time{}
+	// Las fechas las asigna el repositorio con la hora de Bogotá, no el cliente.
+	m.FechaCreacion = HoraBogota()
+	m.FechaModificacion = m.FechaCreacion
 	id, err = o.Insert(m)
 	return
 }
@@ -135,8 +136,9 @@ func UpdateRegistroPresupuestalById(m *RegistroPresupuestal) (err error) {
 	v := RegistroPresupuestal{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
-		// La fecha de creación no cambia; fecha_modificacion la asigna auto_now.
+		// La fecha de creación no cambia; fecha_modificacion es la hora de Bogotá.
 		m.FechaCreacion = v.FechaCreacion
+		m.FechaModificacion = HoraBogota()
 		var num int64
 		if num, err = o.Update(m); err == nil {
 			fmt.Println("Number of records updated in database:", num)
@@ -154,6 +156,7 @@ func DeleteRegistroPresupuestal(id int) (err error) {
 	if err = o.Read(&v); err == nil {
 		var num int64
 		v.Activo = false
+		v.FechaModificacion = HoraBogota()
 		if num, err = o.Update(&v, "Activo", "FechaModificacion"); err == nil {
 			fmt.Println("Number of records updated in database:", num)
 		}
