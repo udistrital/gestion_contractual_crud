@@ -36,8 +36,7 @@ func (c *DocumentoContratoController) Post() {
 		c.responderError(errorCuerpo(err))
 		return
 	}
-	// El Id lo asigna la secuencia de la tabla: el que envíe el cliente se descarta.
-	v.Id = 0
+	// ADVERTENCIA: no enviar Id en el POST, ni en pruebas. Se inserta tal cual y mueve la secuencia; con 2147483647 bloquea las altas de la tabla.
 	if err := models.Validar(&v); err != nil {
 		c.responderError(err)
 		return
