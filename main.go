@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	_ "github.com/udistrital/gestion_contractual_crud/routers"
 	apistatus "github.com/udistrital/utils_oas/v2/apiStatusLib"
 	"github.com/udistrital/utils_oas/v2/auditoria"
@@ -28,6 +30,10 @@ func main() {
 		logs.Error("error al conectarse a la base de datos: %v", err)
 		return
 	}
+	// Las columnas son timestamp/date sin zona horaria: con UTC el ORM no
+	// convierte las fechas al leerlas ni al guardarlas, y no se corren en cada PUT
+	// aunque la base de datos tenga otra zona horaria (por ejemplo America/Bogota).
+	orm.SetDataBaseTZ("default", time.UTC)
 
 	allowedOrigins := []string{"*.udistrital.edu.co"}
 	if beego.BConfig.RunMode == beego.DEV {
