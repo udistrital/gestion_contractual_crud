@@ -39,11 +39,11 @@ type ContratoGeneral struct {
 	TemaGastoInversionId           *int       `orm:"column(tema_gasto_inversion_id);null" json:"tema_gasto_inversion_id"`
 	MedioPagoId                    *int       `orm:"column(medio_pago_id);null" json:"medio_pago_id"`
 	ClausulaRegistroPresupuestal   *bool      `orm:"column(clausula_registro_presupuestal);null" json:"clausula_registro_presupuestal"`
-	ModoPago                       *string    `orm:"column(modo_pago);null;size(1000)" json:"modo_pago"`
-	Objeto                         *string    `orm:"column(objeto);null;size(2000)" json:"objeto"`
-	Justificacion                  *string    `orm:"column(justificacion);null;size(4000)" json:"justificacion"`
-	Actividades                    *string    `orm:"column(actividades);null;size(8000)" json:"actividades"`
-	Condiciones                    *string    `orm:"column(condiciones);null;size(4000)" json:"condiciones"`
+	ModoPago                       *string    `orm:"column(modo_pago);null" json:"modo_pago"`
+	Objeto                         *string    `orm:"column(objeto);null" json:"objeto"`
+	Justificacion                  *string    `orm:"column(justificacion);null" json:"justificacion"`
+	Actividades                    *string    `orm:"column(actividades);null" json:"actividades"`
+	Condiciones                    *string    `orm:"column(condiciones);null" json:"condiciones"`
 	Observaciones                  *string    `orm:"column(observaciones);size(1000);null" json:"observaciones"`
 	FechaInicial                   *time.Time `orm:"column(fecha_inicial);type(date);null" json:"fecha_inicial"`
 	FechaFinal                     *time.Time `orm:"column(fecha_final);type(date);null" json:"fecha_final"`

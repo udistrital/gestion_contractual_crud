@@ -1,8 +1,21 @@
--- Modelo de datos ARGO v2 (issue udistrital/argo_documentacion#384) para gestion_contractual_crud.
--- Implementa database/gestion_contractual.dbml, que es la fuente de verdad del modelo.
--- Las tablas se crean en el esquema contratacion (GESTION_CONTRACTUAL_CRUD_PGSCHEMA).
--- Las referencias a Parámetros CRUD, Terceros, OIKOS, SiCapital, Ágora y al Gestor Documental
--- son integer sin FK física.
+-- =====================================================================
+-- ARGO v2 · Gestión contractual · Modelo de datos final (#384, #389)
+-- DDL de la base nueva para la #385 (CRUD en Beego v2).
+-- Fuente del modelo: ../modelo-argo-v2.dbml (modelo final adjunto por el
+-- LT en la #389, comentario 6452443769).
+--
+-- Base de datos: administrativa (provisional, supuesto S3).
+-- Esquema: contratacion (provisional, supuesto S3). Para cambiarlo basta
+-- con editar la línea SET search_path; el bloque DO crea ese esquema.
+--
+-- Referencias externas (Parámetros CRUD, Terceros, OIKOS, SiCapital,
+-- Gestor Documental) son integer sin FK física; el COMMENT de cada
+-- columna indica a qué apuntan.
+--
+-- documento_contrato es polimórfica (entidad_tipo + entidad_id) y no tiene
+-- FK física ni CHECK, por decisión del LT: el CRUD valida que entidad_tipo
+-- sea contrato_general, poliza o acta_inicio y que exista entidad_id.
+-- =====================================================================
 
 CREATE SCHEMA IF NOT EXISTS contratacion;
 SET search_path TO contratacion;
@@ -35,11 +48,11 @@ CREATE TABLE contrato_general (
     tema_gasto_inversion_id INTEGER,
     medio_pago_id INTEGER,
     clausula_registro_presupuestal BOOLEAN,
-    modo_pago VARCHAR(1000),
-    objeto VARCHAR(2000),
-    justificacion VARCHAR(4000),
-    actividades VARCHAR(8000),
-    condiciones VARCHAR(4000),
+    modo_pago VARCHAR,
+    objeto VARCHAR,
+    justificacion VARCHAR,
+    actividades VARCHAR,
+    condiciones VARCHAR,
     observaciones VARCHAR(1000),
     fecha_inicial DATE,
     fecha_final DATE,
@@ -197,7 +210,7 @@ CREATE INDEX idx_ordenador_contrato_contrato_general_id ON ordenador_contrato(co
 CREATE TABLE contrato_arrendamiento (
     id SERIAL PRIMARY KEY,
     contrato_general_id INTEGER NOT NULL,
-    destinacion VARCHAR(1000),
+    destinacion VARCHAR(5000),
     plazo_pago_mensual INTEGER,
     reajuste VARCHAR(255),
     plazo_administracion INTEGER,
@@ -242,7 +255,7 @@ CREATE INDEX idx_convenio_contrato_general_id ON convenio(contrato_general_id);
 CREATE TABLE especificacion_tecnica (
     id SERIAL PRIMARY KEY,
     contrato_general_id INTEGER,
-    descripcion VARCHAR(2000),
+    descripcion VARCHAR,
     cantidad INTEGER NOT NULL,
     valor_unitario NUMERIC(20,7),
     valor_total NUMERIC(20,7),
@@ -417,7 +430,7 @@ CREATE INDEX idx_documento_contrato_entidad_tipo_entidad_id ON documento_contrat
 CREATE TABLE acta_inicio (
     id SERIAL PRIMARY KEY,
     contrato_general_id INTEGER NOT NULL,
-    descripcion VARCHAR(2000),
+    descripcion VARCHAR,
     fecha_inicio DATE,
     fecha_fin DATE,
     fecha_suscripcion DATE,

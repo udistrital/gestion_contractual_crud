@@ -13,7 +13,7 @@ import (
 type ContratoArrendamiento struct {
 	Id                  int              `orm:"column(id);pk;auto" json:"id"`
 	ContratoGeneralId   *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)" json:"contrato_general_id"`
-	Destinacion         *string          `orm:"column(destinacion);null;size(1000)" json:"destinacion"`
+	Destinacion         *string          `orm:"column(destinacion);null;size(5000)" json:"destinacion"`
 	PlazoPagoMensual    *int             `orm:"column(plazo_pago_mensual);null" json:"plazo_pago_mensual"`
 	Reajuste            *string          `orm:"column(reajuste);size(255);null" json:"reajuste"`
 	PlazoAdministracion *int             `orm:"column(plazo_administracion);null" json:"plazo_administracion"`

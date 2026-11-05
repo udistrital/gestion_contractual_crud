@@ -13,7 +13,7 @@ import (
 type EspecificacionTecnica struct {
 	Id                int              `orm:"column(id);pk;auto" json:"id"`
 	ContratoGeneralId *ContratoGeneral `orm:"column(contrato_general_id);rel(fk);null" json:"contrato_general_id"`
-	Descripcion       *string          `orm:"column(descripcion);null;size(2000)" json:"descripcion"`
+	Descripcion       *string          `orm:"column(descripcion);null" json:"descripcion"`
 	Cantidad          int              `orm:"column(cantidad)" json:"cantidad"`
 	ValorUnitario     *float64         `orm:"column(valor_unitario);null" json:"valor_unitario"`
 	ValorTotal        *float64         `orm:"column(valor_total);null" json:"valor_total"`

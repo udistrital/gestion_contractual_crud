@@ -14,7 +14,7 @@ import (
 type ActaInicio struct {
 	Id                         int              `orm:"column(id);pk;auto" json:"id"`
 	ContratoGeneralId          *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)" json:"contrato_general_id"`
-	Descripcion                *string          `orm:"column(descripcion);null;size(2000)" json:"descripcion"`
+	Descripcion                *string          `orm:"column(descripcion);null" json:"descripcion"`
 	FechaInicio                *time.Time       `orm:"column(fecha_inicio);type(date);null" json:"fecha_inicio"`
 	FechaFin                   *time.Time       `orm:"column(fecha_fin);type(date);null" json:"fecha_fin"`
 	FechaSuscripcion           *time.Time       `orm:"column(fecha_suscripcion);type(date);null" json:"fecha_suscripcion"`
