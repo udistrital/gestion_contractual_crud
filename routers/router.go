@@ -98,6 +98,12 @@ func init() {
 				&controllers.ActaInicioController{},
 			),
 		),
+
+		beego.NSNamespace("/tableros",
+			beego.NSInclude(
+				&controllers.TableroController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }

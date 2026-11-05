@@ -655,4 +655,13 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
+	beego.GlobalControllerRouter["github.com/udistrital/gestion_contractual_crud/controllers:TableroController"] = append(beego.GlobalControllerRouter["github.com/udistrital/gestion_contractual_crud/controllers:TableroController"],
+		beego.ControllerComments{
+			Method:           "GetContratos",
+			Router:           `/contratos`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
 }

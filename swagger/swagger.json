@@ -2575,6 +2575,49 @@
                     }
                 }
             }
+        },
+        "/tableros/contratos": {
+            "get": {
+                "tags": [
+                    "tablero"
+                ],
+                "description": "metadatos de seguimiento por contrato activo: estado general actual, fecha desde la que está en ese estado, fecha final, dependencia y sede solicitante y abogado (solo Ids)",
+                "operationId": "TableroController.Contratos del tablero",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "vigencia-id",
+                        "description": "Id del parámetro de vigencia (contrato_general.vigencia_id)",
+                        "type": "integer"
+                    },
+                    {
+                        "in": "query",
+                        "name": "abogado-id",
+                        "description": "usuario_id del abogado que registró el contrato",
+                        "type": "integer"
+                    },
+                    {
+                        "in": "query",
+                        "name": "dependencia-solicitante-id",
+                        "description": "Una o varias dependencias solicitantes separadas por coma. e.g. 31,45",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.ContratoTablero"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "filtro inválido"
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -3416,6 +3459,50 @@
                     "format": "int64"
                 }
             }
+        },
+        "models.ContratoTablero": {
+            "title": "ContratoTablero",
+            "type": "object",
+            "properties": {
+                "AbogadoId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "ConsecutivoElaboracion": {
+                    "type": "string"
+                },
+                "ContratoGeneralId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "DependenciaSolicitanteId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "EstadoParametroId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "FechaEstado": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "FechaFinal": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "NumeroContrato": {
+                    "type": "string"
+                },
+                "SedeSolicitanteId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "VigenciaId": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
         }
     },
     "tags": [
@@ -3474,6 +3561,10 @@
         {
             "name": "acta_inicio",
             "description": "ActaInicioController operations for ActaInicio\n"
+        },
+        {
+            "name": "tablero",
+            "description": "TableroController expone los metadatos de los tableros de seguimiento.\n"
         }
     ]
 }
