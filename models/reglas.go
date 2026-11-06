@@ -176,28 +176,37 @@ func desactivarDocumentos(txOrm orm.TxOrmer, entidadTipo string, entidadId int) 
 	return err
 }
 
-// ConteoConsecutivo es el cuerpo de POST /contratos-generales/conteo-consecutivo,
-// con los mismos campos del CRUD en NestJS.
+// ConteoConsecutivo es el cuerpo de POST /contratos-generales/conteo-consecutivo.
+// VigenciaId es el Id del parámetro de vigencia (contrato_general.vigencia_id).
 type ConteoConsecutivo struct {
 	UnidadEjecutoraId int `json:"unidad_ejecutora_id"`
+	VigenciaId        int `json:"vigencia_id"`
 }
 
 // ConteoNumeroContrato es el cuerpo de POST /contratos-generales/conteo-numero-contrato.
-// Vigencia es el Id del parámetro de vigencia (contrato_general.vigencia_id) y
+// VigenciaId es el Id del parámetro de vigencia (contrato_general.vigencia_id) y
 // Estado el estado_parametro_id de estado_contrato.
 type ConteoNumeroContrato struct {
 	UnidadEjecutoraId int `json:"unidad_ejecutora_id"`
-	Vigencia          int `json:"vigencia"`
+	VigenciaId        int `json:"vigencia_id"`
 	Estado            int `json:"estado"`
 }
 
-// ContarConsecutivo cuenta los contratos de una unidad ejecutora, activos e
-// inactivos. El MID le suma 1 para el consecutivo.
+// ContarConsecutivo cuenta los contratos de una unidad ejecutora y una vigencia,
+// activos e inactivos. El MID le suma 1 para el consecutivo.
 func ContarConsecutivo(c ConteoConsecutivo) (int64, error) {
+	var errores []string
 	if c.UnidadEjecutoraId == 0 {
-		return 0, &ErrValidacion{Errores: []string{"unidad_ejecutora_id es obligatorio"}}
+		errores = append(errores, "unidad_ejecutora_id es obligatorio")
 	}
-	return orm.NewOrm().QueryTable(new(ContratoGeneral)).Filter("UnidadEjecutoraId", c.UnidadEjecutoraId).Count()
+	if c.VigenciaId == 0 {
+		errores = append(errores, "vigencia_id es obligatorio")
+	}
+	if len(errores) > 0 {
+		return 0, &ErrValidacion{Errores: errores}
+	}
+	return orm.NewOrm().QueryTable(new(ContratoGeneral)).
+		Filter("UnidadEjecutoraId", c.UnidadEjecutoraId).Filter("VigenciaId", c.VigenciaId).Count()
 }
 
 // ContarNumeroContrato cuenta los contratos de una unidad y una vigencia que
@@ -208,8 +217,8 @@ func ContarNumeroContrato(c ConteoNumeroContrato) (total int64, err error) {
 	if c.UnidadEjecutoraId == 0 {
 		errores = append(errores, "unidad_ejecutora_id es obligatorio")
 	}
-	if c.Vigencia == 0 {
-		errores = append(errores, "vigencia es obligatorio")
+	if c.VigenciaId == 0 {
+		errores = append(errores, "vigencia_id es obligatorio")
 	}
 	if c.Estado == 0 {
 		errores = append(errores, "estado es obligatorio")
@@ -220,6 +229,6 @@ func ContarNumeroContrato(c ConteoNumeroContrato) (total int64, err error) {
 	err = orm.NewOrm().Raw(`SELECT COUNT(DISTINCT cg.id) FROM contrato_general cg
 		INNER JOIN estado_contrato ec ON ec.contrato_general_id = cg.id
 		WHERE cg.unidad_ejecutora_id = ? AND cg.vigencia_id = ? AND ec.estado_parametro_id = ?`,
-		c.UnidadEjecutoraId, c.Vigencia, c.Estado).QueryRow(&total)
+		c.UnidadEjecutoraId, c.VigenciaId, c.Estado).QueryRow(&total)
 	return
 }

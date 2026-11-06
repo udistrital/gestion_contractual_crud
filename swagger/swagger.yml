@@ -532,13 +532,13 @@ paths:
       tags:
       - contratos-generales
       description: |-
-        cuenta los contratos de una unidad ejecutora, activos e inactivos (el MID le suma 1 para el consecutivo)
+        cuenta los contratos de una unidad ejecutora y una vigencia, activos e inactivos (el MID le suma 1 para el consecutivo)
         <br>
       operationId: ContratoGeneralController.Conteo consecutivo
       parameters:
       - in: body
         name: body
-        description: unidad_ejecutora_id
+        description: unidad_ejecutora_id y vigencia_id (Id del parámetro)
         required: true
         schema:
           $ref: '#/definitions/models.ConteoConsecutivo'
@@ -558,7 +558,7 @@ paths:
       parameters:
       - in: body
         name: body
-        description: unidad_ejecutora_id, vigencia (Id del parámetro) y estado (estado_parametro_id)
+        description: unidad_ejecutora_id, vigencia_id (Id del parámetro) y estado (estado_parametro_id)
         required: true
         schema:
           $ref: '#/definitions/models.ConteoNumeroContrato'
@@ -1992,6 +1992,9 @@ definitions:
       unidad_ejecutora_id:
         type: integer
         format: int64
+      vigencia_id:
+        type: integer
+        format: int64
   models.ConteoNumeroContrato:
     title: ConteoNumeroContrato
     type: object
@@ -2002,7 +2005,7 @@ definitions:
       unidad_ejecutora_id:
         type: integer
         format: int64
-      vigencia:
+      vigencia_id:
         type: integer
         format: int64
   models.ContratoArrendamiento:

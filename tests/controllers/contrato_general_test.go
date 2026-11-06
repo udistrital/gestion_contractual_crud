@@ -120,9 +120,9 @@ func TestFlujoContratoPolizaEstados(t *testing.T) {
 	}
 }
 
-// Conteos que usa el MID para el consecutivo y el número de contrato, como en
-// el CRUD en NestJS: cuentan activos e inactivos, y el de número de contrato
-// cuenta cada contrato una vez aunque tenga el estado repetido o ya no sea el actual.
+// Conteos que usa el MID para el consecutivo y el número de contrato: cuentan por
+// unidad y vigencia, activos e inactivos, y el de número de contrato cuenta cada
+// contrato una vez aunque tenga el estado repetido o ya no sea el actual.
 func TestConteosParaElMid(t *testing.T) {
 	conectar(t)
 	unidad := time.Now().UnixNano()%1000000000 + 1000
@@ -135,9 +135,12 @@ func TestConteosParaElMid(t *testing.T) {
 		}
 		return n
 	}
-	consecutivo := fmt.Sprintf(`{"unidad_ejecutora_id":%d}`, unidad)
+	consecutivo := fmt.Sprintf(`{"unidad_ejecutora_id":%d,"vigencia_id":7001}`, unidad)
 	if n := contar("/v1/contratos-generales/conteo-consecutivo", consecutivo); n != 0 {
 		t.Fatalf("unidad sin contratos: se esperaba 0, llegó %d", n)
+	}
+	if codigo, _ := solicitar(t, http.MethodPost, "/v1/contratos-generales/conteo-consecutivo", fmt.Sprintf(`{"unidad_ejecutora_id":%d}`, unidad)); codigo != http.StatusBadRequest {
+		t.Fatalf("conteo-consecutivo sin vigencia_id: se esperaba 400, llegó %d", codigo)
 	}
 
 	uno := crear(t, "/v1/contratos-generales", fmt.Sprintf(`{"unidad_ejecutora_id":%d,"vigencia_id":7001}`, unidad))
@@ -147,9 +150,13 @@ func TestConteosParaElMid(t *testing.T) {
 
 	// El MID llama la ruta con barra final.
 	for _, ruta := range []string{"/v1/contratos-generales/conteo-consecutivo", "/v1/contratos-generales/conteo-consecutivo/"} {
-		if n := contar(ruta, consecutivo); n != 3 {
-			t.Fatalf("%s: se esperaban 3 contratos, llegó %d", ruta, n)
+		if n := contar(ruta, consecutivo); n != 2 {
+			t.Fatalf("%s: se esperaban 2 contratos, llegó %d", ruta, n)
 		}
+	}
+	// El contador se reinicia en cada vigencia.
+	if n := contar("/v1/contratos-generales/conteo-consecutivo", fmt.Sprintf(`{"unidad_ejecutora_id":%d,"vigencia_id":7002}`, unidad)); n != 1 {
+		t.Fatalf("conteo-consecutivo de la otra vigencia: se esperaba 1, llegó %d", n)
 	}
 
 	estado := func(contrato, parametro int) {
@@ -159,11 +166,11 @@ func TestConteosParaElMid(t *testing.T) {
 	estado(uno, 6)
 	estado(uno, 5)
 	estado(dos, 5)
-	numero := fmt.Sprintf(`{"unidad_ejecutora_id":%d,"vigencia":7001,"estado":5}`, unidad)
+	numero := fmt.Sprintf(`{"unidad_ejecutora_id":%d,"vigencia_id":7001,"estado":5}`, unidad)
 	if n := contar("/v1/contratos-generales/conteo-numero-contrato/", numero); n != 2 {
 		t.Fatalf("conteo-numero-contrato: se esperaban 2 contratos, llegó %d", n)
 	}
-	if n := contar("/v1/contratos-generales/conteo-numero-contrato", fmt.Sprintf(`{"unidad_ejecutora_id":%d,"vigencia":7002,"estado":5}`, unidad)); n != 0 {
+	if n := contar("/v1/contratos-generales/conteo-numero-contrato", fmt.Sprintf(`{"unidad_ejecutora_id":%d,"vigencia_id":7002,"estado":5}`, unidad)); n != 0 {
 		t.Fatalf("vigencia sin contratos en ese estado: se esperaba 0, llegó %d", n)
 	}
 }

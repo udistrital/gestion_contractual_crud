@@ -219,8 +219,8 @@ func (c *ContratoGeneralController) Delete() {
 
 // ConteoConsecutivo ...
 // @Title Conteo consecutivo
-// @Description cuenta los contratos de una unidad ejecutora, activos e inactivos (el MID le suma 1 para el consecutivo)
-// @Param	body		body 	models.ConteoConsecutivo	true		"unidad_ejecutora_id"
+// @Description cuenta los contratos de una unidad ejecutora y una vigencia, activos e inactivos (el MID le suma 1 para el consecutivo)
+// @Param	body		body 	models.ConteoConsecutivo	true		"unidad_ejecutora_id y vigencia_id (Id del parámetro)"
 // @Success 200 {int} número de contratos
 // @Failure 400 cuerpo inválido
 // @router /conteo-consecutivo [post]
@@ -243,7 +243,7 @@ func (c *ContratoGeneralController) ConteoConsecutivo() {
 // ConteoNumeroContrato ...
 // @Title Conteo número de contrato
 // @Description cuenta los contratos de una unidad ejecutora y una vigencia que tienen o tuvieron el estado indicado, activos e inactivos
-// @Param	body		body 	models.ConteoNumeroContrato	true		"unidad_ejecutora_id, vigencia (Id del parámetro) y estado (estado_parametro_id)"
+// @Param	body		body 	models.ConteoNumeroContrato	true		"unidad_ejecutora_id, vigencia_id (Id del parámetro) y estado (estado_parametro_id)"
 // @Success 200 {int} número de contratos
 // @Failure 400 cuerpo inválido
 // @router /conteo-numero-contrato [post]
