@@ -3,5 +3,5 @@ package controllers
 import "testing"
 
 func TestConvenioController(t *testing.T) {
-	probarCrud(t, "/v1/convenio")
+	probarCrud(t, "/v1/convenios")
 }

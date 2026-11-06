@@ -85,7 +85,7 @@ func TestTableroIntegracion(t *testing.T) {
 // por un abogado en una vigencia que solo usa esta prueba.
 func crearVigenciaTablero(t *testing.T) int {
 	t.Helper()
-	codigo, r := solicitar(t, http.MethodGet, "/v1/contrato_general?sortby=Id&order=desc&limit=1&fields=Id", "")
+	codigo, r := solicitar(t, http.MethodGet, "/v1/contratos-generales?sortby=Id&order=desc&limit=1&fields=Id", "")
 	var ultimo []struct{ Id int }
 	_ = json.Unmarshal(r.Data, &ultimo)
 	if codigo != http.StatusOK {
@@ -95,7 +95,7 @@ func crearVigenciaTablero(t *testing.T) int {
 	if len(ultimo) == 1 {
 		vigencia += ultimo[0].Id
 	}
-	contrato := crear(t, "/v1/contrato_general", fmt.Sprintf(`{"unidad_ejecutora_id":1,"vigencia_id":%d,"dependencia_solicitante_id":31,"sede_solicitante_id":2}`, vigencia))
-	crear(t, "/v1/estado_contrato", fmt.Sprintf(`{"contrato_general_id":{"id":%d},"estado_parametro_id":6773,"usuario_id":500,"usuario_rol":"ABOGADO_CONTRATACION_RECTOR"}`, contrato))
+	contrato := crear(t, "/v1/contratos-generales", fmt.Sprintf(`{"unidad_ejecutora_id":1,"vigencia_id":%d,"dependencia_solicitante_id":31,"sede_solicitante_id":2}`, vigencia))
+	crear(t, "/v1/estados-contrato", fmt.Sprintf(`{"contrato_general_id":{"id":%d},"estado_parametro_id":6773,"usuario_id":500,"usuario_rol":"ABOGADO_CONTRATACION_RECTOR"}`, contrato))
 	return vigencia
 }

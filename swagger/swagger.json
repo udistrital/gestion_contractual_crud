@@ -14,10 +14,10 @@
     },
     "basePath": "/v1",
     "paths": {
-        "/acta_inicio/": {
+        "/actas-inicio/": {
             "get": {
                 "tags": [
-                    "acta_inicio"
+                    "actas-inicio"
                 ],
                 "description": "get ActaInicio\n\u003cbr\u003e",
                 "operationId": "ActaInicioController.Get All",
@@ -73,7 +73,7 @@
             },
             "post": {
                 "tags": [
-                    "acta_inicio"
+                    "actas-inicio"
                 ],
                 "description": "create ActaInicio\n\u003cbr\u003e",
                 "operationId": "ActaInicioController.Post",
@@ -101,10 +101,10 @@
                 }
             }
         },
-        "/acta_inicio/{id}": {
+        "/actas-inicio/{id}": {
             "get": {
                 "tags": [
-                    "acta_inicio"
+                    "actas-inicio"
                 ],
                 "description": "get ActaInicio by id\n\u003cbr\u003e",
                 "operationId": "ActaInicioController.Get One",
@@ -131,7 +131,7 @@
             },
             "put": {
                 "tags": [
-                    "acta_inicio"
+                    "actas-inicio"
                 ],
                 "description": "update the ActaInicio\n\u003cbr\u003e",
                 "operationId": "ActaInicioController.Put",
@@ -170,7 +170,7 @@
             },
             "delete": {
                 "tags": [
-                    "acta_inicio"
+                    "actas-inicio"
                 ],
                 "description": "desactiva el ActaInicio (borrado lógico)\n\u003cbr\u003e",
                 "operationId": "ActaInicioController.Delete",
@@ -193,10 +193,10 @@
                 }
             }
         },
-        "/amparo_poliza/": {
+        "/amparos-polizas/": {
             "get": {
                 "tags": [
-                    "amparo_poliza"
+                    "amparos-polizas"
                 ],
                 "description": "get AmparoPoliza\n\u003cbr\u003e",
                 "operationId": "AmparoPolizaController.Get All",
@@ -252,7 +252,7 @@
             },
             "post": {
                 "tags": [
-                    "amparo_poliza"
+                    "amparos-polizas"
                 ],
                 "description": "create AmparoPoliza\n\u003cbr\u003e",
                 "operationId": "AmparoPolizaController.Post",
@@ -280,10 +280,10 @@
                 }
             }
         },
-        "/amparo_poliza/{id}": {
+        "/amparos-polizas/{id}": {
             "get": {
                 "tags": [
-                    "amparo_poliza"
+                    "amparos-polizas"
                 ],
                 "description": "get AmparoPoliza by id\n\u003cbr\u003e",
                 "operationId": "AmparoPolizaController.Get One",
@@ -310,7 +310,7 @@
             },
             "put": {
                 "tags": [
-                    "amparo_poliza"
+                    "amparos-polizas"
                 ],
                 "description": "update the AmparoPoliza\n\u003cbr\u003e",
                 "operationId": "AmparoPolizaController.Put",
@@ -349,7 +349,7 @@
             },
             "delete": {
                 "tags": [
-                    "amparo_poliza"
+                    "amparos-polizas"
                 ],
                 "description": "desactiva el AmparoPoliza (borrado lógico)\n\u003cbr\u003e",
                 "operationId": "AmparoPolizaController.Delete",
@@ -372,10 +372,10 @@
                 }
             }
         },
-        "/contrato_arrendamiento/": {
+        "/contratos-arrendamiento/": {
             "get": {
                 "tags": [
-                    "contrato_arrendamiento"
+                    "contratos-arrendamiento"
                 ],
                 "description": "get ContratoArrendamiento\n\u003cbr\u003e",
                 "operationId": "ContratoArrendamientoController.Get All",
@@ -431,7 +431,7 @@
             },
             "post": {
                 "tags": [
-                    "contrato_arrendamiento"
+                    "contratos-arrendamiento"
                 ],
                 "description": "create ContratoArrendamiento\n\u003cbr\u003e",
                 "operationId": "ContratoArrendamientoController.Post",
@@ -459,10 +459,10 @@
                 }
             }
         },
-        "/contrato_arrendamiento/{id}": {
+        "/contratos-arrendamiento/{id}": {
             "get": {
                 "tags": [
-                    "contrato_arrendamiento"
+                    "contratos-arrendamiento"
                 ],
                 "description": "get ContratoArrendamiento by id\n\u003cbr\u003e",
                 "operationId": "ContratoArrendamientoController.Get One",
@@ -489,7 +489,7 @@
             },
             "put": {
                 "tags": [
-                    "contrato_arrendamiento"
+                    "contratos-arrendamiento"
                 ],
                 "description": "update the ContratoArrendamiento\n\u003cbr\u003e",
                 "operationId": "ContratoArrendamientoController.Put",
@@ -528,7 +528,7 @@
             },
             "delete": {
                 "tags": [
-                    "contrato_arrendamiento"
+                    "contratos-arrendamiento"
                 ],
                 "description": "desactiva el ContratoArrendamiento (borrado lógico)\n\u003cbr\u003e",
                 "operationId": "ContratoArrendamientoController.Delete",
@@ -551,10 +551,10 @@
                 }
             }
         },
-        "/contrato_general/": {
+        "/contratos-generales/": {
             "get": {
                 "tags": [
-                    "contrato_general"
+                    "contratos-generales"
                 ],
                 "description": "get ContratoGeneral\n\u003cbr\u003e",
                 "operationId": "ContratoGeneralController.Get All",
@@ -610,7 +610,7 @@
             },
             "post": {
                 "tags": [
-                    "contrato_general"
+                    "contratos-generales"
                 ],
                 "description": "create ContratoGeneral\n\u003cbr\u003e",
                 "operationId": "ContratoGeneralController.Post",
@@ -638,10 +638,10 @@
                 }
             }
         },
-        "/contrato_general/conteo-consecutivo": {
+        "/contratos-generales/conteo-consecutivo": {
             "post": {
                 "tags": [
-                    "contrato_general"
+                    "contratos-generales"
                 ],
                 "description": "cuenta los contratos de una unidad ejecutora, activos e inactivos (el MID le suma 1 para el consecutivo)\n\u003cbr\u003e",
                 "operationId": "ContratoGeneralController.Conteo consecutivo",
@@ -666,10 +666,10 @@
                 }
             }
         },
-        "/contrato_general/conteo-numero-contrato": {
+        "/contratos-generales/conteo-numero-contrato": {
             "post": {
                 "tags": [
-                    "contrato_general"
+                    "contratos-generales"
                 ],
                 "description": "cuenta los contratos de una unidad ejecutora y una vigencia que tienen o tuvieron el estado indicado, activos e inactivos\n\u003cbr\u003e",
                 "operationId": "ContratoGeneralController.Conteo número de contrato",
@@ -694,10 +694,10 @@
                 }
             }
         },
-        "/contrato_general/{id}": {
+        "/contratos-generales/{id}": {
             "get": {
                 "tags": [
-                    "contrato_general"
+                    "contratos-generales"
                 ],
                 "description": "get ContratoGeneral by id\n\u003cbr\u003e",
                 "operationId": "ContratoGeneralController.Get One",
@@ -724,7 +724,7 @@
             },
             "put": {
                 "tags": [
-                    "contrato_general"
+                    "contratos-generales"
                 ],
                 "description": "update the ContratoGeneral\n\u003cbr\u003e",
                 "operationId": "ContratoGeneralController.Put",
@@ -763,7 +763,7 @@
             },
             "delete": {
                 "tags": [
-                    "contrato_general"
+                    "contratos-generales"
                 ],
                 "description": "desactiva el ContratoGeneral (borrado lógico)\n\u003cbr\u003e",
                 "operationId": "ContratoGeneralController.Delete",
@@ -786,10 +786,10 @@
                 }
             }
         },
-        "/convenio/": {
+        "/convenios/": {
             "get": {
                 "tags": [
-                    "convenio"
+                    "convenios"
                 ],
                 "description": "get Convenio\n\u003cbr\u003e",
                 "operationId": "ConvenioController.Get All",
@@ -845,7 +845,7 @@
             },
             "post": {
                 "tags": [
-                    "convenio"
+                    "convenios"
                 ],
                 "description": "create Convenio\n\u003cbr\u003e",
                 "operationId": "ConvenioController.Post",
@@ -873,10 +873,10 @@
                 }
             }
         },
-        "/convenio/{id}": {
+        "/convenios/{id}": {
             "get": {
                 "tags": [
-                    "convenio"
+                    "convenios"
                 ],
                 "description": "get Convenio by id\n\u003cbr\u003e",
                 "operationId": "ConvenioController.Get One",
@@ -903,7 +903,7 @@
             },
             "put": {
                 "tags": [
-                    "convenio"
+                    "convenios"
                 ],
                 "description": "update the Convenio\n\u003cbr\u003e",
                 "operationId": "ConvenioController.Put",
@@ -942,7 +942,7 @@
             },
             "delete": {
                 "tags": [
-                    "convenio"
+                    "convenios"
                 ],
                 "description": "desactiva el Convenio (borrado lógico)\n\u003cbr\u003e",
                 "operationId": "ConvenioController.Delete",
@@ -965,10 +965,10 @@
                 }
             }
         },
-        "/disponibilidad_presupuestal/": {
+        "/disponibilidades-presupuestales/": {
             "get": {
                 "tags": [
-                    "disponibilidad_presupuestal"
+                    "disponibilidades-presupuestales"
                 ],
                 "description": "get DisponibilidadPresupuestal\n\u003cbr\u003e",
                 "operationId": "DisponibilidadPresupuestalController.Get All",
@@ -1024,7 +1024,7 @@
             },
             "post": {
                 "tags": [
-                    "disponibilidad_presupuestal"
+                    "disponibilidades-presupuestales"
                 ],
                 "description": "create DisponibilidadPresupuestal\n\u003cbr\u003e",
                 "operationId": "DisponibilidadPresupuestalController.Post",
@@ -1052,10 +1052,10 @@
                 }
             }
         },
-        "/disponibilidad_presupuestal/{id}": {
+        "/disponibilidades-presupuestales/{id}": {
             "get": {
                 "tags": [
-                    "disponibilidad_presupuestal"
+                    "disponibilidades-presupuestales"
                 ],
                 "description": "get DisponibilidadPresupuestal by id\n\u003cbr\u003e",
                 "operationId": "DisponibilidadPresupuestalController.Get One",
@@ -1082,7 +1082,7 @@
             },
             "put": {
                 "tags": [
-                    "disponibilidad_presupuestal"
+                    "disponibilidades-presupuestales"
                 ],
                 "description": "update the DisponibilidadPresupuestal\n\u003cbr\u003e",
                 "operationId": "DisponibilidadPresupuestalController.Put",
@@ -1121,7 +1121,7 @@
             },
             "delete": {
                 "tags": [
-                    "disponibilidad_presupuestal"
+                    "disponibilidades-presupuestales"
                 ],
                 "description": "desactiva el DisponibilidadPresupuestal (borrado lógico)\n\u003cbr\u003e",
                 "operationId": "DisponibilidadPresupuestalController.Delete",
@@ -1144,10 +1144,10 @@
                 }
             }
         },
-        "/documento_contrato/": {
+        "/documentos-contratos/": {
             "get": {
                 "tags": [
-                    "documento_contrato"
+                    "documentos-contratos"
                 ],
                 "description": "get DocumentoContrato\n\u003cbr\u003e",
                 "operationId": "DocumentoContratoController.Get All",
@@ -1203,7 +1203,7 @@
             },
             "post": {
                 "tags": [
-                    "documento_contrato"
+                    "documentos-contratos"
                 ],
                 "description": "create DocumentoContrato\n\u003cbr\u003e",
                 "operationId": "DocumentoContratoController.Post",
@@ -1231,10 +1231,10 @@
                 }
             }
         },
-        "/documento_contrato/{id}": {
+        "/documentos-contratos/{id}": {
             "get": {
                 "tags": [
-                    "documento_contrato"
+                    "documentos-contratos"
                 ],
                 "description": "get DocumentoContrato by id\n\u003cbr\u003e",
                 "operationId": "DocumentoContratoController.Get One",
@@ -1261,7 +1261,7 @@
             },
             "put": {
                 "tags": [
-                    "documento_contrato"
+                    "documentos-contratos"
                 ],
                 "description": "update the DocumentoContrato\n\u003cbr\u003e",
                 "operationId": "DocumentoContratoController.Put",
@@ -1300,7 +1300,7 @@
             },
             "delete": {
                 "tags": [
-                    "documento_contrato"
+                    "documentos-contratos"
                 ],
                 "description": "desactiva el DocumentoContrato (borrado lógico)\n\u003cbr\u003e",
                 "operationId": "DocumentoContratoController.Delete",
@@ -1323,10 +1323,10 @@
                 }
             }
         },
-        "/especificacion_tecnica/": {
+        "/especificaciones-tecnicas/": {
             "get": {
                 "tags": [
-                    "especificacion_tecnica"
+                    "especificaciones-tecnicas"
                 ],
                 "description": "get EspecificacionTecnica\n\u003cbr\u003e",
                 "operationId": "EspecificacionTecnicaController.Get All",
@@ -1382,7 +1382,7 @@
             },
             "post": {
                 "tags": [
-                    "especificacion_tecnica"
+                    "especificaciones-tecnicas"
                 ],
                 "description": "create EspecificacionTecnica\n\u003cbr\u003e",
                 "operationId": "EspecificacionTecnicaController.Post",
@@ -1410,10 +1410,10 @@
                 }
             }
         },
-        "/especificacion_tecnica/{id}": {
+        "/especificaciones-tecnicas/{id}": {
             "get": {
                 "tags": [
-                    "especificacion_tecnica"
+                    "especificaciones-tecnicas"
                 ],
                 "description": "get EspecificacionTecnica by id\n\u003cbr\u003e",
                 "operationId": "EspecificacionTecnicaController.Get One",
@@ -1440,7 +1440,7 @@
             },
             "put": {
                 "tags": [
-                    "especificacion_tecnica"
+                    "especificaciones-tecnicas"
                 ],
                 "description": "update the EspecificacionTecnica\n\u003cbr\u003e",
                 "operationId": "EspecificacionTecnicaController.Put",
@@ -1479,7 +1479,7 @@
             },
             "delete": {
                 "tags": [
-                    "especificacion_tecnica"
+                    "especificaciones-tecnicas"
                 ],
                 "description": "desactiva el EspecificacionTecnica (borrado lógico)\n\u003cbr\u003e",
                 "operationId": "EspecificacionTecnicaController.Delete",
@@ -1502,10 +1502,10 @@
                 }
             }
         },
-        "/estado_contrato/": {
+        "/estados-contrato/": {
             "get": {
                 "tags": [
-                    "estado_contrato"
+                    "estados-contrato"
                 ],
                 "description": "get EstadoContrato\n\u003cbr\u003e",
                 "operationId": "EstadoContratoController.Get All",
@@ -1561,7 +1561,7 @@
             },
             "post": {
                 "tags": [
-                    "estado_contrato"
+                    "estados-contrato"
                 ],
                 "description": "create EstadoContrato\n\u003cbr\u003e",
                 "operationId": "EstadoContratoController.Post",
@@ -1589,10 +1589,10 @@
                 }
             }
         },
-        "/estado_contrato/{id}": {
+        "/estados-contrato/{id}": {
             "get": {
                 "tags": [
-                    "estado_contrato"
+                    "estados-contrato"
                 ],
                 "description": "get EstadoContrato by id\n\u003cbr\u003e",
                 "operationId": "EstadoContratoController.Get One",
@@ -1619,7 +1619,7 @@
             },
             "put": {
                 "tags": [
-                    "estado_contrato"
+                    "estados-contrato"
                 ],
                 "description": "update the EstadoContrato\n\u003cbr\u003e",
                 "operationId": "EstadoContratoController.Put",
@@ -1658,7 +1658,7 @@
             },
             "delete": {
                 "tags": [
-                    "estado_contrato"
+                    "estados-contrato"
                 ],
                 "description": "desactiva el EstadoContrato (borrado lógico)\n\u003cbr\u003e",
                 "operationId": "EstadoContratoController.Delete",
@@ -1681,10 +1681,10 @@
                 }
             }
         },
-        "/estado_poliza/": {
+        "/estados-poliza/": {
             "get": {
                 "tags": [
-                    "estado_poliza"
+                    "estados-poliza"
                 ],
                 "description": "get EstadoPoliza\n\u003cbr\u003e",
                 "operationId": "EstadoPolizaController.Get All",
@@ -1740,7 +1740,7 @@
             },
             "post": {
                 "tags": [
-                    "estado_poliza"
+                    "estados-poliza"
                 ],
                 "description": "create EstadoPoliza\n\u003cbr\u003e",
                 "operationId": "EstadoPolizaController.Post",
@@ -1768,10 +1768,10 @@
                 }
             }
         },
-        "/estado_poliza/{id}": {
+        "/estados-poliza/{id}": {
             "get": {
                 "tags": [
-                    "estado_poliza"
+                    "estados-poliza"
                 ],
                 "description": "get EstadoPoliza by id\n\u003cbr\u003e",
                 "operationId": "EstadoPolizaController.Get One",
@@ -1798,7 +1798,7 @@
             },
             "put": {
                 "tags": [
-                    "estado_poliza"
+                    "estados-poliza"
                 ],
                 "description": "update the EstadoPoliza\n\u003cbr\u003e",
                 "operationId": "EstadoPolizaController.Put",
@@ -1837,7 +1837,7 @@
             },
             "delete": {
                 "tags": [
-                    "estado_poliza"
+                    "estados-poliza"
                 ],
                 "description": "desactiva el EstadoPoliza (borrado lógico)\n\u003cbr\u003e",
                 "operationId": "EstadoPolizaController.Delete",
@@ -1860,10 +1860,10 @@
                 }
             }
         },
-        "/ordenador_contrato/": {
+        "/ordenadores-contrato/": {
             "get": {
                 "tags": [
-                    "ordenador_contrato"
+                    "ordenadores-contrato"
                 ],
                 "description": "get OrdenadorContrato\n\u003cbr\u003e",
                 "operationId": "OrdenadorContratoController.Get All",
@@ -1919,7 +1919,7 @@
             },
             "post": {
                 "tags": [
-                    "ordenador_contrato"
+                    "ordenadores-contrato"
                 ],
                 "description": "create OrdenadorContrato\n\u003cbr\u003e",
                 "operationId": "OrdenadorContratoController.Post",
@@ -1947,10 +1947,10 @@
                 }
             }
         },
-        "/ordenador_contrato/{id}": {
+        "/ordenadores-contrato/{id}": {
             "get": {
                 "tags": [
-                    "ordenador_contrato"
+                    "ordenadores-contrato"
                 ],
                 "description": "get OrdenadorContrato by id\n\u003cbr\u003e",
                 "operationId": "OrdenadorContratoController.Get One",
@@ -1977,7 +1977,7 @@
             },
             "put": {
                 "tags": [
-                    "ordenador_contrato"
+                    "ordenadores-contrato"
                 ],
                 "description": "update the OrdenadorContrato\n\u003cbr\u003e",
                 "operationId": "OrdenadorContratoController.Put",
@@ -2016,7 +2016,7 @@
             },
             "delete": {
                 "tags": [
-                    "ordenador_contrato"
+                    "ordenadores-contrato"
                 ],
                 "description": "desactiva el OrdenadorContrato (borrado lógico)\n\u003cbr\u003e",
                 "operationId": "OrdenadorContratoController.Delete",
@@ -2039,10 +2039,10 @@
                 }
             }
         },
-        "/poliza/": {
+        "/polizas/": {
             "get": {
                 "tags": [
-                    "poliza"
+                    "polizas"
                 ],
                 "description": "get Poliza\n\u003cbr\u003e",
                 "operationId": "PolizaController.Get All",
@@ -2098,7 +2098,7 @@
             },
             "post": {
                 "tags": [
-                    "poliza"
+                    "polizas"
                 ],
                 "description": "create Poliza\n\u003cbr\u003e",
                 "operationId": "PolizaController.Post",
@@ -2126,10 +2126,10 @@
                 }
             }
         },
-        "/poliza/{id}": {
+        "/polizas/{id}": {
             "get": {
                 "tags": [
-                    "poliza"
+                    "polizas"
                 ],
                 "description": "get Poliza by id\n\u003cbr\u003e",
                 "operationId": "PolizaController.Get One",
@@ -2156,7 +2156,7 @@
             },
             "put": {
                 "tags": [
-                    "poliza"
+                    "polizas"
                 ],
                 "description": "update the Poliza\n\u003cbr\u003e",
                 "operationId": "PolizaController.Put",
@@ -2195,7 +2195,7 @@
             },
             "delete": {
                 "tags": [
-                    "poliza"
+                    "polizas"
                 ],
                 "description": "desactiva el Poliza (borrado lógico)\n\u003cbr\u003e",
                 "operationId": "PolizaController.Delete",
@@ -2218,10 +2218,10 @@
                 }
             }
         },
-        "/registro_presupuestal/": {
+        "/registros-presupuestales/": {
             "get": {
                 "tags": [
-                    "registro_presupuestal"
+                    "registros-presupuestales"
                 ],
                 "description": "get RegistroPresupuestal\n\u003cbr\u003e",
                 "operationId": "RegistroPresupuestalController.Get All",
@@ -2277,7 +2277,7 @@
             },
             "post": {
                 "tags": [
-                    "registro_presupuestal"
+                    "registros-presupuestales"
                 ],
                 "description": "create RegistroPresupuestal\n\u003cbr\u003e",
                 "operationId": "RegistroPresupuestalController.Post",
@@ -2305,10 +2305,10 @@
                 }
             }
         },
-        "/registro_presupuestal/{id}": {
+        "/registros-presupuestales/{id}": {
             "get": {
                 "tags": [
-                    "registro_presupuestal"
+                    "registros-presupuestales"
                 ],
                 "description": "get RegistroPresupuestal by id\n\u003cbr\u003e",
                 "operationId": "RegistroPresupuestalController.Get One",
@@ -2335,7 +2335,7 @@
             },
             "put": {
                 "tags": [
-                    "registro_presupuestal"
+                    "registros-presupuestales"
                 ],
                 "description": "update the RegistroPresupuestal\n\u003cbr\u003e",
                 "operationId": "RegistroPresupuestalController.Put",
@@ -2374,7 +2374,7 @@
             },
             "delete": {
                 "tags": [
-                    "registro_presupuestal"
+                    "registros-presupuestales"
                 ],
                 "description": "desactiva el RegistroPresupuestal (borrado lógico)\n\u003cbr\u003e",
                 "operationId": "RegistroPresupuestalController.Delete",
@@ -2397,10 +2397,10 @@
                 }
             }
         },
-        "/supervisor_contrato/": {
+        "/supervisores/": {
             "get": {
                 "tags": [
-                    "supervisor_contrato"
+                    "supervisores"
                 ],
                 "description": "get SupervisorContrato\n\u003cbr\u003e",
                 "operationId": "SupervisorContratoController.Get All",
@@ -2456,7 +2456,7 @@
             },
             "post": {
                 "tags": [
-                    "supervisor_contrato"
+                    "supervisores"
                 ],
                 "description": "create SupervisorContrato\n\u003cbr\u003e",
                 "operationId": "SupervisorContratoController.Post",
@@ -2484,10 +2484,10 @@
                 }
             }
         },
-        "/supervisor_contrato/{id}": {
+        "/supervisores/{id}": {
             "get": {
                 "tags": [
-                    "supervisor_contrato"
+                    "supervisores"
                 ],
                 "description": "get SupervisorContrato by id\n\u003cbr\u003e",
                 "operationId": "SupervisorContratoController.Get One",
@@ -2514,7 +2514,7 @@
             },
             "put": {
                 "tags": [
-                    "supervisor_contrato"
+                    "supervisores"
                 ],
                 "description": "update the SupervisorContrato\n\u003cbr\u003e",
                 "operationId": "SupervisorContratoController.Put",
@@ -2553,7 +2553,7 @@
             },
             "delete": {
                 "tags": [
-                    "supervisor_contrato"
+                    "supervisores"
                 ],
                 "description": "desactiva el SupervisorContrato (borrado lógico)\n\u003cbr\u003e",
                 "operationId": "SupervisorContratoController.Delete",
@@ -2579,22 +2579,24 @@
         "/tableros/contratos": {
             "get": {
                 "tags": [
-                    "tablero"
+                    "tableros"
                 ],
-                "description": "metadatos de seguimiento por contrato activo: estado general actual, fecha desde la que está en ese estado, fecha final, dependencia y sede solicitante y abogado (solo Ids)",
+                "description": "metadatos de seguimiento por contrato activo: estado general actual, fecha desde la que está en ese estado, fecha final, dependencia y sede solicitante y abogado (solo Ids)\n\u003cbr\u003e",
                 "operationId": "TableroController.Contratos del tablero",
                 "parameters": [
                     {
                         "in": "query",
                         "name": "vigencia-id",
                         "description": "Id del parámetro de vigencia (contrato_general.vigencia_id)",
-                        "type": "integer"
+                        "type": "integer",
+                        "format": "int64"
                     },
                     {
                         "in": "query",
                         "name": "abogado-id",
                         "description": "usuario_id del abogado que registró el contrato",
-                        "type": "integer"
+                        "type": "integer",
+                        "format": "int64"
                     },
                     {
                         "in": "query",
@@ -2625,67 +2627,67 @@
             "title": "ActaInicio",
             "type": "object",
             "properties": {
-                "Activo": {
+                "activo": {
                     "type": "boolean"
                 },
-                "ContratoGeneralId": {
+                "contrato_general_id": {
                     "$ref": "#/definitions/models.ContratoGeneral"
                 },
-                "Descripcion": {
+                "descripcion": {
                     "type": "string"
                 },
-                "FechaCreacion": {
+                "fecha_creacion": {
                     "type": "string",
                     "format": "datetime"
                 },
-                "FechaFin": {
+                "fecha_fin": {
                     "type": "string",
                     "format": "datetime"
                 },
-                "FechaInicio": {
+                "fecha_inicio": {
                     "type": "string",
                     "format": "datetime"
                 },
-                "FechaModificacion": {
+                "fecha_modificacion": {
                     "type": "string",
                     "format": "datetime"
                 },
-                "FechaSuscripcion": {
+                "fecha_suscripcion": {
                     "type": "string",
                     "format": "datetime"
                 },
-                "Id": {
+                "id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "NombreInterventor": {
+                "nombre_interventor": {
                     "type": "string"
                 },
-                "NumeroActa": {
+                "numero_acta": {
                     "type": "string"
                 },
-                "NumeroRegistroPresupuestal": {
+                "numero_registro_presupuestal": {
                     "type": "string"
                 },
-                "UsuarioId": {
+                "usuario_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "UsuarioLegado": {
+                "usuario_legado": {
                     "type": "string"
                 },
-                "UsuarioRol": {
+                "usuario_rol": {
                     "type": "string"
                 },
-                "ValorAnticipo": {
+                "valor_anticipo": {
                     "type": "number",
                     "format": "double"
                 },
-                "ValorDisponibilidad": {
+                "valor_disponibilidad": {
                     "type": "number",
                     "format": "double"
                 },
-                "ValorRegistroPresupuestal": {
+                "valor_registro_presupuestal": {
                     "type": "number",
                     "format": "double"
                 }
@@ -2695,58 +2697,58 @@
             "title": "AmparoPoliza",
             "type": "object",
             "properties": {
-                "Activo": {
+                "activo": {
                     "type": "boolean"
                 },
-                "AmparoId": {
+                "amparo_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "ContratoGeneralId": {
+                "contrato_general_id": {
                     "$ref": "#/definitions/models.ContratoGeneral"
                 },
-                "Descripcion": {
+                "descripcion": {
                     "type": "string"
                 },
-                "FechaCreacion": {
+                "fecha_creacion": {
                     "type": "string",
                     "format": "datetime"
                 },
-                "FechaFin": {
+                "fecha_fin": {
                     "type": "string",
                     "format": "datetime"
                 },
-                "FechaInicio": {
+                "fecha_inicio": {
                     "type": "string",
                     "format": "datetime"
                 },
-                "FechaModificacion": {
+                "fecha_modificacion": {
                     "type": "string",
                     "format": "datetime"
                 },
-                "Id": {
+                "id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "PolizaId": {
+                "poliza_id": {
                     "$ref": "#/definitions/models.Poliza"
                 },
-                "Suficiencia": {
+                "suficiencia": {
                     "type": "number",
                     "format": "double"
                 },
-                "TipoValorAmparoId": {
+                "tipo_valor_amparo_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "UsuarioId": {
+                "usuario_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "UsuarioRol": {
+                "usuario_rol": {
                     "type": "string"
                 },
-                "Valor": {
+                "valor": {
                     "type": "number",
                     "format": "double"
                 }
@@ -2784,47 +2786,47 @@
             "title": "ContratoArrendamiento",
             "type": "object",
             "properties": {
-                "Activo": {
+                "activo": {
                     "type": "boolean"
                 },
-                "ContratoGeneralId": {
+                "contrato_general_id": {
                     "$ref": "#/definitions/models.ContratoGeneral"
                 },
-                "Destinacion": {
+                "destinacion": {
                     "type": "string"
                 },
-                "FechaCreacion": {
+                "fecha_creacion": {
                     "type": "string",
                     "format": "datetime"
                 },
-                "FechaModificacion": {
+                "fecha_modificacion": {
                     "type": "string",
                     "format": "datetime"
                 },
-                "Id": {
+                "id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "PlazoAdministracion": {
+                "plazo_administracion": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "PlazoEntrega": {
+                "plazo_entrega": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "PlazoPagoMensual": {
+                "plazo_pago_mensual": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "Reajuste": {
+                "reajuste": {
                     "type": "string"
                 },
-                "ValorAdministracion": {
+                "valor_administracion": {
                     "type": "number",
                     "format": "double"
                 },
-                "ValorArrendamiento": {
+                "valor_arrendamiento": {
                     "type": "number",
                     "format": "double"
                 }
@@ -2834,627 +2836,185 @@
             "title": "ContratoGeneral",
             "type": "object",
             "properties": {
-                "Actividades": {
+                "actividades": {
                     "type": "string"
                 },
-                "Activo": {
+                "activo": {
                     "type": "boolean"
                 },
-                "AplicaPoliza": {
+                "aplica_poliza": {
                     "type": "boolean"
                 },
-                "ClaseProveedorId": {
+                "clase_proveedor_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "ClausulaRegistroPresupuestal": {
+                "clausula_registro_presupuestal": {
                     "type": "boolean"
                 },
-                "Condiciones": {
+                "condiciones": {
                     "type": "string"
                 },
-                "ConsecutivoElaboracion": {
+                "consecutivo_elaboracion": {
                     "type": "string"
                 },
-                "DependenciaSolicitanteId": {
+                "dependencia_solicitante_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "DependenciaSolicitanteLegadoId": {
+                "dependencia_solicitante_legado_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "FechaCreacion": {
+                "fecha_creacion": {
                     "type": "string",
                     "format": "datetime"
                 },
-                "FechaFinal": {
+                "fecha_final": {
                     "type": "string",
                     "format": "datetime"
                 },
-                "FechaInicial": {
+                "fecha_inicial": {
                     "type": "string",
                     "format": "datetime"
                 },
-                "FechaModificacion": {
+                "fecha_modificacion": {
                     "type": "string",
                     "format": "datetime"
                 },
-                "FechaSuscripcion": {
+                "fecha_suscripcion": {
                     "type": "string",
                     "format": "datetime"
                 },
-                "FechaSuscripcionEstudio": {
+                "fecha_suscripcion_estudio": {
                     "type": "string",
                     "format": "datetime"
                 },
-                "Id": {
+                "id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "Justificacion": {
+                "justificacion": {
                     "type": "string"
                 },
-                "MedioPagoId": {
+                "medio_pago_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "ModalidadSeleccionId": {
+                "modalidad_seleccion_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "ModoPago": {
+                "modo_pago": {
                     "type": "string"
                 },
-                "NumeroContrato": {
+                "numero_contrato": {
                     "type": "string"
                 },
-                "Objeto": {
+                "objeto": {
                     "type": "string"
                 },
-                "Observaciones": {
+                "observaciones": {
                     "type": "string"
                 },
-                "OrigenPresupuestoId": {
+                "origen_presupuesto_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "OrigenRecursosId": {
+                "origen_recursos_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "PerfilContratistaId": {
+                "perfil_contratista_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "PlazoEjecucion": {
+                "plazo_ejecucion": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "ProcedimientoId": {
+                "procedimiento_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "ProveedorNumeroDocumento": {
+                "proveedor_numero_documento": {
                     "type": "string"
                 },
-                "RegimenContratacionId": {
+                "regimen_contratacion_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "SedeSolicitanteId": {
+                "sede_solicitante_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "SedeSolicitanteLegadoId": {
+                "sede_solicitante_legado_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "TemaGastoInversionId": {
+                "tema_gasto_inversion_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "TipoCompromisoId": {
+                "tipo_compromiso_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "TipoContratoId": {
+                "tipo_contrato_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "TipoControlId": {
+                "tipo_control_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "TipoGastoId": {
+                "tipo_gasto_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "TipoMonedaId": {
+                "tipo_moneda_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "TipoPersonaId": {
+                "tipo_persona_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "TipologiaEspecificaId": {
+                "tipologia_especifica_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "UnidadEjecucionId": {
+                "unidad_ejecucion_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "UnidadEjecutoraId": {
+                "unidad_ejecutora_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "UsuarioId": {
+                "usuario_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "UsuarioLegado": {
+                "usuario_legado": {
                     "type": "string"
                 },
-                "UsuarioRol": {
+                "usuario_rol": {
                     "type": "string"
                 },
-                "ValorContratoMe": {
+                "valor_contrato_me": {
                     "type": "number",
                     "format": "double"
                 },
-                "ValorPesos": {
+                "valor_pesos": {
                     "type": "number",
                     "format": "double"
                 },
-                "ValorTasaCambio": {
+                "valor_tasa_cambio": {
                     "type": "number",
                     "format": "double"
                 },
-                "VigenciaId": {
-                    "type": "integer",
-                    "format": "int64"
-                }
-            }
-        },
-        "models.Convenio": {
-            "title": "Convenio",
-            "type": "object",
-            "properties": {
-                "Activo": {
-                    "type": "boolean"
-                },
-                "ContratoGeneralId": {
-                    "$ref": "#/definitions/models.ContratoGeneral"
-                },
-                "FechaCreacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "FechaModificacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "Id": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "Nombre": {
-                    "type": "string"
-                },
-                "TipoConvenioId": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "Vigencia": {
-                    "type": "integer",
-                    "format": "int64"
-                }
-            }
-        },
-        "models.DisponibilidadPresupuestal": {
-            "title": "DisponibilidadPresupuestal",
-            "type": "object",
-            "properties": {
-                "Activo": {
-                    "type": "boolean"
-                },
-                "ContratoGeneralId": {
-                    "$ref": "#/definitions/models.ContratoGeneral"
-                },
-                "FechaCreacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "FechaModificacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "FechaRegistro": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "Id": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "NumeroCdpId": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "VigenciaCdpId": {
-                    "type": "integer",
-                    "format": "int64"
-                }
-            }
-        },
-        "models.DocumentoContrato": {
-            "title": "DocumentoContrato",
-            "type": "object",
-            "properties": {
-                "Activo": {
-                    "type": "boolean"
-                },
-                "DocumentoEnlace": {
-                    "type": "string"
-                },
-                "DocumentoId": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "EntidadId": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "EntidadTipo": {
-                    "type": "string"
-                },
-                "FechaCreacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "FechaModificacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "Id": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "TipoDocumentoId": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "UsuarioId": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "UsuarioRol": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.EspecificacionTecnica": {
-            "title": "EspecificacionTecnica",
-            "type": "object",
-            "properties": {
-                "Activo": {
-                    "type": "boolean"
-                },
-                "Cantidad": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "ContratoGeneralId": {
-                    "$ref": "#/definitions/models.ContratoGeneral"
-                },
-                "Descripcion": {
-                    "type": "string"
-                },
-                "FechaCreacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "FechaModificacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "Id": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "ValorTotal": {
-                    "type": "number",
-                    "format": "double"
-                },
-                "ValorUnitario": {
-                    "type": "number",
-                    "format": "double"
-                }
-            }
-        },
-        "models.EstadoContrato": {
-            "title": "EstadoContrato",
-            "type": "object",
-            "properties": {
-                "Activo": {
-                    "type": "boolean"
-                },
-                "Actual": {
-                    "type": "boolean"
-                },
-                "ContratoGeneralId": {
-                    "$ref": "#/definitions/models.ContratoGeneral"
-                },
-                "EstadoInternoParametroId": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "EstadoParametroId": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "FechaCreacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "FechaEvento": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "FechaModificacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "Id": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "Motivo": {
-                    "type": "string"
-                },
-                "UsuarioId": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "UsuarioRol": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.EstadoPoliza": {
-            "title": "EstadoPoliza",
-            "type": "object",
-            "properties": {
-                "Activo": {
-                    "type": "boolean"
-                },
-                "EstadoParametroId": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "FechaCreacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "FechaModificacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "Id": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "Motivo": {
-                    "type": "string"
-                },
-                "PolizaId": {
-                    "$ref": "#/definitions/models.Poliza"
-                },
-                "UsuarioId": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "UsuarioRol": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.OrdenadorContrato": {
-            "title": "OrdenadorContrato",
-            "type": "object",
-            "properties": {
-                "Activo": {
-                    "type": "boolean"
-                },
-                "CargoId": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "ContratoGeneralId": {
-                    "$ref": "#/definitions/models.ContratoGeneral"
-                },
-                "DocumentoIdentidad": {
-                    "type": "string"
-                },
-                "FechaCreacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "FechaModificacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "Id": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "OrdenadorArgoId": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "OrdenadorSicapitalId": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "Resolucion": {
-                    "type": "string"
-                },
-                "TerceroId": {
-                    "type": "integer",
-                    "format": "int64"
-                }
-            }
-        },
-        "models.Poliza": {
-            "title": "Poliza",
-            "type": "object",
-            "properties": {
-                "Activo": {
-                    "type": "boolean"
-                },
-                "ContratoGeneralId": {
-                    "$ref": "#/definitions/models.ContratoGeneral"
-                },
-                "Descripcion": {
-                    "type": "string"
-                },
-                "EntidadAseguradoraId": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "FechaAprobacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "FechaCreacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "FechaExpedicion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "FechaFin": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "FechaInicio": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "FechaModificacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "Id": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "NumeroPoliza": {
-                    "type": "string"
-                },
-                "UsuarioId": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "UsuarioLegado": {
-                    "type": "string"
-                },
-                "UsuarioRol": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.RegistroPresupuestal": {
-            "title": "RegistroPresupuestal",
-            "type": "object",
-            "properties": {
-                "Activo": {
-                    "type": "boolean"
-                },
-                "DisponibilidadPresupuestalId": {
-                    "$ref": "#/definitions/models.DisponibilidadPresupuestal"
-                },
-                "FechaCreacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "FechaModificacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "FechaRegistro": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "Id": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "NumeroRegistroPresupuestal": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "VigenciaRpId": {
-                    "type": "integer",
-                    "format": "int64"
-                }
-            }
-        },
-        "models.SupervisorContrato": {
-            "title": "SupervisorContrato",
-            "type": "object",
-            "properties": {
-                "Activo": {
-                    "type": "boolean"
-                },
-                "CargoId": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "CargoLegado": {
-                    "type": "string"
-                },
-                "ContratoGeneralId": {
-                    "$ref": "#/definitions/models.ContratoGeneral"
-                },
-                "DependenciaId": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "DependenciaLegado": {
-                    "type": "string"
-                },
-                "DigitoVerificacion": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "Documento": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "FechaCreacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "FechaModificacion": {
-                    "type": "string",
-                    "format": "datetime"
-                },
-                "Id": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "SedeId": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "SedeLegado": {
-                    "type": "string"
-                },
-                "SupervisorId": {
+                "vigencia_id": {
                     "type": "integer",
                     "format": "int64"
                 }
@@ -3464,41 +3024,483 @@
             "title": "ContratoTablero",
             "type": "object",
             "properties": {
-                "AbogadoId": {
+                "abogado_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "ConsecutivoElaboracion": {
+                "consecutivo_elaboracion": {
                     "type": "string"
                 },
-                "ContratoGeneralId": {
+                "contrato_general_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "DependenciaSolicitanteId": {
+                "dependencia_solicitante_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "EstadoParametroId": {
+                "estado_parametro_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "FechaEstado": {
+                "fecha_estado": {
                     "type": "string",
                     "format": "datetime"
                 },
-                "FechaFinal": {
+                "fecha_final": {
                     "type": "string",
                     "format": "datetime"
                 },
-                "NumeroContrato": {
+                "numero_contrato": {
                     "type": "string"
                 },
-                "SedeSolicitanteId": {
+                "sede_solicitante_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "VigenciaId": {
+                "vigencia_id": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "models.Convenio": {
+            "title": "Convenio",
+            "type": "object",
+            "properties": {
+                "activo": {
+                    "type": "boolean"
+                },
+                "contrato_general_id": {
+                    "$ref": "#/definitions/models.ContratoGeneral"
+                },
+                "fecha_creacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "fecha_modificacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "nombre": {
+                    "type": "string"
+                },
+                "tipo_convenio_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "vigencia": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "models.DisponibilidadPresupuestal": {
+            "title": "DisponibilidadPresupuestal",
+            "type": "object",
+            "properties": {
+                "activo": {
+                    "type": "boolean"
+                },
+                "contrato_general_id": {
+                    "$ref": "#/definitions/models.ContratoGeneral"
+                },
+                "fecha_creacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "fecha_modificacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "fecha_registro": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "numero_cdp_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "vigencia_cdp_id": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "models.DocumentoContrato": {
+            "title": "DocumentoContrato",
+            "type": "object",
+            "properties": {
+                "activo": {
+                    "type": "boolean"
+                },
+                "documento_enlace": {
+                    "type": "string"
+                },
+                "documento_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "entidad_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "entidad_tipo": {
+                    "type": "string"
+                },
+                "fecha_creacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "fecha_modificacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "tipo_documento_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "usuario_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "usuario_rol": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.EspecificacionTecnica": {
+            "title": "EspecificacionTecnica",
+            "type": "object",
+            "properties": {
+                "activo": {
+                    "type": "boolean"
+                },
+                "cantidad": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "contrato_general_id": {
+                    "$ref": "#/definitions/models.ContratoGeneral"
+                },
+                "descripcion": {
+                    "type": "string"
+                },
+                "fecha_creacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "fecha_modificacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "valor_total": {
+                    "type": "number",
+                    "format": "double"
+                },
+                "valor_unitario": {
+                    "type": "number",
+                    "format": "double"
+                }
+            }
+        },
+        "models.EstadoContrato": {
+            "title": "EstadoContrato",
+            "type": "object",
+            "properties": {
+                "activo": {
+                    "type": "boolean"
+                },
+                "actual": {
+                    "type": "boolean"
+                },
+                "contrato_general_id": {
+                    "$ref": "#/definitions/models.ContratoGeneral"
+                },
+                "estado_interno_parametro_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "estado_parametro_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "fecha_creacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "fecha_evento": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "fecha_modificacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "motivo": {
+                    "type": "string"
+                },
+                "usuario_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "usuario_rol": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.EstadoPoliza": {
+            "title": "EstadoPoliza",
+            "type": "object",
+            "properties": {
+                "activo": {
+                    "type": "boolean"
+                },
+                "estado_parametro_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "fecha_creacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "fecha_modificacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "motivo": {
+                    "type": "string"
+                },
+                "poliza_id": {
+                    "$ref": "#/definitions/models.Poliza"
+                },
+                "usuario_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "usuario_rol": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.OrdenadorContrato": {
+            "title": "OrdenadorContrato",
+            "type": "object",
+            "properties": {
+                "activo": {
+                    "type": "boolean"
+                },
+                "cargo_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "contrato_general_id": {
+                    "$ref": "#/definitions/models.ContratoGeneral"
+                },
+                "documento_identidad": {
+                    "type": "string"
+                },
+                "fecha_creacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "fecha_modificacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "ordenador_argo_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "ordenador_sicapital_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "resolucion": {
+                    "type": "string"
+                },
+                "tercero_id": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "models.Poliza": {
+            "title": "Poliza",
+            "type": "object",
+            "properties": {
+                "activo": {
+                    "type": "boolean"
+                },
+                "contrato_general_id": {
+                    "$ref": "#/definitions/models.ContratoGeneral"
+                },
+                "descripcion": {
+                    "type": "string"
+                },
+                "entidad_aseguradora_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "fecha_aprobacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "fecha_creacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "fecha_expedicion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "fecha_fin": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "fecha_inicio": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "fecha_modificacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "numero_poliza": {
+                    "type": "string"
+                },
+                "usuario_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "usuario_legado": {
+                    "type": "string"
+                },
+                "usuario_rol": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.RegistroPresupuestal": {
+            "title": "RegistroPresupuestal",
+            "type": "object",
+            "properties": {
+                "activo": {
+                    "type": "boolean"
+                },
+                "disponibilidad_presupuestal_id": {
+                    "$ref": "#/definitions/models.DisponibilidadPresupuestal"
+                },
+                "fecha_creacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "fecha_modificacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "fecha_registro": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "numero_registro_presupuestal": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "vigencia_rp_id": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "models.SupervisorContrato": {
+            "title": "SupervisorContrato",
+            "type": "object",
+            "properties": {
+                "activo": {
+                    "type": "boolean"
+                },
+                "cargo_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "cargo_legado": {
+                    "type": "string"
+                },
+                "contrato_general_id": {
+                    "$ref": "#/definitions/models.ContratoGeneral"
+                },
+                "dependencia_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "dependencia_legado": {
+                    "type": "string"
+                },
+                "digito_verificacion": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "documento": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "fecha_creacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "fecha_modificacion": {
+                    "type": "string",
+                    "format": "datetime"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "sede_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "sede_legado": {
+                    "type": "string"
+                },
+                "supervisor_id": {
                     "type": "integer",
                     "format": "int64"
                 }
@@ -3507,64 +3509,64 @@
     },
     "tags": [
         {
-            "name": "contrato_general",
+            "name": "contratos-generales",
             "description": "ContratoGeneralController operations for ContratoGeneral\n"
         },
         {
-            "name": "estado_contrato",
+            "name": "estados-contrato",
             "description": "EstadoContratoController operations for EstadoContrato\n"
         },
         {
-            "name": "supervisor_contrato",
+            "name": "supervisores",
             "description": "SupervisorContratoController operations for SupervisorContrato\n"
         },
         {
-            "name": "ordenador_contrato",
+            "name": "ordenadores-contrato",
             "description": "OrdenadorContratoController operations for OrdenadorContrato\n"
         },
         {
-            "name": "contrato_arrendamiento",
+            "name": "contratos-arrendamiento",
             "description": "ContratoArrendamientoController operations for ContratoArrendamiento\n"
         },
         {
-            "name": "convenio",
+            "name": "convenios",
             "description": "ConvenioController operations for Convenio\n"
         },
         {
-            "name": "especificacion_tecnica",
+            "name": "especificaciones-tecnicas",
             "description": "EspecificacionTecnicaController operations for EspecificacionTecnica\n"
         },
         {
-            "name": "disponibilidad_presupuestal",
+            "name": "disponibilidades-presupuestales",
             "description": "DisponibilidadPresupuestalController operations for DisponibilidadPresupuestal\n"
         },
         {
-            "name": "registro_presupuestal",
+            "name": "registros-presupuestales",
             "description": "RegistroPresupuestalController operations for RegistroPresupuestal\n"
         },
         {
-            "name": "poliza",
+            "name": "polizas",
             "description": "PolizaController operations for Poliza\n"
         },
         {
-            "name": "estado_poliza",
+            "name": "estados-poliza",
             "description": "EstadoPolizaController operations for EstadoPoliza\n"
         },
         {
-            "name": "amparo_poliza",
+            "name": "amparos-polizas",
             "description": "AmparoPolizaController operations for AmparoPoliza\n"
         },
         {
-            "name": "documento_contrato",
+            "name": "documentos-contratos",
             "description": "DocumentoContratoController operations for DocumentoContrato\n"
         },
         {
-            "name": "acta_inicio",
+            "name": "actas-inicio",
             "description": "ActaInicioController operations for ActaInicio\n"
         },
         {
-            "name": "tablero",
-            "description": "TableroController expone los metadatos de los tableros de seguimiento.\n"
+            "name": "tableros",
+            "description": "TableroController expone los metadatos de los tableros de seguimiento.\nSon consultas de solo lectura: responden Ids, sin nombres ni datos sensibles.\n"
         }
     ]
 }

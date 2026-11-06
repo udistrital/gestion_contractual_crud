@@ -176,13 +176,13 @@ func desactivarDocumentos(txOrm orm.TxOrmer, entidadTipo string, entidadId int) 
 	return err
 }
 
-// ConteoConsecutivo es el cuerpo de POST /contrato_general/conteo-consecutivo,
+// ConteoConsecutivo es el cuerpo de POST /contratos-generales/conteo-consecutivo,
 // con los mismos campos del CRUD en NestJS.
 type ConteoConsecutivo struct {
 	UnidadEjecutoraId int `json:"unidad_ejecutora_id"`
 }
 
-// ConteoNumeroContrato es el cuerpo de POST /contrato_general/conteo-numero-contrato.
+// ConteoNumeroContrato es el cuerpo de POST /contratos-generales/conteo-numero-contrato.
 // Vigencia es el Id del parámetro de vigencia (contrato_general.vigencia_id) y
 // Estado el estado_parametro_id de estado_contrato.
 type ConteoNumeroContrato struct {

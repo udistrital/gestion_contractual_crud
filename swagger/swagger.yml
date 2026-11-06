@@ -11,10 +11,10 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 basePath: /v1
 paths:
-  /acta_inicio/:
+  /actas-inicio/:
     get:
       tags:
-      - acta_inicio
+      - actas-inicio
       description: |-
         get ActaInicio
         <br>
@@ -54,7 +54,7 @@ paths:
           description: parámetros inválidos
     post:
       tags:
-      - acta_inicio
+      - actas-inicio
       description: |-
         create ActaInicio
         <br>
@@ -73,10 +73,10 @@ paths:
             $ref: '#/definitions/models.ActaInicio'
         "400":
           description: cuerpo inválido
-  /acta_inicio/{id}:
+  /actas-inicio/{id}:
     get:
       tags:
-      - acta_inicio
+      - actas-inicio
       description: |-
         get ActaInicio by id
         <br>
@@ -96,7 +96,7 @@ paths:
           description: :id no encontrado
     put:
       tags:
-      - acta_inicio
+      - actas-inicio
       description: |-
         update the ActaInicio
         <br>
@@ -124,7 +124,7 @@ paths:
           description: :id no encontrado
     delete:
       tags:
-      - acta_inicio
+      - actas-inicio
       description: |-
         desactiva el ActaInicio (borrado lógico)
         <br>
@@ -140,10 +140,10 @@ paths:
           description: '{string} registro desactivado (activo = false)'
         "404":
           description: :id no encontrado
-  /amparo_poliza/:
+  /amparos-polizas/:
     get:
       tags:
-      - amparo_poliza
+      - amparos-polizas
       description: |-
         get AmparoPoliza
         <br>
@@ -183,7 +183,7 @@ paths:
           description: parámetros inválidos
     post:
       tags:
-      - amparo_poliza
+      - amparos-polizas
       description: |-
         create AmparoPoliza
         <br>
@@ -202,10 +202,10 @@ paths:
             $ref: '#/definitions/models.AmparoPoliza'
         "400":
           description: cuerpo inválido
-  /amparo_poliza/{id}:
+  /amparos-polizas/{id}:
     get:
       tags:
-      - amparo_poliza
+      - amparos-polizas
       description: |-
         get AmparoPoliza by id
         <br>
@@ -225,7 +225,7 @@ paths:
           description: :id no encontrado
     put:
       tags:
-      - amparo_poliza
+      - amparos-polizas
       description: |-
         update the AmparoPoliza
         <br>
@@ -253,7 +253,7 @@ paths:
           description: :id no encontrado
     delete:
       tags:
-      - amparo_poliza
+      - amparos-polizas
       description: |-
         desactiva el AmparoPoliza (borrado lógico)
         <br>
@@ -269,10 +269,10 @@ paths:
           description: '{string} registro desactivado (activo = false)'
         "404":
           description: :id no encontrado
-  /contrato_arrendamiento/:
+  /contratos-arrendamiento/:
     get:
       tags:
-      - contrato_arrendamiento
+      - contratos-arrendamiento
       description: |-
         get ContratoArrendamiento
         <br>
@@ -312,7 +312,7 @@ paths:
           description: parámetros inválidos
     post:
       tags:
-      - contrato_arrendamiento
+      - contratos-arrendamiento
       description: |-
         create ContratoArrendamiento
         <br>
@@ -331,10 +331,10 @@ paths:
             $ref: '#/definitions/models.ContratoArrendamiento'
         "400":
           description: cuerpo inválido
-  /contrato_arrendamiento/{id}:
+  /contratos-arrendamiento/{id}:
     get:
       tags:
-      - contrato_arrendamiento
+      - contratos-arrendamiento
       description: |-
         get ContratoArrendamiento by id
         <br>
@@ -354,7 +354,7 @@ paths:
           description: :id no encontrado
     put:
       tags:
-      - contrato_arrendamiento
+      - contratos-arrendamiento
       description: |-
         update the ContratoArrendamiento
         <br>
@@ -382,7 +382,7 @@ paths:
           description: :id no encontrado
     delete:
       tags:
-      - contrato_arrendamiento
+      - contratos-arrendamiento
       description: |-
         desactiva el ContratoArrendamiento (borrado lógico)
         <br>
@@ -398,10 +398,10 @@ paths:
           description: '{string} registro desactivado (activo = false)'
         "404":
           description: :id no encontrado
-  /contrato_general/:
+  /contratos-generales/:
     get:
       tags:
-      - contrato_general
+      - contratos-generales
       description: |-
         get ContratoGeneral
         <br>
@@ -441,7 +441,7 @@ paths:
           description: parámetros inválidos
     post:
       tags:
-      - contrato_general
+      - contratos-generales
       description: |-
         create ContratoGeneral
         <br>
@@ -460,10 +460,10 @@ paths:
             $ref: '#/definitions/models.ContratoGeneral'
         "400":
           description: cuerpo inválido
-  /contrato_general/{id}:
+  /contratos-generales/{id}:
     get:
       tags:
-      - contrato_general
+      - contratos-generales
       description: |-
         get ContratoGeneral by id
         <br>
@@ -483,7 +483,7 @@ paths:
           description: :id no encontrado
     put:
       tags:
-      - contrato_general
+      - contratos-generales
       description: |-
         update the ContratoGeneral
         <br>
@@ -511,7 +511,7 @@ paths:
           description: :id no encontrado
     delete:
       tags:
-      - contrato_general
+      - contratos-generales
       description: |-
         desactiva el ContratoGeneral (borrado lógico)
         <br>
@@ -527,10 +527,10 @@ paths:
           description: '{string} registro desactivado (activo = false)'
         "404":
           description: :id no encontrado
-  /contrato_general/conteo-consecutivo:
+  /contratos-generales/conteo-consecutivo:
     post:
       tags:
-      - contrato_general
+      - contratos-generales
       description: |-
         cuenta los contratos de una unidad ejecutora, activos e inactivos (el MID le suma 1 para el consecutivo)
         <br>
@@ -547,10 +547,10 @@ paths:
           description: '{int} número de contratos'
         "400":
           description: cuerpo inválido
-  /contrato_general/conteo-numero-contrato:
+  /contratos-generales/conteo-numero-contrato:
     post:
       tags:
-      - contrato_general
+      - contratos-generales
       description: |-
         cuenta los contratos de una unidad ejecutora y una vigencia que tienen o tuvieron el estado indicado, activos e inactivos
         <br>
@@ -567,10 +567,10 @@ paths:
           description: '{int} número de contratos'
         "400":
           description: cuerpo inválido
-  /convenio/:
+  /convenios/:
     get:
       tags:
-      - convenio
+      - convenios
       description: |-
         get Convenio
         <br>
@@ -610,7 +610,7 @@ paths:
           description: parámetros inválidos
     post:
       tags:
-      - convenio
+      - convenios
       description: |-
         create Convenio
         <br>
@@ -629,10 +629,10 @@ paths:
             $ref: '#/definitions/models.Convenio'
         "400":
           description: cuerpo inválido
-  /convenio/{id}:
+  /convenios/{id}:
     get:
       tags:
-      - convenio
+      - convenios
       description: |-
         get Convenio by id
         <br>
@@ -652,7 +652,7 @@ paths:
           description: :id no encontrado
     put:
       tags:
-      - convenio
+      - convenios
       description: |-
         update the Convenio
         <br>
@@ -680,7 +680,7 @@ paths:
           description: :id no encontrado
     delete:
       tags:
-      - convenio
+      - convenios
       description: |-
         desactiva el Convenio (borrado lógico)
         <br>
@@ -696,10 +696,10 @@ paths:
           description: '{string} registro desactivado (activo = false)'
         "404":
           description: :id no encontrado
-  /disponibilidad_presupuestal/:
+  /disponibilidades-presupuestales/:
     get:
       tags:
-      - disponibilidad_presupuestal
+      - disponibilidades-presupuestales
       description: |-
         get DisponibilidadPresupuestal
         <br>
@@ -739,7 +739,7 @@ paths:
           description: parámetros inválidos
     post:
       tags:
-      - disponibilidad_presupuestal
+      - disponibilidades-presupuestales
       description: |-
         create DisponibilidadPresupuestal
         <br>
@@ -758,10 +758,10 @@ paths:
             $ref: '#/definitions/models.DisponibilidadPresupuestal'
         "400":
           description: cuerpo inválido
-  /disponibilidad_presupuestal/{id}:
+  /disponibilidades-presupuestales/{id}:
     get:
       tags:
-      - disponibilidad_presupuestal
+      - disponibilidades-presupuestales
       description: |-
         get DisponibilidadPresupuestal by id
         <br>
@@ -781,7 +781,7 @@ paths:
           description: :id no encontrado
     put:
       tags:
-      - disponibilidad_presupuestal
+      - disponibilidades-presupuestales
       description: |-
         update the DisponibilidadPresupuestal
         <br>
@@ -809,7 +809,7 @@ paths:
           description: :id no encontrado
     delete:
       tags:
-      - disponibilidad_presupuestal
+      - disponibilidades-presupuestales
       description: |-
         desactiva el DisponibilidadPresupuestal (borrado lógico)
         <br>
@@ -825,10 +825,10 @@ paths:
           description: '{string} registro desactivado (activo = false)'
         "404":
           description: :id no encontrado
-  /documento_contrato/:
+  /documentos-contratos/:
     get:
       tags:
-      - documento_contrato
+      - documentos-contratos
       description: |-
         get DocumentoContrato
         <br>
@@ -868,7 +868,7 @@ paths:
           description: parámetros inválidos
     post:
       tags:
-      - documento_contrato
+      - documentos-contratos
       description: |-
         create DocumentoContrato
         <br>
@@ -887,10 +887,10 @@ paths:
             $ref: '#/definitions/models.DocumentoContrato'
         "400":
           description: cuerpo inválido
-  /documento_contrato/{id}:
+  /documentos-contratos/{id}:
     get:
       tags:
-      - documento_contrato
+      - documentos-contratos
       description: |-
         get DocumentoContrato by id
         <br>
@@ -910,7 +910,7 @@ paths:
           description: :id no encontrado
     put:
       tags:
-      - documento_contrato
+      - documentos-contratos
       description: |-
         update the DocumentoContrato
         <br>
@@ -938,7 +938,7 @@ paths:
           description: :id no encontrado
     delete:
       tags:
-      - documento_contrato
+      - documentos-contratos
       description: |-
         desactiva el DocumentoContrato (borrado lógico)
         <br>
@@ -954,10 +954,10 @@ paths:
           description: '{string} registro desactivado (activo = false)'
         "404":
           description: :id no encontrado
-  /especificacion_tecnica/:
+  /especificaciones-tecnicas/:
     get:
       tags:
-      - especificacion_tecnica
+      - especificaciones-tecnicas
       description: |-
         get EspecificacionTecnica
         <br>
@@ -997,7 +997,7 @@ paths:
           description: parámetros inválidos
     post:
       tags:
-      - especificacion_tecnica
+      - especificaciones-tecnicas
       description: |-
         create EspecificacionTecnica
         <br>
@@ -1016,10 +1016,10 @@ paths:
             $ref: '#/definitions/models.EspecificacionTecnica'
         "400":
           description: cuerpo inválido
-  /especificacion_tecnica/{id}:
+  /especificaciones-tecnicas/{id}:
     get:
       tags:
-      - especificacion_tecnica
+      - especificaciones-tecnicas
       description: |-
         get EspecificacionTecnica by id
         <br>
@@ -1039,7 +1039,7 @@ paths:
           description: :id no encontrado
     put:
       tags:
-      - especificacion_tecnica
+      - especificaciones-tecnicas
       description: |-
         update the EspecificacionTecnica
         <br>
@@ -1067,7 +1067,7 @@ paths:
           description: :id no encontrado
     delete:
       tags:
-      - especificacion_tecnica
+      - especificaciones-tecnicas
       description: |-
         desactiva el EspecificacionTecnica (borrado lógico)
         <br>
@@ -1083,10 +1083,10 @@ paths:
           description: '{string} registro desactivado (activo = false)'
         "404":
           description: :id no encontrado
-  /estado_contrato/:
+  /estados-contrato/:
     get:
       tags:
-      - estado_contrato
+      - estados-contrato
       description: |-
         get EstadoContrato
         <br>
@@ -1126,7 +1126,7 @@ paths:
           description: parámetros inválidos
     post:
       tags:
-      - estado_contrato
+      - estados-contrato
       description: |-
         create EstadoContrato
         <br>
@@ -1145,10 +1145,10 @@ paths:
             $ref: '#/definitions/models.EstadoContrato'
         "400":
           description: cuerpo inválido
-  /estado_contrato/{id}:
+  /estados-contrato/{id}:
     get:
       tags:
-      - estado_contrato
+      - estados-contrato
       description: |-
         get EstadoContrato by id
         <br>
@@ -1168,7 +1168,7 @@ paths:
           description: :id no encontrado
     put:
       tags:
-      - estado_contrato
+      - estados-contrato
       description: |-
         update the EstadoContrato
         <br>
@@ -1196,7 +1196,7 @@ paths:
           description: :id no encontrado
     delete:
       tags:
-      - estado_contrato
+      - estados-contrato
       description: |-
         desactiva el EstadoContrato (borrado lógico)
         <br>
@@ -1212,10 +1212,10 @@ paths:
           description: '{string} registro desactivado (activo = false)'
         "404":
           description: :id no encontrado
-  /estado_poliza/:
+  /estados-poliza/:
     get:
       tags:
-      - estado_poliza
+      - estados-poliza
       description: |-
         get EstadoPoliza
         <br>
@@ -1255,7 +1255,7 @@ paths:
           description: parámetros inválidos
     post:
       tags:
-      - estado_poliza
+      - estados-poliza
       description: |-
         create EstadoPoliza
         <br>
@@ -1274,10 +1274,10 @@ paths:
             $ref: '#/definitions/models.EstadoPoliza'
         "400":
           description: cuerpo inválido
-  /estado_poliza/{id}:
+  /estados-poliza/{id}:
     get:
       tags:
-      - estado_poliza
+      - estados-poliza
       description: |-
         get EstadoPoliza by id
         <br>
@@ -1297,7 +1297,7 @@ paths:
           description: :id no encontrado
     put:
       tags:
-      - estado_poliza
+      - estados-poliza
       description: |-
         update the EstadoPoliza
         <br>
@@ -1325,7 +1325,7 @@ paths:
           description: :id no encontrado
     delete:
       tags:
-      - estado_poliza
+      - estados-poliza
       description: |-
         desactiva el EstadoPoliza (borrado lógico)
         <br>
@@ -1341,10 +1341,10 @@ paths:
           description: '{string} registro desactivado (activo = false)'
         "404":
           description: :id no encontrado
-  /ordenador_contrato/:
+  /ordenadores-contrato/:
     get:
       tags:
-      - ordenador_contrato
+      - ordenadores-contrato
       description: |-
         get OrdenadorContrato
         <br>
@@ -1384,7 +1384,7 @@ paths:
           description: parámetros inválidos
     post:
       tags:
-      - ordenador_contrato
+      - ordenadores-contrato
       description: |-
         create OrdenadorContrato
         <br>
@@ -1403,10 +1403,10 @@ paths:
             $ref: '#/definitions/models.OrdenadorContrato'
         "400":
           description: cuerpo inválido
-  /ordenador_contrato/{id}:
+  /ordenadores-contrato/{id}:
     get:
       tags:
-      - ordenador_contrato
+      - ordenadores-contrato
       description: |-
         get OrdenadorContrato by id
         <br>
@@ -1426,7 +1426,7 @@ paths:
           description: :id no encontrado
     put:
       tags:
-      - ordenador_contrato
+      - ordenadores-contrato
       description: |-
         update the OrdenadorContrato
         <br>
@@ -1454,7 +1454,7 @@ paths:
           description: :id no encontrado
     delete:
       tags:
-      - ordenador_contrato
+      - ordenadores-contrato
       description: |-
         desactiva el OrdenadorContrato (borrado lógico)
         <br>
@@ -1470,10 +1470,10 @@ paths:
           description: '{string} registro desactivado (activo = false)'
         "404":
           description: :id no encontrado
-  /poliza/:
+  /polizas/:
     get:
       tags:
-      - poliza
+      - polizas
       description: |-
         get Poliza
         <br>
@@ -1513,7 +1513,7 @@ paths:
           description: parámetros inválidos
     post:
       tags:
-      - poliza
+      - polizas
       description: |-
         create Poliza
         <br>
@@ -1532,10 +1532,10 @@ paths:
             $ref: '#/definitions/models.Poliza'
         "400":
           description: cuerpo inválido
-  /poliza/{id}:
+  /polizas/{id}:
     get:
       tags:
-      - poliza
+      - polizas
       description: |-
         get Poliza by id
         <br>
@@ -1555,7 +1555,7 @@ paths:
           description: :id no encontrado
     put:
       tags:
-      - poliza
+      - polizas
       description: |-
         update the Poliza
         <br>
@@ -1583,7 +1583,7 @@ paths:
           description: :id no encontrado
     delete:
       tags:
-      - poliza
+      - polizas
       description: |-
         desactiva el Poliza (borrado lógico)
         <br>
@@ -1599,10 +1599,10 @@ paths:
           description: '{string} registro desactivado (activo = false)'
         "404":
           description: :id no encontrado
-  /registro_presupuestal/:
+  /registros-presupuestales/:
     get:
       tags:
-      - registro_presupuestal
+      - registros-presupuestales
       description: |-
         get RegistroPresupuestal
         <br>
@@ -1642,7 +1642,7 @@ paths:
           description: parámetros inválidos
     post:
       tags:
-      - registro_presupuestal
+      - registros-presupuestales
       description: |-
         create RegistroPresupuestal
         <br>
@@ -1661,10 +1661,10 @@ paths:
             $ref: '#/definitions/models.RegistroPresupuestal'
         "400":
           description: cuerpo inválido
-  /registro_presupuestal/{id}:
+  /registros-presupuestales/{id}:
     get:
       tags:
-      - registro_presupuestal
+      - registros-presupuestales
       description: |-
         get RegistroPresupuestal by id
         <br>
@@ -1684,7 +1684,7 @@ paths:
           description: :id no encontrado
     put:
       tags:
-      - registro_presupuestal
+      - registros-presupuestales
       description: |-
         update the RegistroPresupuestal
         <br>
@@ -1712,7 +1712,7 @@ paths:
           description: :id no encontrado
     delete:
       tags:
-      - registro_presupuestal
+      - registros-presupuestales
       description: |-
         desactiva el RegistroPresupuestal (borrado lógico)
         <br>
@@ -1728,10 +1728,10 @@ paths:
           description: '{string} registro desactivado (activo = false)'
         "404":
           description: :id no encontrado
-  /supervisor_contrato/:
+  /supervisores/:
     get:
       tags:
-      - supervisor_contrato
+      - supervisores
       description: |-
         get SupervisorContrato
         <br>
@@ -1771,7 +1771,7 @@ paths:
           description: parámetros inválidos
     post:
       tags:
-      - supervisor_contrato
+      - supervisores
       description: |-
         create SupervisorContrato
         <br>
@@ -1790,10 +1790,10 @@ paths:
             $ref: '#/definitions/models.SupervisorContrato'
         "400":
           description: cuerpo inválido
-  /supervisor_contrato/{id}:
+  /supervisores/{id}:
     get:
       tags:
-      - supervisor_contrato
+      - supervisores
       description: |-
         get SupervisorContrato by id
         <br>
@@ -1813,7 +1813,7 @@ paths:
           description: :id no encontrado
     put:
       tags:
-      - supervisor_contrato
+      - supervisores
       description: |-
         update the SupervisorContrato
         <br>
@@ -1841,7 +1841,7 @@ paths:
           description: :id no encontrado
     delete:
       tags:
-      - supervisor_contrato
+      - supervisores
       description: |-
         desactiva el SupervisorContrato (borrado lógico)
         <br>
@@ -1860,25 +1860,30 @@ paths:
   /tableros/contratos:
     get:
       tags:
-      - tablero
-      description: 'metadatos de seguimiento por contrato activo: estado general actual, fecha desde la que está en ese estado, fecha final, dependencia y sede solicitante y abogado (solo Ids)'
+      - tableros
+      description: |-
+        metadatos de seguimiento por contrato activo: estado general actual, fecha desde la que está en ese estado, fecha final, dependencia y sede solicitante y abogado (solo Ids)
+        <br>
       operationId: TableroController.Contratos del tablero
       parameters:
       - in: query
         name: vigencia-id
         description: Id del parámetro de vigencia (contrato_general.vigencia_id)
         type: integer
+        format: int64
       - in: query
         name: abogado-id
         description: usuario_id del abogado que registró el contrato
         type: integer
+        format: int64
       - in: query
         name: dependencia-solicitante-id
-        description: 'Una o varias dependencias solicitantes separadas por coma. e.g. 31,45'
+        description: Una o varias dependencias solicitantes separadas por coma. e.g.
+          31,45
         type: string
       responses:
         "200":
-          description: ''
+          description: ""
           schema:
             type: array
             items:
@@ -1890,94 +1895,94 @@ definitions:
     title: ActaInicio
     type: object
     properties:
-      Activo:
+      activo:
         type: boolean
-      ContratoGeneralId:
+      contrato_general_id:
         $ref: '#/definitions/models.ContratoGeneral'
-      Descripcion:
+      descripcion:
         type: string
-      FechaCreacion:
-        type: string
-        format: datetime
-      FechaFin:
+      fecha_creacion:
         type: string
         format: datetime
-      FechaInicio:
+      fecha_fin:
         type: string
         format: datetime
-      FechaModificacion:
+      fecha_inicio:
         type: string
         format: datetime
-      FechaSuscripcion:
+      fecha_modificacion:
         type: string
         format: datetime
-      Id:
+      fecha_suscripcion:
+        type: string
+        format: datetime
+      id:
         type: integer
         format: int64
-      NombreInterventor:
+      nombre_interventor:
         type: string
-      NumeroActa:
+      numero_acta:
         type: string
-      NumeroRegistroPresupuestal:
+      numero_registro_presupuestal:
         type: string
-      UsuarioId:
+      usuario_id:
         type: integer
         format: int64
-      UsuarioLegado:
+      usuario_legado:
         type: string
-      UsuarioRol:
+      usuario_rol:
         type: string
-      ValorAnticipo:
+      valor_anticipo:
         type: number
         format: double
-      ValorDisponibilidad:
+      valor_disponibilidad:
         type: number
         format: double
-      ValorRegistroPresupuestal:
+      valor_registro_presupuestal:
         type: number
         format: double
   models.AmparoPoliza:
     title: AmparoPoliza
     type: object
     properties:
-      Activo:
+      activo:
         type: boolean
-      AmparoId:
+      amparo_id:
         type: integer
         format: int64
-      ContratoGeneralId:
+      contrato_general_id:
         $ref: '#/definitions/models.ContratoGeneral'
-      Descripcion:
+      descripcion:
         type: string
-      FechaCreacion:
-        type: string
-        format: datetime
-      FechaFin:
+      fecha_creacion:
         type: string
         format: datetime
-      FechaInicio:
+      fecha_fin:
         type: string
         format: datetime
-      FechaModificacion:
+      fecha_inicio:
         type: string
         format: datetime
-      Id:
+      fecha_modificacion:
+        type: string
+        format: datetime
+      id:
         type: integer
         format: int64
-      PolizaId:
+      poliza_id:
         $ref: '#/definitions/models.Poliza'
-      Suficiencia:
+      suficiencia:
         type: number
         format: double
-      TipoValorAmparoId:
+      tipo_valor_amparo_id:
         type: integer
         format: int64
-      UsuarioId:
+      usuario_id:
         type: integer
         format: int64
-      UsuarioRol:
+      usuario_rol:
         type: string
-      Valor:
+      valor:
         type: number
         format: double
   models.ConteoConsecutivo:
@@ -2004,567 +2009,568 @@ definitions:
     title: ContratoArrendamiento
     type: object
     properties:
-      Activo:
+      activo:
         type: boolean
-      ContratoGeneralId:
+      contrato_general_id:
         $ref: '#/definitions/models.ContratoGeneral'
-      Destinacion:
+      destinacion:
         type: string
-      FechaCreacion:
-        type: string
-        format: datetime
-      FechaModificacion:
+      fecha_creacion:
         type: string
         format: datetime
-      Id:
-        type: integer
-        format: int64
-      PlazoAdministracion:
-        type: integer
-        format: int64
-      PlazoEntrega:
-        type: integer
-        format: int64
-      PlazoPagoMensual:
-        type: integer
-        format: int64
-      Reajuste:
+      fecha_modificacion:
         type: string
-      ValorAdministracion:
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      plazo_administracion:
+        type: integer
+        format: int64
+      plazo_entrega:
+        type: integer
+        format: int64
+      plazo_pago_mensual:
+        type: integer
+        format: int64
+      reajuste:
+        type: string
+      valor_administracion:
         type: number
         format: double
-      ValorArrendamiento:
+      valor_arrendamiento:
         type: number
         format: double
   models.ContratoGeneral:
     title: ContratoGeneral
     type: object
     properties:
-      Actividades:
+      actividades:
         type: string
-      Activo:
+      activo:
         type: boolean
-      AplicaPoliza:
+      aplica_poliza:
         type: boolean
-      ClaseProveedorId:
+      clase_proveedor_id:
         type: integer
         format: int64
-      ClausulaRegistroPresupuestal:
+      clausula_registro_presupuestal:
         type: boolean
-      Condiciones:
+      condiciones:
         type: string
-      ConsecutivoElaboracion:
+      consecutivo_elaboracion:
         type: string
-      DependenciaSolicitanteId:
+      dependencia_solicitante_id:
         type: integer
         format: int64
-      DependenciaSolicitanteLegadoId:
+      dependencia_solicitante_legado_id:
         type: integer
         format: int64
-      FechaCreacion:
-        type: string
-        format: datetime
-      FechaFinal:
+      fecha_creacion:
         type: string
         format: datetime
-      FechaInicial:
+      fecha_final:
         type: string
         format: datetime
-      FechaModificacion:
+      fecha_inicial:
         type: string
         format: datetime
-      FechaSuscripcion:
+      fecha_modificacion:
         type: string
         format: datetime
-      FechaSuscripcionEstudio:
+      fecha_suscripcion:
         type: string
         format: datetime
-      Id:
-        type: integer
-        format: int64
-      Justificacion:
+      fecha_suscripcion_estudio:
         type: string
-      MedioPagoId:
+        format: datetime
+      id:
         type: integer
         format: int64
-      ModalidadSeleccionId:
-        type: integer
-        format: int64
-      ModoPago:
+      justificacion:
         type: string
-      NumeroContrato:
+      medio_pago_id:
+        type: integer
+        format: int64
+      modalidad_seleccion_id:
+        type: integer
+        format: int64
+      modo_pago:
         type: string
-      Objeto:
+      numero_contrato:
         type: string
-      Observaciones:
+      objeto:
         type: string
-      OrigenPresupuestoId:
-        type: integer
-        format: int64
-      OrigenRecursosId:
-        type: integer
-        format: int64
-      PerfilContratistaId:
-        type: integer
-        format: int64
-      PlazoEjecucion:
-        type: integer
-        format: int64
-      ProcedimientoId:
-        type: integer
-        format: int64
-      ProveedorNumeroDocumento:
+      observaciones:
         type: string
-      RegimenContratacionId:
+      origen_presupuesto_id:
         type: integer
         format: int64
-      SedeSolicitanteId:
+      origen_recursos_id:
         type: integer
         format: int64
-      SedeSolicitanteLegadoId:
+      perfil_contratista_id:
         type: integer
         format: int64
-      TemaGastoInversionId:
+      plazo_ejecucion:
         type: integer
         format: int64
-      TipoCompromisoId:
+      procedimiento_id:
         type: integer
         format: int64
-      TipoContratoId:
-        type: integer
-        format: int64
-      TipoControlId:
-        type: integer
-        format: int64
-      TipoGastoId:
-        type: integer
-        format: int64
-      TipoMonedaId:
-        type: integer
-        format: int64
-      TipoPersonaId:
-        type: integer
-        format: int64
-      TipologiaEspecificaId:
-        type: integer
-        format: int64
-      UnidadEjecucionId:
-        type: integer
-        format: int64
-      UnidadEjecutoraId:
-        type: integer
-        format: int64
-      UsuarioId:
-        type: integer
-        format: int64
-      UsuarioLegado:
+      proveedor_numero_documento:
         type: string
-      UsuarioRol:
+      regimen_contratacion_id:
+        type: integer
+        format: int64
+      sede_solicitante_id:
+        type: integer
+        format: int64
+      sede_solicitante_legado_id:
+        type: integer
+        format: int64
+      tema_gasto_inversion_id:
+        type: integer
+        format: int64
+      tipo_compromiso_id:
+        type: integer
+        format: int64
+      tipo_contrato_id:
+        type: integer
+        format: int64
+      tipo_control_id:
+        type: integer
+        format: int64
+      tipo_gasto_id:
+        type: integer
+        format: int64
+      tipo_moneda_id:
+        type: integer
+        format: int64
+      tipo_persona_id:
+        type: integer
+        format: int64
+      tipologia_especifica_id:
+        type: integer
+        format: int64
+      unidad_ejecucion_id:
+        type: integer
+        format: int64
+      unidad_ejecutora_id:
+        type: integer
+        format: int64
+      usuario_id:
+        type: integer
+        format: int64
+      usuario_legado:
         type: string
-      ValorContratoMe:
+      usuario_rol:
+        type: string
+      valor_contrato_me:
         type: number
         format: double
-      ValorPesos:
+      valor_pesos:
         type: number
         format: double
-      ValorTasaCambio:
+      valor_tasa_cambio:
         type: number
         format: double
-      VigenciaId:
-        type: integer
-        format: int64
-  models.Convenio:
-    title: Convenio
-    type: object
-    properties:
-      Activo:
-        type: boolean
-      ContratoGeneralId:
-        $ref: '#/definitions/models.ContratoGeneral'
-      FechaCreacion:
-        type: string
-        format: datetime
-      FechaModificacion:
-        type: string
-        format: datetime
-      Id:
-        type: integer
-        format: int64
-      Nombre:
-        type: string
-      TipoConvenioId:
-        type: integer
-        format: int64
-      Vigencia:
-        type: integer
-        format: int64
-  models.DisponibilidadPresupuestal:
-    title: DisponibilidadPresupuestal
-    type: object
-    properties:
-      Activo:
-        type: boolean
-      ContratoGeneralId:
-        $ref: '#/definitions/models.ContratoGeneral'
-      FechaCreacion:
-        type: string
-        format: datetime
-      FechaModificacion:
-        type: string
-        format: datetime
-      FechaRegistro:
-        type: string
-        format: datetime
-      Id:
-        type: integer
-        format: int64
-      NumeroCdpId:
-        type: integer
-        format: int64
-      VigenciaCdpId:
-        type: integer
-        format: int64
-  models.DocumentoContrato:
-    title: DocumentoContrato
-    type: object
-    properties:
-      Activo:
-        type: boolean
-      DocumentoEnlace:
-        type: string
-      DocumentoId:
-        type: integer
-        format: int64
-      EntidadId:
-        type: integer
-        format: int64
-      EntidadTipo:
-        type: string
-      FechaCreacion:
-        type: string
-        format: datetime
-      FechaModificacion:
-        type: string
-        format: datetime
-      Id:
-        type: integer
-        format: int64
-      TipoDocumentoId:
-        type: integer
-        format: int64
-      UsuarioId:
-        type: integer
-        format: int64
-      UsuarioRol:
-        type: string
-  models.EspecificacionTecnica:
-    title: EspecificacionTecnica
-    type: object
-    properties:
-      Activo:
-        type: boolean
-      Cantidad:
-        type: integer
-        format: int64
-      ContratoGeneralId:
-        $ref: '#/definitions/models.ContratoGeneral'
-      Descripcion:
-        type: string
-      FechaCreacion:
-        type: string
-        format: datetime
-      FechaModificacion:
-        type: string
-        format: datetime
-      Id:
-        type: integer
-        format: int64
-      ValorTotal:
-        type: number
-        format: double
-      ValorUnitario:
-        type: number
-        format: double
-  models.EstadoContrato:
-    title: EstadoContrato
-    type: object
-    properties:
-      Activo:
-        type: boolean
-      Actual:
-        type: boolean
-      ContratoGeneralId:
-        $ref: '#/definitions/models.ContratoGeneral'
-      EstadoInternoParametroId:
-        type: integer
-        format: int64
-      EstadoParametroId:
-        type: integer
-        format: int64
-      FechaCreacion:
-        type: string
-        format: datetime
-      FechaEvento:
-        type: string
-        format: datetime
-      FechaModificacion:
-        type: string
-        format: datetime
-      Id:
-        type: integer
-        format: int64
-      Motivo:
-        type: string
-      UsuarioId:
-        type: integer
-        format: int64
-      UsuarioRol:
-        type: string
-  models.EstadoPoliza:
-    title: EstadoPoliza
-    type: object
-    properties:
-      Activo:
-        type: boolean
-      EstadoParametroId:
-        type: integer
-        format: int64
-      FechaCreacion:
-        type: string
-        format: datetime
-      FechaModificacion:
-        type: string
-        format: datetime
-      Id:
-        type: integer
-        format: int64
-      Motivo:
-        type: string
-      PolizaId:
-        $ref: '#/definitions/models.Poliza'
-      UsuarioId:
-        type: integer
-        format: int64
-      UsuarioRol:
-        type: string
-  models.OrdenadorContrato:
-    title: OrdenadorContrato
-    type: object
-    properties:
-      Activo:
-        type: boolean
-      CargoId:
-        type: integer
-        format: int64
-      ContratoGeneralId:
-        $ref: '#/definitions/models.ContratoGeneral'
-      DocumentoIdentidad:
-        type: string
-      FechaCreacion:
-        type: string
-        format: datetime
-      FechaModificacion:
-        type: string
-        format: datetime
-      Id:
-        type: integer
-        format: int64
-      OrdenadorArgoId:
-        type: integer
-        format: int64
-      OrdenadorSicapitalId:
-        type: integer
-        format: int64
-      Resolucion:
-        type: string
-      TerceroId:
-        type: integer
-        format: int64
-  models.Poliza:
-    title: Poliza
-    type: object
-    properties:
-      Activo:
-        type: boolean
-      ContratoGeneralId:
-        $ref: '#/definitions/models.ContratoGeneral'
-      Descripcion:
-        type: string
-      EntidadAseguradoraId:
-        type: integer
-        format: int64
-      FechaAprobacion:
-        type: string
-        format: datetime
-      FechaCreacion:
-        type: string
-        format: datetime
-      FechaExpedicion:
-        type: string
-        format: datetime
-      FechaFin:
-        type: string
-        format: datetime
-      FechaInicio:
-        type: string
-        format: datetime
-      FechaModificacion:
-        type: string
-        format: datetime
-      Id:
-        type: integer
-        format: int64
-      NumeroPoliza:
-        type: string
-      UsuarioId:
-        type: integer
-        format: int64
-      UsuarioLegado:
-        type: string
-      UsuarioRol:
-        type: string
-  models.RegistroPresupuestal:
-    title: RegistroPresupuestal
-    type: object
-    properties:
-      Activo:
-        type: boolean
-      DisponibilidadPresupuestalId:
-        $ref: '#/definitions/models.DisponibilidadPresupuestal'
-      FechaCreacion:
-        type: string
-        format: datetime
-      FechaModificacion:
-        type: string
-        format: datetime
-      FechaRegistro:
-        type: string
-        format: datetime
-      Id:
-        type: integer
-        format: int64
-      NumeroRegistroPresupuestal:
-        type: integer
-        format: int64
-      VigenciaRpId:
-        type: integer
-        format: int64
-  models.SupervisorContrato:
-    title: SupervisorContrato
-    type: object
-    properties:
-      Activo:
-        type: boolean
-      CargoId:
-        type: integer
-        format: int64
-      CargoLegado:
-        type: string
-      ContratoGeneralId:
-        $ref: '#/definitions/models.ContratoGeneral'
-      DependenciaId:
-        type: integer
-        format: int64
-      DependenciaLegado:
-        type: string
-      DigitoVerificacion:
-        type: integer
-        format: int64
-      Documento:
-        type: integer
-        format: int64
-      FechaCreacion:
-        type: string
-        format: datetime
-      FechaModificacion:
-        type: string
-        format: datetime
-      Id:
-        type: integer
-        format: int64
-      SedeId:
-        type: integer
-        format: int64
-      SedeLegado:
-        type: string
-      SupervisorId:
+      vigencia_id:
         type: integer
         format: int64
   models.ContratoTablero:
     title: ContratoTablero
     type: object
     properties:
-      AbogadoId:
+      abogado_id:
         type: integer
         format: int64
-      ConsecutivoElaboracion:
+      consecutivo_elaboracion:
         type: string
-      ContratoGeneralId:
+      contrato_general_id:
         type: integer
         format: int64
-      DependenciaSolicitanteId:
+      dependencia_solicitante_id:
         type: integer
         format: int64
-      EstadoParametroId:
+      estado_parametro_id:
         type: integer
         format: int64
-      FechaEstado:
-        type: string
-        format: datetime
-      FechaFinal:
+      fecha_estado:
         type: string
         format: datetime
-      NumeroContrato:
+      fecha_final:
         type: string
-      SedeSolicitanteId:
+        format: datetime
+      numero_contrato:
+        type: string
+      sede_solicitante_id:
         type: integer
         format: int64
-      VigenciaId:
+      vigencia_id:
+        type: integer
+        format: int64
+  models.Convenio:
+    title: Convenio
+    type: object
+    properties:
+      activo:
+        type: boolean
+      contrato_general_id:
+        $ref: '#/definitions/models.ContratoGeneral'
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      nombre:
+        type: string
+      tipo_convenio_id:
+        type: integer
+        format: int64
+      vigencia:
+        type: integer
+        format: int64
+  models.DisponibilidadPresupuestal:
+    title: DisponibilidadPresupuestal
+    type: object
+    properties:
+      activo:
+        type: boolean
+      contrato_general_id:
+        $ref: '#/definitions/models.ContratoGeneral'
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      fecha_registro:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      numero_cdp_id:
+        type: integer
+        format: int64
+      vigencia_cdp_id:
+        type: integer
+        format: int64
+  models.DocumentoContrato:
+    title: DocumentoContrato
+    type: object
+    properties:
+      activo:
+        type: boolean
+      documento_enlace:
+        type: string
+      documento_id:
+        type: integer
+        format: int64
+      entidad_id:
+        type: integer
+        format: int64
+      entidad_tipo:
+        type: string
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      tipo_documento_id:
+        type: integer
+        format: int64
+      usuario_id:
+        type: integer
+        format: int64
+      usuario_rol:
+        type: string
+  models.EspecificacionTecnica:
+    title: EspecificacionTecnica
+    type: object
+    properties:
+      activo:
+        type: boolean
+      cantidad:
+        type: integer
+        format: int64
+      contrato_general_id:
+        $ref: '#/definitions/models.ContratoGeneral'
+      descripcion:
+        type: string
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      valor_total:
+        type: number
+        format: double
+      valor_unitario:
+        type: number
+        format: double
+  models.EstadoContrato:
+    title: EstadoContrato
+    type: object
+    properties:
+      activo:
+        type: boolean
+      actual:
+        type: boolean
+      contrato_general_id:
+        $ref: '#/definitions/models.ContratoGeneral'
+      estado_interno_parametro_id:
+        type: integer
+        format: int64
+      estado_parametro_id:
+        type: integer
+        format: int64
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_evento:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      motivo:
+        type: string
+      usuario_id:
+        type: integer
+        format: int64
+      usuario_rol:
+        type: string
+  models.EstadoPoliza:
+    title: EstadoPoliza
+    type: object
+    properties:
+      activo:
+        type: boolean
+      estado_parametro_id:
+        type: integer
+        format: int64
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      motivo:
+        type: string
+      poliza_id:
+        $ref: '#/definitions/models.Poliza'
+      usuario_id:
+        type: integer
+        format: int64
+      usuario_rol:
+        type: string
+  models.OrdenadorContrato:
+    title: OrdenadorContrato
+    type: object
+    properties:
+      activo:
+        type: boolean
+      cargo_id:
+        type: integer
+        format: int64
+      contrato_general_id:
+        $ref: '#/definitions/models.ContratoGeneral'
+      documento_identidad:
+        type: string
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      ordenador_argo_id:
+        type: integer
+        format: int64
+      ordenador_sicapital_id:
+        type: integer
+        format: int64
+      resolucion:
+        type: string
+      tercero_id:
+        type: integer
+        format: int64
+  models.Poliza:
+    title: Poliza
+    type: object
+    properties:
+      activo:
+        type: boolean
+      contrato_general_id:
+        $ref: '#/definitions/models.ContratoGeneral'
+      descripcion:
+        type: string
+      entidad_aseguradora_id:
+        type: integer
+        format: int64
+      fecha_aprobacion:
+        type: string
+        format: datetime
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_expedicion:
+        type: string
+        format: datetime
+      fecha_fin:
+        type: string
+        format: datetime
+      fecha_inicio:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      numero_poliza:
+        type: string
+      usuario_id:
+        type: integer
+        format: int64
+      usuario_legado:
+        type: string
+      usuario_rol:
+        type: string
+  models.RegistroPresupuestal:
+    title: RegistroPresupuestal
+    type: object
+    properties:
+      activo:
+        type: boolean
+      disponibilidad_presupuestal_id:
+        $ref: '#/definitions/models.DisponibilidadPresupuestal'
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      fecha_registro:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      numero_registro_presupuestal:
+        type: integer
+        format: int64
+      vigencia_rp_id:
+        type: integer
+        format: int64
+  models.SupervisorContrato:
+    title: SupervisorContrato
+    type: object
+    properties:
+      activo:
+        type: boolean
+      cargo_id:
+        type: integer
+        format: int64
+      cargo_legado:
+        type: string
+      contrato_general_id:
+        $ref: '#/definitions/models.ContratoGeneral'
+      dependencia_id:
+        type: integer
+        format: int64
+      dependencia_legado:
+        type: string
+      digito_verificacion:
+        type: integer
+        format: int64
+      documento:
+        type: integer
+        format: int64
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      sede_id:
+        type: integer
+        format: int64
+      sede_legado:
+        type: string
+      supervisor_id:
         type: integer
         format: int64
 tags:
-- name: contrato_general
+- name: contratos-generales
   description: |
     ContratoGeneralController operations for ContratoGeneral
-- name: estado_contrato
+- name: estados-contrato
   description: |
     EstadoContratoController operations for EstadoContrato
-- name: supervisor_contrato
+- name: supervisores
   description: |
     SupervisorContratoController operations for SupervisorContrato
-- name: ordenador_contrato
+- name: ordenadores-contrato
   description: |
     OrdenadorContratoController operations for OrdenadorContrato
-- name: contrato_arrendamiento
+- name: contratos-arrendamiento
   description: |
     ContratoArrendamientoController operations for ContratoArrendamiento
-- name: convenio
+- name: convenios
   description: |
     ConvenioController operations for Convenio
-- name: especificacion_tecnica
+- name: especificaciones-tecnicas
   description: |
     EspecificacionTecnicaController operations for EspecificacionTecnica
-- name: disponibilidad_presupuestal
+- name: disponibilidades-presupuestales
   description: |
     DisponibilidadPresupuestalController operations for DisponibilidadPresupuestal
-- name: registro_presupuestal
+- name: registros-presupuestales
   description: |
     RegistroPresupuestalController operations for RegistroPresupuestal
-- name: poliza
+- name: polizas
   description: |
     PolizaController operations for Poliza
-- name: estado_poliza
+- name: estados-poliza
   description: |
     EstadoPolizaController operations for EstadoPoliza
-- name: amparo_poliza
+- name: amparos-polizas
   description: |
     AmparoPolizaController operations for AmparoPoliza
-- name: documento_contrato
+- name: documentos-contratos
   description: |
     DocumentoContratoController operations for DocumentoContrato
-- name: acta_inicio
+- name: actas-inicio
   description: |
     ActaInicioController operations for ActaInicio
-- name: tablero
+- name: tableros
   description: |
     TableroController expone los metadatos de los tableros de seguimiento.
+    Son consultas de solo lectura: responden Ids, sin nombres ni datos sensibles.

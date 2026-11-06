@@ -15,85 +15,85 @@ import (
 func init() {
 	ns := beego.NewNamespace("/v1",
 
-		beego.NSNamespace("/contrato_general",
+		beego.NSNamespace("/contratos-generales",
 			beego.NSInclude(
 				&controllers.ContratoGeneralController{},
 			),
 		),
 
-		beego.NSNamespace("/estado_contrato",
+		beego.NSNamespace("/estados-contrato",
 			beego.NSInclude(
 				&controllers.EstadoContratoController{},
 			),
 		),
 
-		beego.NSNamespace("/supervisor_contrato",
+		beego.NSNamespace("/supervisores",
 			beego.NSInclude(
 				&controllers.SupervisorContratoController{},
 			),
 		),
 
-		beego.NSNamespace("/ordenador_contrato",
+		beego.NSNamespace("/ordenadores-contrato",
 			beego.NSInclude(
 				&controllers.OrdenadorContratoController{},
 			),
 		),
 
-		beego.NSNamespace("/contrato_arrendamiento",
+		beego.NSNamespace("/contratos-arrendamiento",
 			beego.NSInclude(
 				&controllers.ContratoArrendamientoController{},
 			),
 		),
 
-		beego.NSNamespace("/convenio",
+		beego.NSNamespace("/convenios",
 			beego.NSInclude(
 				&controllers.ConvenioController{},
 			),
 		),
 
-		beego.NSNamespace("/especificacion_tecnica",
+		beego.NSNamespace("/especificaciones-tecnicas",
 			beego.NSInclude(
 				&controllers.EspecificacionTecnicaController{},
 			),
 		),
 
-		beego.NSNamespace("/disponibilidad_presupuestal",
+		beego.NSNamespace("/disponibilidades-presupuestales",
 			beego.NSInclude(
 				&controllers.DisponibilidadPresupuestalController{},
 			),
 		),
 
-		beego.NSNamespace("/registro_presupuestal",
+		beego.NSNamespace("/registros-presupuestales",
 			beego.NSInclude(
 				&controllers.RegistroPresupuestalController{},
 			),
 		),
 
-		beego.NSNamespace("/poliza",
+		beego.NSNamespace("/polizas",
 			beego.NSInclude(
 				&controllers.PolizaController{},
 			),
 		),
 
-		beego.NSNamespace("/estado_poliza",
+		beego.NSNamespace("/estados-poliza",
 			beego.NSInclude(
 				&controllers.EstadoPolizaController{},
 			),
 		),
 
-		beego.NSNamespace("/amparo_poliza",
+		beego.NSNamespace("/amparos-polizas",
 			beego.NSInclude(
 				&controllers.AmparoPolizaController{},
 			),
 		),
 
-		beego.NSNamespace("/documento_contrato",
+		beego.NSNamespace("/documentos-contratos",
 			beego.NSInclude(
 				&controllers.DocumentoContratoController{},
 			),
 		),
 
-		beego.NSNamespace("/acta_inicio",
+		beego.NSNamespace("/actas-inicio",
 			beego.NSInclude(
 				&controllers.ActaInicioController{},
 			),
