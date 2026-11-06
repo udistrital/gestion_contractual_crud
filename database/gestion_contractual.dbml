@@ -1,0 +1,449 @@
+// Modelo de datos ARGO v2 refinado — issue udistrital/argo_documentacion#384
+// Fuente de verdad del modelo. El DDL de ddl/creacion-tablas.sql lo implementa.
+
+Project argo_v2_gestion_contractual {
+  database_type: 'PostgreSQL'
+  Note: '''
+  Modelo de datos de gestión contractual de ARGO v2, refinado en la issue #384 con las decisiones del LT
+  del 22/10/2026 (comentario "Validación con el equipo"). Base de la #385 (CRUD en Beego v2).
+
+  - Base de datos "administrativa" y esquema "contratacion": provisionales (supuesto S3).
+  - Las referencias a Parámetros CRUD, Terceros, OIKOS, SiCapital, Ágora y al Gestor Documental son
+    integer sin FK física; cada columna indica a qué apunta.
+  - Se retiran las tablas lugar_ejecucion y contratista: sus datos pasan a contrato_general.
+  - Los temas en stand by se dejan como notas (A8, A11, A12, solicitante y ordenador).
+  '''
+}
+
+//////////////////////////////////////////////////////////////////////
+// Contrato
+//////////////////////////////////////////////////////////////////////
+
+Table contrato_general {
+  id serial [pk]
+  numero_contrato varchar(50) [note: 'Número oficial del contrato. Se genera con la RN de generación cuando el contrato pasa a SUSCRITO; en ARGO v1 viene migrado. Nulo hasta la suscripción (A14)']
+  vigencia_id integer [note: 'Parámetros CRUD, tipo de parámetro Vigencia (tipo por confirmar). Año de vigencia del contrato']
+  consecutivo_elaboracion varchar(50) [note: 'Consecutivo de elaboración, previo a la suscripción']
+  unidad_ejecutora_id integer [not null, note: 'Parámetros CRUD, tipo 146 Unidad Ejecutora (6818 Rectoría, 6819 IDEXUD)']
+  tipo_compromiso_id integer [note: 'Parámetros CRUD, tipo 111 Compromiso']
+  tipo_contrato_id integer [note: 'Parámetros CRUD, tipo 112 Contrato']
+  perfil_contratista_id integer [note: 'Parámetros CRUD, tipo 113 Perfil del Contratista (perfil profesional, no la entidad proveedor)']
+  fecha_suscripcion_estudio date [note: 'Fecha de suscripción del estudio o documento previo']
+  aplica_poliza boolean [note: 'Indica si el contrato exige póliza']
+  modalidad_seleccion_id integer [note: 'Parámetros CRUD, tipo 115 Modalidad de Selección']
+  tipo_control_id integer [note: 'Parámetros CRUD, tipo 119 Tipo de Control']
+  tipologia_especifica_id integer [note: 'Parámetros CRUD, tipo 114 Tipología Específica']
+  regimen_contratacion_id integer [note: 'Parámetros CRUD, tipo 116 Régimen de Contratación. Negocio propuso retirarlo; se mantiene nullable (supuesto S1)']
+  procedimiento_id integer [note: 'Parámetros CRUD, tipo 117 Procedimiento']
+  plazo_ejecucion integer [note: 'Duración del contrato, expresada en la unidad de unidad_ejecucion_id']
+  unidad_ejecucion_id integer [note: 'Parámetros CRUD, tipo 7 Tiempo (días, meses, años). No confundir con unidad_ejecutora_id']
+  tipo_moneda_id integer [note: 'Parámetros CRUD, tipo 122 Tipo de Moneda']
+  valor_pesos numeric(20,7) [note: 'Valor del contrato en pesos']
+  valor_contrato_me numeric(20,7) [note: 'Valor del contrato en moneda extranjera']
+  valor_tasa_cambio numeric(20,7) [note: 'Tasa de cambio aplicada al valor en moneda extranjera']
+  tipo_gasto_id integer [note: 'Parámetros CRUD, tipo 123 Tipo de Gasto']
+  origen_recursos_id integer [note: 'Parámetros CRUD, tipo 124 Origen Recursos']
+  origen_presupuesto_id integer [note: 'Parámetros CRUD, tipo 125 Origen Presupuesto']
+  tema_gasto_inversion_id integer [note: 'Parámetros CRUD, tipo 126 Tema Gasto Inversión. Negocio propuso retirarlo; se mantiene nullable (supuesto S1)']
+  medio_pago_id integer [note: 'Parámetros CRUD, tipo 127 Medio de Pago']
+  clausula_registro_presupuestal boolean [note: 'Indica si el contrato requiere la cláusula adicional de registro presupuestal']
+  modo_pago varchar(1000) [note: 'Modo de pago del contrato']
+  objeto varchar(2000) [note: 'Objeto del contrato']
+  justificacion varchar(4000) [note: 'Justificación del contrato']
+  actividades varchar(8000) [note: 'Actividades del contrato, en un solo campo porque la fuente las entrega unificadas']
+  condiciones varchar(4000) [note: 'Condiciones del contrato']
+  observaciones varchar(1000) [note: 'Observaciones del contrato']
+  fecha_inicial date [note: 'Fecha de inicio del contrato']
+  fecha_final date [note: 'Fecha de finalización del contrato']
+  fecha_suscripcion date [note: 'Fecha en que se suscribe el contrato (A6). También queda en los estados del contrato; aquí permite filtrar y trazar']
+  proveedor_numero_documento varchar(20) [note: 'Número de documento del proveedor. Antes contratista.numero_documento (ítem 16). El proveedor se consulta en Ágora por este número']
+  tipo_persona_id integer [note: 'Parámetros CRUD, tipo 132 Tipo Persona (natural o jurídica) del proveedor. Antes contratista.tipo_persona_id']
+  clase_proveedor_id integer [note: 'Parámetros CRUD, tipo 120 Clase Contratista (único o sociedad temporal). Antes contratista.clase_contratista_id']
+  dependencia_solicitante_id integer [null, note: 'OIKOS, dependencia que solicita el contrato.']
+  sede_solicitante_id integer [null, note: 'OIKOS, sede donde se origina la solicitud.']
+  dependencia_solicitante_legado_id integer [null, note: 'OIKOS, dependencia que solicita el contrato legado.']
+  sede_solicitante_legado_id integer [null, note: 'OIKOS, sede donde se origina la solicitud legado.']
+  usuario_id integer [note: 'Identificador del usuario que registra o modifica el contrato']
+  usuario_rol varchar(40) [note: 'Rol del usuario que registra o modifica el contrato']
+  usuario_legado varchar(15) [note: 'Usuario de ARGO v1, para compatibilidad con la migración']
+  activo boolean [not null, default: true]
+  fecha_creacion timestamp [not null, default: `now()`]
+  fecha_modificacion timestamp [not null, default: `now()`]
+
+  indexes {
+    (numero_contrato, vigencia_id) [unique, name: 'uq_numero_contrato_vigencia_id_contrato_general']
+    unidad_ejecutora_id [name: 'idx_contrato_general_unidad_ejecutora_id']
+    tipo_contrato_id [name: 'idx_contrato_general_tipo_contrato_id']
+  }
+
+  Note: 'Contrato y su información básica. Absorbe los datos 1 a 1 del proveedor (antes contratista) y del lugar de ejecución'
+}
+
+Table estado_contrato {
+  id serial [pk]
+  contrato_general_id integer [not null]
+  estado_parametro_id integer [note: 'Parámetros CRUD, tipo 137 Estados del contrato (estado general)']
+  estado_interno_parametro_id integer [note: 'Parámetros CRUD, tipo 141 Estados internos del contrato']
+  actual boolean [not null, note: 'Marca el estado vigente del contrato']
+  motivo varchar(250) [note: 'Razón del cambio de estado']
+  fecha_evento date [note: 'Fecha del cambio de estado']
+  usuario_id integer [not null, note: 'Identificador del usuario que efectúa el cambio de estado']
+  usuario_rol varchar(40) [note: 'Rol del usuario que efectúa el cambio de estado']
+  activo boolean [not null, default: true]
+  fecha_creacion timestamp [not null, default: `now()`]
+  fecha_modificacion timestamp [not null, default: `now()`]
+
+  indexes {
+    contrato_general_id [name: 'idx_estado_contrato_contrato_general_id']
+  }
+
+  Note: 'Historial de estados del contrato (general e interno)'
+}
+
+
+
+Table supervisor_contrato {
+  id serial [pk]
+  contrato_general_id integer [not null]
+  supervisor_id integer [note: 'Terceros, tercero que ejerce como supervisor']
+  documento integer [note: 'Documento del supervisor']
+  digito_verificacion integer [note: 'Dígito de verificación del documento del supervisor']
+  cargo_id integer [note: 'Parámetros CRUD, cargo del supervisor']
+  sede_id integer [not null, note: 'OIKOS, sede del supervisor']
+  dependencia_id integer [not null, note: 'OIKOS, dependencia del supervisor']
+  sede_legado varchar(50) [note: 'Sede en sedes_SIC de ARGO v1']
+  dependencia_legado varchar(50) [note: 'Dependencia en dependencias_SIC de ARGO v1']
+  cargo_legado varchar(250) [note: 'Cargo en la tabla de supervisores de ARGO v1']
+  activo boolean [not null, default: true]
+  fecha_creacion timestamp [not null, default: `now()`]
+  fecha_modificacion timestamp [not null, default: `now()`]
+
+  indexes {
+    contrato_general_id [name: 'idx_supervisor_contrato_contrato_general_id']
+    supervisor_id [name: 'idx_supervisor_contrato_supervisor_id']
+  }
+
+  Note: 'Supervisores asignados al contrato'
+}
+
+Table ordenador_contrato {
+  id serial [pk]
+  contrato_general_id integer [not null]
+  tercero_id integer [note: 'Terceros, tercero que actúa como ordenador del gasto']
+  cargo_id integer [note: 'Parámetros CRUD, cargo del ordenador']
+  documento_identidad varchar(20) [note: 'Documento de identidad del ordenador']
+  resolucion varchar(250) [note: 'Resolución que autoriza al ordenador']
+  ordenador_argo_id integer [note: 'ARGO v1, PK de la tabla ordenadores']
+  ordenador_sicapital_id integer [note: 'ARGO v1, id_ordenador de la tabla ordenadores (SiCapital)']
+  activo boolean [not null, default: true]
+  fecha_creacion timestamp [not null, default: `now()`]
+  fecha_modificacion timestamp [not null, default: `now()`]
+
+  indexes {
+    contrato_general_id [name: 'idx_ordenador_contrato_contrato_general_id']
+  }
+
+  Note: 'Ordenador del gasto del contrato. Validar soporte de migración ARGO v1. Confirmar si un contrato puede tener varios ordenadores (A12)'
+}
+
+Table contrato_arrendamiento {
+  id serial [pk]
+  contrato_general_id integer [not null]
+  destinacion varchar(1000) [note: 'Uso previsto del inmueble arrendado']
+  plazo_pago_mensual integer [note: 'Día del mes establecido para el pago']
+  reajuste varchar(255) [note: 'Condición de reajuste del canon']
+  plazo_administracion integer [note: 'Plazo de pago de la administración']
+  valor_administracion numeric(20,7) [note: 'Valor de la administración']
+  plazo_entrega integer [note: 'Plazo de entrega del inmueble']
+  valor_arrendamiento numeric(20,7) [note: 'Valor mensual del arrendamiento']
+  activo boolean [not null, default: true]
+  fecha_creacion timestamp [not null, default: `now()`]
+  fecha_modificacion timestamp [not null, default: `now()`]
+
+  indexes {
+    contrato_general_id [unique, name: 'uq_contrato_general_id_contrato_arrendamiento']
+  }
+
+  Note: 'Datos propios de un contrato de arrendamiento (1 a 1 con el contrato)'
+}
+
+Table convenio {
+  id serial [pk]
+  contrato_general_id integer [not null]
+  nombre varchar(250) [note: 'Nombre del convenio']
+  vigencia integer [note: 'Año de vigencia del convenio']
+  tipo_convenio_id integer [note: 'Parámetros CRUD, tipo de convenio (tipo de parámetro por confirmar)']
+  activo boolean [not null, default: true]
+  fecha_creacion timestamp [not null, default: `now()`]
+  fecha_modificacion timestamp [not null, default: `now()`]
+
+  indexes {
+    contrato_general_id [name: 'idx_convenio_contrato_general_id']
+  }
+
+  Note: 'Convenio en el que se enmarca el contrato'
+}
+
+Table especificacion_tecnica {
+  id serial [pk]
+  contrato_general_id integer
+  descripcion varchar(2000) [note: 'Descripción del ítem o servicio']
+  cantidad integer [not null, note: 'Cantidad de ítems']
+  valor_unitario numeric(20,7) [note: 'Valor unitario del ítem']
+  valor_total numeric(20,7) [note: 'Valor total del ítem']
+  activo boolean [not null, default: true]
+  fecha_creacion timestamp [not null, default: `now()`]
+  fecha_modificacion timestamp [not null, default: `now()`]
+
+  indexes {
+    contrato_general_id [name: 'idx_especificacion_tecnica_contrato_general_id']
+  }
+
+  Note: 'Ítems técnicos y económicos del contrato'
+}
+
+//////////////////////////////////////////////////////////////////////
+// Presupuesto
+//////////////////////////////////////////////////////////////////////
+
+Table disponibilidad_presupuestal {
+  id serial [pk]
+  contrato_general_id integer [not null]
+  numero_cdp_id integer [note: 'SiCapital, número del CDP con el que se consulta la fuente']
+  vigencia_cdp_id integer [note: 'Año de vigencia del CDP']
+  fecha_registro date [note: 'Fecha de registro del CDP']
+  activo boolean [not null, default: true]
+  fecha_creacion timestamp [not null, default: `now()`]
+  fecha_modificacion timestamp [not null, default: `now()`]
+
+  indexes {
+    contrato_general_id [name: 'idx_disponibilidad_presupuestal_contrato_general_id']
+  }
+
+  Note: 'Certificados de disponibilidad presupuestal (CDP) del contrato'
+}
+
+Table registro_presupuestal {
+  id serial [pk]
+  disponibilidad_presupuestal_id integer [not null, note: 'Antes cdp_id']
+  numero_registro_presupuestal integer [note: 'Número del registro presupuestal (RP). Antes registro_presupuestal']
+  vigencia_rp_id integer [note: 'Año de vigencia del RP']
+  fecha_registro date [note: 'Fecha de registro del RP']
+  activo boolean [not null, default: true]
+  fecha_creacion timestamp [not null, default: `now()`]
+  fecha_modificacion timestamp [not null, default: `now()`]
+
+  indexes {
+    disponibilidad_presupuestal_id [name: 'idx_registro_presupuestal_disponibilidad_presupuestal_id']
+  }
+
+  Note: 'Registros presupuestales (RP) expedidos sobre un CDP'
+}
+
+//////////////////////////////////////////////////////////////////////
+// Póliza
+//////////////////////////////////////////////////////////////////////
+
+Table poliza {
+  id serial [pk]
+  contrato_general_id integer [not null]
+  numero_poliza varchar(50) [note: 'Número con el que la aseguradora identifica la póliza. Sin restricción de unicidad (#351)']
+  entidad_aseguradora_id integer [note: 'Parámetros CRUD, entidad aseguradora (tipo de parámetro por confirmar)']
+  descripcion varchar(255) [note: 'Descripción de la póliza']
+  fecha_inicio date [note: 'Inicio de vigencia de la póliza']
+  fecha_fin date [note: 'Fin de vigencia de la póliza']
+  fecha_expedicion date [note: 'Fecha en que la aseguradora expide la póliza']
+  fecha_aprobacion date [note: 'Fecha en que la Universidad aprueba la póliza']
+  usuario_id integer [note: 'Identificador del usuario que registra o modifica la póliza']
+  usuario_rol varchar(40) [note: 'Rol del usuario que registra o modifica la póliza']
+  usuario_legado varchar(15) [note: 'Usuario de ARGO v1, para compatibilidad con la migración']
+  activo boolean [not null, default: true]
+  fecha_creacion timestamp [not null, default: `now()`]
+  fecha_modificacion timestamp [not null, default: `now()`]
+
+  indexes {
+    contrato_general_id [name: 'idx_poliza_contrato_general_id']
+  }
+
+  Note: 'Pólizas expedidas para las garantías del contrato'
+}
+
+Table estado_poliza {
+  id serial [pk]
+  poliza_id integer [not null]
+  estado_parametro_id integer [not null, note: 'Parámetros CRUD, estado de la póliza (tipo de parámetro por confirmar; estados por definir con la Analista)']
+  motivo varchar(250) [note: 'Razón del cambio de estado']
+  usuario_id integer [not null, note: 'Identificador del usuario que efectúa el cambio de estado']
+  usuario_rol varchar(40) [note: 'Rol del usuario que efectúa el cambio de estado']
+  activo boolean [not null, default: true]
+  fecha_creacion timestamp [not null, default: `now()`]
+  fecha_modificacion timestamp [not null, default: `now()`]
+
+  indexes {
+    poliza_id [name: 'idx_estado_poliza_poliza_id']
+  }
+
+  Note: 'Historial de estados de la póliza. El estado vigente es el registro más reciente'
+}
+
+Table amparo_poliza {
+  id serial [pk]
+  contrato_general_id integer [not null, note: 'El amparo se registra con la minuta, antes de que exista la póliza (#351)']
+  poliza_id integer [note: 'Nulo hasta que la póliza se expide y se asocia']
+  amparo_id integer [not null, note: 'Parámetros CRUD, tipo 118 Amparo']
+  tipo_valor_amparo_id integer [note: 'Parámetros CRUD, tipo de valor de la suficiencia (porcentaje o SMLV; tipo de parámetro por confirmar)']
+  suficiencia numeric(20,7) [note: 'Suficiencia del amparo. Se interpreta según tipo_valor_amparo_id; excepción a numeric(5,4) documentada en la #351']
+  valor numeric(20,7) [note: 'Valor asegurado del amparo']
+  descripcion varchar(255) [note: 'Descripción del amparo']
+  fecha_inicio date [note: 'Inicio de vigencia del amparo']
+  fecha_fin date [note: 'Fin de vigencia del amparo']
+  usuario_id integer [note: 'Identificador del usuario que registra o modifica el amparo']
+  usuario_rol varchar(40) [note: 'Rol del usuario que registra o modifica el amparo']
+  activo boolean [not null, default: true]
+  fecha_creacion timestamp [not null, default: `now()`]
+  fecha_modificacion timestamp [not null, default: `now()`]
+
+  indexes {
+    contrato_general_id [name: 'idx_amparo_poliza_contrato_general_id']
+    poliza_id [name: 'idx_amparo_poliza_poliza_id']
+  }
+
+  Note: 'Amparos exigidos al contrato y cubiertos luego por la póliza'
+}
+
+//////////////////////////////////////////////////////////////////////
+// Documentos y actas
+//////////////////////////////////////////////////////////////////////
+
+Table documento_contrato {
+  id serial [pk]
+  entidad_tipo varchar(50) [not null, note: 'Tabla a la que pertenece el documento: contrato_general, poliza o acta_inicio']
+  entidad_id integer [not null, note: 'Identificador del registro en la tabla indicada por entidad_tipo (sin FK física)']
+  tipo_documento_id integer [note: 'Parámetros CRUD, tipo de documento (tipo 133 Documentos Contrato)']
+  documento_id integer [note: 'Gestor Documental, identificador del documento']
+  documento_enlace varchar(50) [note: 'Gestor Documental, enlace del documento']
+  usuario_id integer [note: 'Identificador del usuario que registra el documento']
+  usuario_rol varchar(40) [note: 'Rol del usuario que registra el documento']
+  activo boolean [not null, default: true]
+  fecha_creacion timestamp [not null, default: `now()`]
+  fecha_modificacion timestamp [not null, default: `now()`]
+
+  indexes {
+    (entidad_tipo, entidad_id) [name: 'idx_documento_contrato_entidad_tipo_entidad_id']
+  }
+
+  Note: 'Documentos del contrato en una sola tabla, sin estados (A9 "con ajustes"; supuesto S6). Relación polimórfica: un documento pertenece a un contrato_general, una poliza o un acta_inicio'
+}
+
+Table acta_inicio {
+  id serial [pk]
+  contrato_general_id integer [not null]
+  descripcion varchar(2000) [note: 'Descripción del acta de inicio']
+  fecha_inicio date [note: 'Fecha de inicio de ejecución del contrato']
+  fecha_fin date [note: 'Fecha prevista de finalización del contrato']
+  fecha_suscripcion date [note: 'Fecha de suscripción del acta de inicio (no la del contrato). Supuesto S2']
+  numero_acta varchar(50) [note: 'Número del acta de inicio. Supuesto S2']
+  valor_disponibilidad numeric(20,7) [note: 'Valor del CDP registrado en el acta. Duplica información de disponibilidad_presupuestal (supuesto S2)']
+  numero_registro_presupuestal varchar(50) [note: 'Número del RP digitado en el acta. Duplica información de registro_presupuestal (supuesto S2)']
+  valor_registro_presupuestal numeric(20,7) [note: 'Valor del RP registrado en el acta. Supuesto S2']
+  valor_anticipo numeric(20,7) [note: 'Valor del anticipo del contrato. Supuesto S2']
+  nombre_interventor varchar(250) [note: 'Nombre del interventor, cuando aplica. Supuesto S2']
+  usuario_id integer [note: 'Identificador del usuario que registra el acta']
+  usuario_rol varchar(40) [note: 'Rol del usuario que registra el acta']
+  usuario_legado varchar(15) [note: 'Usuario de ARGO v1, para compatibilidad con la migración']
+  activo boolean [not null, default: true]
+  fecha_creacion timestamp [not null, default: `now()`]
+  fecha_modificacion timestamp [not null, default: `now()`]
+
+  indexes {
+    contrato_general_id [name: 'idx_acta_inicio_contrato_general_id']
+  }
+
+  Note: 'Acta con la que inicia la ejecución del contrato'
+}
+
+//////////////////////////////////////////////////////////////////////
+// Relaciones
+//////////////////////////////////////////////////////////////////////
+
+Ref fk_estado_contrato_contrato_general: estado_contrato.contrato_general_id > contrato_general.id
+Ref fk_supervisor_contrato_contrato_general: supervisor_contrato.contrato_general_id > contrato_general.id
+Ref fk_ordenador_contrato_contrato_general: ordenador_contrato.contrato_general_id > contrato_general.id
+Ref fk_contrato_arrendamiento_contrato_general: contrato_general.id - contrato_arrendamiento.contrato_general_id
+Ref fk_convenio_contrato_general: convenio.contrato_general_id > contrato_general.id
+Ref fk_especificacion_tecnica_contrato_general: especificacion_tecnica.contrato_general_id > contrato_general.id
+Ref fk_estado_poliza_poliza: estado_poliza.poliza_id > poliza.id
+Ref fk_disponibilidad_presupuestal_contrato_general: disponibilidad_presupuestal.contrato_general_id > contrato_general.id
+Ref fk_registro_presupuestal_disponibilidad_presupuestal: registro_presupuestal.disponibilidad_presupuestal_id > disponibilidad_presupuestal.id
+Ref fk_poliza_contrato_general: poliza.contrato_general_id > contrato_general.id
+Ref fk_amparo_poliza_contrato_general: amparo_poliza.contrato_general_id > contrato_general.id
+Ref fk_amparo_poliza_poliza: amparo_poliza.poliza_id > poliza.id
+Ref fk_acta_inicio_contrato_general: acta_inicio.contrato_general_id > contrato_general.id
+
+//////////////////////////////////////////////////////////////////////
+// Grupos por dominio
+//////////////////////////////////////////////////////////////////////
+
+TableGroup contrato {
+  contrato_general
+  estado_contrato
+  supervisor_contrato
+  ordenador_contrato
+  contrato_arrendamiento
+  convenio
+  especificacion_tecnica
+}
+
+TableGroup presupuesto {
+  disponibilidad_presupuestal
+  registro_presupuestal
+}
+
+TableGroup poliza_y_amparos {
+  poliza
+  amparo_poliza
+  estado_poliza
+}
+
+TableGroup documentos_y_actas {
+  documento_contrato
+  acta_inicio
+}
+
+//////////////////////////////////////////////////////////////////////
+// Temas en stand by o pendientes (no se modelan)
+//////////////////////////////////////////////////////////////////////
+
+
+Note nota_a8_estudio_previo {
+'''
+A8 · Estudio previo y proceso contractual (stand by)
+Pendiente de validación con Ágora. No se modelan campos nuevos.
+'''
+}
+
+Note nota_a11_proyecto_extension {
+'''
+A11 · Proyecto de extensión (por confirmar con la Analista)
+Validar si se registra en un campo actual o como un selector nuevo exclusivo de IDEXUD.
+'''
+}
+
+Note nota_a12_cardinalidad {
+'''
+A12 · Cardinalidad (stand by)
+Proveedor: 1 a 1, absorbido en contrato_general.
+Ordenador: confirmar si un contrato puede tener varios.
+Solicitante: validar si es 1 a 1.
+No se crean UNIQUE en contrato_general_id.
+'''
+}
+
+Note nota_lugar_ejecucion {
+'''
+Lugar de ejecución
+La tabla lugar_ejecucion no se incluye. Sus columnas pasan a contrato_general
+con prefijo lugar_ejecucion_. Pendiente validar la depuración de datos contra
+resoluciones en producción (Analista).
+'''
+}
