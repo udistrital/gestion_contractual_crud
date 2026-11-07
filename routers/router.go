@@ -33,7 +33,7 @@ func init() {
 			),
 		),
 
-		beego.NSNamespace("/ordenadores-contrato",
+		beego.NSNamespace("/ordenadores",
 			beego.NSInclude(
 				&controllers.OrdenadorContratoController{},
 			),

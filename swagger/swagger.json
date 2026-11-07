@@ -1860,10 +1860,10 @@
                 }
             }
         },
-        "/ordenadores-contrato/": {
+        "/ordenadores/": {
             "get": {
                 "tags": [
-                    "ordenadores-contrato"
+                    "ordenadores"
                 ],
                 "description": "get OrdenadorContrato\n\u003cbr\u003e",
                 "operationId": "OrdenadorContratoController.Get All",
@@ -1919,7 +1919,7 @@
             },
             "post": {
                 "tags": [
-                    "ordenadores-contrato"
+                    "ordenadores"
                 ],
                 "description": "create OrdenadorContrato\n\u003cbr\u003e",
                 "operationId": "OrdenadorContratoController.Post",
@@ -1947,10 +1947,10 @@
                 }
             }
         },
-        "/ordenadores-contrato/{id}": {
+        "/ordenadores/{id}": {
             "get": {
                 "tags": [
-                    "ordenadores-contrato"
+                    "ordenadores"
                 ],
                 "description": "get OrdenadorContrato by id\n\u003cbr\u003e",
                 "operationId": "OrdenadorContratoController.Get One",
@@ -1977,7 +1977,7 @@
             },
             "put": {
                 "tags": [
-                    "ordenadores-contrato"
+                    "ordenadores"
                 ],
                 "description": "update the OrdenadorContrato\n\u003cbr\u003e",
                 "operationId": "OrdenadorContratoController.Put",
@@ -2016,7 +2016,7 @@
             },
             "delete": {
                 "tags": [
-                    "ordenadores-contrato"
+                    "ordenadores"
                 ],
                 "description": "desactiva el OrdenadorContrato (borrado lógico)\n\u003cbr\u003e",
                 "operationId": "OrdenadorContratoController.Delete",
@@ -3525,7 +3525,7 @@
             "description": "SupervisorContratoController operations for SupervisorContrato\n"
         },
         {
-            "name": "ordenadores-contrato",
+            "name": "ordenadores",
             "description": "OrdenadorContratoController operations for OrdenadorContrato\n"
         },
         {

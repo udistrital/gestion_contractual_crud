@@ -558,7 +558,8 @@ paths:
       parameters:
       - in: body
         name: body
-        description: unidad_ejecutora_id, vigencia_id (Id del parámetro) y estado (estado_parametro_id)
+        description: unidad_ejecutora_id, vigencia_id (Id del parámetro) y estado
+          (estado_parametro_id)
         required: true
         schema:
           $ref: '#/definitions/models.ConteoNumeroContrato'
@@ -1341,10 +1342,10 @@ paths:
           description: '{string} registro desactivado (activo = false)'
         "404":
           description: :id no encontrado
-  /ordenadores-contrato/:
+  /ordenadores/:
     get:
       tags:
-      - ordenadores-contrato
+      - ordenadores
       description: |-
         get OrdenadorContrato
         <br>
@@ -1384,7 +1385,7 @@ paths:
           description: parámetros inválidos
     post:
       tags:
-      - ordenadores-contrato
+      - ordenadores
       description: |-
         create OrdenadorContrato
         <br>
@@ -1403,10 +1404,10 @@ paths:
             $ref: '#/definitions/models.OrdenadorContrato'
         "400":
           description: cuerpo inválido
-  /ordenadores-contrato/{id}:
+  /ordenadores/{id}:
     get:
       tags:
-      - ordenadores-contrato
+      - ordenadores
       description: |-
         get OrdenadorContrato by id
         <br>
@@ -1426,7 +1427,7 @@ paths:
           description: :id no encontrado
     put:
       tags:
-      - ordenadores-contrato
+      - ordenadores
       description: |-
         update the OrdenadorContrato
         <br>
@@ -1454,7 +1455,7 @@ paths:
           description: :id no encontrado
     delete:
       tags:
-      - ordenadores-contrato
+      - ordenadores
       description: |-
         desactiva el OrdenadorContrato (borrado lógico)
         <br>
@@ -2540,7 +2541,7 @@ tags:
 - name: supervisores
   description: |
     SupervisorContratoController operations for SupervisorContrato
-- name: ordenadores-contrato
+- name: ordenadores
   description: |
     OrdenadorContratoController operations for OrdenadorContrato
 - name: contratos-arrendamiento

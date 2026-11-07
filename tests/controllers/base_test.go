@@ -226,7 +226,7 @@ func recursos(contrato, poliza, cdp, acta int) []recurso {
 			`{"objeto":"Nuevo objeto"}`, "objeto", "Nuevo objeto", `{"vigencia_id":2026}`, "unidad_ejecutora_id:1", "VigenciaId"},
 		{"/v1/supervisores", `{` + cg + `,"sede_id":1,"dependencia_id":2}`,
 			`{"cargo_legado":"Supervisor"}`, "cargo_legado", "Supervisor", `{` + cg + `,"sede_id":1}`, "sede_id:1", "DependenciaId"},
-		{"/v1/ordenadores-contrato", `{` + cg + `,"tercero_id":3}`,
+		{"/v1/ordenadores", `{` + cg + `,"tercero_id":3}`,
 			`{"resolucion":"R-1"}`, "resolucion", "R-1", `{"tercero_id":3}`, "tercero_id:3", "TerceroId"},
 		{"/v1/estados-contrato", `{` + cg + `,"estado_parametro_id":1,"usuario_id":1}`,
 			`{"motivo":"Ajuste"}`, "motivo", "Ajuste", `{` + cg + `}`, "usuario_id:1", "EstadoParametroId"},
