@@ -36,7 +36,7 @@ func TestRelacionesOpcionalesDelModelo(t *testing.T) {
 	if err := models.Validar(&models.AmparoPoliza{ContratoGeneralId: &models.ContratoGeneral{Id: 1}, AmparoId: 1}); err != nil {
 		t.Fatalf("PolizaId es opcional: %v", err)
 	}
-	if err := models.Validar(&models.EspecificacionTecnica{Cantidad: 2}); err != nil {
+	if err := models.Validar(&models.EspecificacionTecnica{}); err != nil {
 		t.Fatalf("ContratoGeneralId es opcional en especificación técnica: %v", err)
 	}
 	if err := models.Validar(&models.RegistroPresupuestal{}); err == nil {

@@ -17,8 +17,7 @@ type SupervisorContrato struct {
 	Documento          *int             `orm:"column(documento);null" json:"documento"`
 	DigitoVerificacion *int             `orm:"column(digito_verificacion);null" json:"digito_verificacion"`
 	CargoId            *int             `orm:"column(cargo_id);null" json:"cargo_id"`
-	SedeId             int              `orm:"column(sede_id)" json:"sede_id"`
-	DependenciaId      int              `orm:"column(dependencia_id)" json:"dependencia_id"`
+	DependenciaId      *int             `orm:"column(dependencia_id);null" json:"dependencia_id"`
 	SedeLegado         *string          `orm:"column(sede_legado);size(50);null" json:"sede_legado"`
 	DependenciaLegado  *string          `orm:"column(dependencia_legado);size(50);null" json:"dependencia_legado"`
 	CargoLegado        *string          `orm:"column(cargo_legado);null;size(250)" json:"cargo_legado"`

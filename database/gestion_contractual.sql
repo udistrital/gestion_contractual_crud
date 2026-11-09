@@ -6,7 +6,7 @@
 --
 -- Base de datos: administrativa (provisional, supuesto S3).
 -- Esquema: contratacion (provisional, supuesto S3). Para cambiarlo basta
--- con editar la línea SET search_path; el bloque DO crea ese esquema.
+-- con editar las líneas CREATE SCHEMA y SET search_path.
 --
 -- Referencias externas (Parámetros CRUD, Terceros, OIKOS, SiCapital,
 -- Gestor Documental) son integer sin FK física; el COMMENT de cada
@@ -61,7 +61,6 @@ CREATE TABLE contrato_general (
     tipo_persona_id INTEGER,
     clase_proveedor_id INTEGER,
     dependencia_solicitante_id INTEGER,
-    sede_solicitante_id INTEGER,
     dependencia_solicitante_legado_id INTEGER,
     sede_solicitante_legado_id INTEGER,
     usuario_id INTEGER,
@@ -113,7 +112,6 @@ COMMENT ON COLUMN contrato_general.proveedor_numero_documento IS 'Número de doc
 COMMENT ON COLUMN contrato_general.tipo_persona_id IS 'Parámetros CRUD, tipo 132 Tipo Persona (natural o jurídica) del proveedor. Antes contratista.tipo_persona_id';
 COMMENT ON COLUMN contrato_general.clase_proveedor_id IS 'Parámetros CRUD, tipo 120 Clase Contratista (único o sociedad temporal). Antes contratista.clase_contratista_id';
 COMMENT ON COLUMN contrato_general.dependencia_solicitante_id IS 'OIKOS, dependencia que solicita el contrato.';
-COMMENT ON COLUMN contrato_general.sede_solicitante_id IS 'OIKOS, sede donde se origina la solicitud.';
 COMMENT ON COLUMN contrato_general.dependencia_solicitante_legado_id IS 'OIKOS, dependencia que solicita el contrato legado.';
 COMMENT ON COLUMN contrato_general.sede_solicitante_legado_id IS 'OIKOS, sede donde se origina la solicitud legado.';
 COMMENT ON COLUMN contrato_general.usuario_id IS 'Identificador del usuario que registra o modifica el contrato';
@@ -157,8 +155,7 @@ CREATE TABLE supervisor_contrato (
     documento INTEGER,
     digito_verificacion INTEGER,
     cargo_id INTEGER,
-    sede_id INTEGER NOT NULL,
-    dependencia_id INTEGER NOT NULL,
+    dependencia_id INTEGER,
     sede_legado VARCHAR(50),
     dependencia_legado VARCHAR(50),
     cargo_legado VARCHAR(250),
@@ -173,7 +170,6 @@ COMMENT ON COLUMN supervisor_contrato.supervisor_id IS 'Terceros, tercero que ej
 COMMENT ON COLUMN supervisor_contrato.documento IS 'Documento del supervisor';
 COMMENT ON COLUMN supervisor_contrato.digito_verificacion IS 'Dígito de verificación del documento del supervisor';
 COMMENT ON COLUMN supervisor_contrato.cargo_id IS 'Parámetros CRUD, cargo del supervisor';
-COMMENT ON COLUMN supervisor_contrato.sede_id IS 'OIKOS, sede del supervisor';
 COMMENT ON COLUMN supervisor_contrato.dependencia_id IS 'OIKOS, dependencia del supervisor';
 COMMENT ON COLUMN supervisor_contrato.sede_legado IS 'Sede en sedes_SIC de ARGO v1';
 COMMENT ON COLUMN supervisor_contrato.dependencia_legado IS 'Dependencia en dependencias_SIC de ARGO v1';
@@ -256,7 +252,7 @@ CREATE TABLE especificacion_tecnica (
     id SERIAL PRIMARY KEY,
     contrato_general_id INTEGER,
     descripcion VARCHAR,
-    cantidad INTEGER NOT NULL,
+    cantidad INTEGER,
     valor_unitario NUMERIC(20,7),
     valor_total NUMERIC(20,7),
     activo BOOLEAN DEFAULT TRUE NOT NULL,
@@ -317,7 +313,7 @@ CREATE TABLE poliza (
     contrato_general_id INTEGER NOT NULL,
     numero_poliza VARCHAR(50),
     entidad_aseguradora_id INTEGER,
-    descripcion VARCHAR(255),
+    descripcion VARCHAR,
     fecha_inicio DATE,
     fecha_fin DATE,
     fecha_expedicion DATE,
@@ -374,7 +370,7 @@ CREATE TABLE amparo_poliza (
     tipo_valor_amparo_id INTEGER,
     suficiencia NUMERIC(20,7),
     valor NUMERIC(20,7),
-    descripcion VARCHAR(255),
+    descripcion VARCHAR,
     fecha_inicio DATE,
     fecha_fin DATE,
     usuario_id INTEGER,

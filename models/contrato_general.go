@@ -52,7 +52,6 @@ type ContratoGeneral struct {
 	TipoPersonaId                  *int       `orm:"column(tipo_persona_id);null" json:"tipo_persona_id"`
 	ClaseProveedorId               *int       `orm:"column(clase_proveedor_id);null" json:"clase_proveedor_id"`
 	DependenciaSolicitanteId       *int       `orm:"column(dependencia_solicitante_id);null" json:"dependencia_solicitante_id"`
-	SedeSolicitanteId              *int       `orm:"column(sede_solicitante_id);null" json:"sede_solicitante_id"`
 	DependenciaSolicitanteLegadoId *int       `orm:"column(dependencia_solicitante_legado_id);null" json:"dependencia_solicitante_legado_id"`
 	SedeSolicitanteLegadoId        *int       `orm:"column(sede_solicitante_legado_id);null" json:"sede_solicitante_legado_id"`
 	UsuarioId                      *int       `orm:"column(usuario_id);null" json:"usuario_id"`

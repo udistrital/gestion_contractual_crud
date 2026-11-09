@@ -65,7 +65,7 @@ func TestTableroIntegracion(t *testing.T) {
 	}
 	c := contratos[0]
 	for _, campo := range []string{"contrato_general_id", "numero_contrato", "consecutivo_elaboracion", "vigencia_id", "fecha_final",
-		"dependencia_solicitante_id", "sede_solicitante_id", "estado_parametro_id", "fecha_estado", "abogado_id"} {
+		"dependencia_solicitante_id", "estado_parametro_id", "fecha_estado", "abogado_id"} {
 		if _, ok := c[campo]; !ok {
 			t.Fatalf("falta %s en %s", campo, r.Data)
 		}
@@ -95,7 +95,7 @@ func crearVigenciaTablero(t *testing.T) int {
 	if len(ultimo) == 1 {
 		vigencia += ultimo[0].Id
 	}
-	contrato := crear(t, "/v1/contratos-generales", fmt.Sprintf(`{"unidad_ejecutora_id":1,"vigencia_id":%d,"dependencia_solicitante_id":31,"sede_solicitante_id":2}`, vigencia))
+	contrato := crear(t, "/v1/contratos-generales", fmt.Sprintf(`{"unidad_ejecutora_id":1,"vigencia_id":%d,"dependencia_solicitante_id":31}`, vigencia))
 	crear(t, "/v1/estados-contrato", fmt.Sprintf(`{"contrato_general_id":{"id":%d},"estado_parametro_id":6773,"usuario_id":500,"usuario_rol":"ABOGADO_CONTRATACION_RECTOR"}`, contrato))
 	return vigencia
 }

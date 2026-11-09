@@ -19,7 +19,7 @@ func TestNumeroContratoAceptaNull(t *testing.T) {
 func TestContratoGeneralSegunModelo(t *testing.T) {
 	tipo := reflect.TypeOf(models.ContratoGeneral{})
 	for _, campo := range []string{"ProveedorNumeroDocumento", "TipoPersonaId", "ClaseProveedorId", "DependenciaSolicitanteId",
-		"SedeSolicitanteId", "DependenciaSolicitanteLegadoId", "SedeSolicitanteLegadoId", "UsuarioLegado", "VigenciaId"} {
+		"DependenciaSolicitanteLegadoId", "SedeSolicitanteLegadoId", "UsuarioLegado", "VigenciaId"} {
 		if _, ok := tipo.FieldByName(campo); !ok {
 			t.Fatalf("falta %s del modelo conceptual", campo)
 		}

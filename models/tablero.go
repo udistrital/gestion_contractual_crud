@@ -25,7 +25,6 @@ type ContratoTablero struct {
 	VigenciaId               *int       `orm:"column(vigencia_id)" json:"vigencia_id"`
 	FechaFinal               *time.Time `orm:"column(fecha_final)" json:"fecha_final"`
 	DependenciaSolicitanteId *int       `orm:"column(dependencia_solicitante_id)" json:"dependencia_solicitante_id"`
-	SedeSolicitanteId        *int       `orm:"column(sede_solicitante_id)" json:"sede_solicitante_id"`
 	// Estado general actual (estado_contrato.estado_parametro_id).
 	EstadoParametroId *int `orm:"column(estado_parametro_id)" json:"estado_parametro_id"`
 	// Inicio del último tramo continuo con el estado general actual.
@@ -46,7 +45,7 @@ type ContratoTablero struct {
 // texto es fijo: los valores van como argumentos (?).
 const consultaEstadosTablero = `WITH contratos AS (
 	SELECT cg.id, cg.numero_contrato, cg.consecutivo_elaboracion, cg.vigencia_id, cg.fecha_final,
-		cg.dependencia_solicitante_id, cg.sede_solicitante_id
+		cg.dependencia_solicitante_id
 	FROM contrato_general cg
 	WHERE cg.activo = true/*condiciones*/
 ), estados AS (
@@ -85,7 +84,7 @@ LEFT JOIN abogado ab ON ab.contrato_general_id = c.id
 `
 
 const seleccionContratosTablero = `SELECT c.id AS contrato_general_id, c.numero_contrato, c.consecutivo_elaboracion, c.vigencia_id,
-	c.fecha_final, c.dependencia_solicitante_id, c.sede_solicitante_id, a.estado_parametro_id,
+	c.fecha_final, c.dependencia_solicitante_id, a.estado_parametro_id,
 	i.fecha_estado, ab.usuario_id AS abogado_id
 `
 

@@ -18,7 +18,7 @@ type AmparoPoliza struct {
 	TipoValorAmparoId *int             `orm:"column(tipo_valor_amparo_id);null" json:"tipo_valor_amparo_id"`
 	Suficiencia       *float64         `orm:"column(suficiencia);null" json:"suficiencia"`
 	Valor             *float64         `orm:"column(valor);null" json:"valor"`
-	Descripcion       *string          `orm:"column(descripcion);size(255);null" json:"descripcion"`
+	Descripcion       *string          `orm:"column(descripcion);null" json:"descripcion"`
 	FechaInicio       *time.Time       `orm:"column(fecha_inicio);type(date);null" json:"fecha_inicio"`
 	FechaFin          *time.Time       `orm:"column(fecha_fin);type(date);null" json:"fecha_fin"`
 	UsuarioId         *int             `orm:"column(usuario_id);null" json:"usuario_id"`

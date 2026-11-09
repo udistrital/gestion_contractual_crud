@@ -2127,9 +2127,6 @@ definitions:
       regimen_contratacion_id:
         type: integer
         format: int64
-      sede_solicitante_id:
-        type: integer
-        format: int64
       sede_solicitante_legado_id:
         type: integer
         format: int64
@@ -2208,9 +2205,6 @@ definitions:
         format: datetime
       numero_contrato:
         type: string
-      sede_solicitante_id:
-        type: integer
-        format: int64
       vigencia_id:
         type: integer
         format: int64
@@ -2521,9 +2515,6 @@ definitions:
         type: string
         format: datetime
       id:
-        type: integer
-        format: int64
-      sede_id:
         type: integer
         format: int64
       sede_legado:

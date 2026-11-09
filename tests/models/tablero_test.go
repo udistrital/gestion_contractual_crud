@@ -69,8 +69,8 @@ type datosTablero struct {
 func insertarContrato(t *testing.T, o orm.Ormer, vigencia, dependencia int, activo bool) int {
 	t.Helper()
 	var id int
-	if err := o.Raw(`INSERT INTO contrato_general (unidad_ejecutora_id, vigencia_id, dependencia_solicitante_id, sede_solicitante_id, fecha_final, activo)
-		VALUES (1, ?, ?, 2, '2026-12-31', ?) RETURNING id`, vigencia, dependencia, activo).QueryRow(&id); err != nil {
+	if err := o.Raw(`INSERT INTO contrato_general (unidad_ejecutora_id, vigencia_id, dependencia_solicitante_id, fecha_final, activo)
+		VALUES (1, ?, ?, '2026-12-31', ?) RETURNING id`, vigencia, dependencia, activo).QueryRow(&id); err != nil {
 		t.Fatal(err)
 	}
 	return id
@@ -148,7 +148,7 @@ func TestContratosTableroIntegracion(t *testing.T) {
 
 	r := porId[d.regreso]
 	if *r.EstadoParametroId != porSuscribir || r.FechaEstado.Day() != 4 || *r.AbogadoId != 500 ||
-		*r.VigenciaId != d.vigencia || *r.DependenciaSolicitanteId != d.dep1 || *r.SedeSolicitanteId != 2 ||
+		*r.VigenciaId != d.vigencia || *r.DependenciaSolicitanteId != d.dep1 ||
 		r.FechaFinal.Format("2006-01-02") != "2026-12-31" {
 		t.Fatalf("regreso a un estado anterior: %+v", r)
 	}

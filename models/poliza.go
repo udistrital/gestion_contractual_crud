@@ -16,7 +16,7 @@ type Poliza struct {
 	ContratoGeneralId    *ContratoGeneral `orm:"column(contrato_general_id);rel(fk)" json:"contrato_general_id"`
 	NumeroPoliza         *string          `orm:"column(numero_poliza);size(50);null" json:"numero_poliza"`
 	EntidadAseguradoraId *int             `orm:"column(entidad_aseguradora_id);null" json:"entidad_aseguradora_id"`
-	Descripcion          *string          `orm:"column(descripcion);size(255);null" json:"descripcion"`
+	Descripcion          *string          `orm:"column(descripcion);null" json:"descripcion"`
 	FechaInicio          *time.Time       `orm:"column(fecha_inicio);type(date);null" json:"fecha_inicio"`
 	FechaFin             *time.Time       `orm:"column(fecha_fin);type(date);null" json:"fecha_fin"`
 	FechaExpedicion      *time.Time       `orm:"column(fecha_expedicion);type(date);null" json:"fecha_expedicion"`
