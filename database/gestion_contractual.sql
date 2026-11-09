@@ -23,7 +23,7 @@ SET search_path TO contratacion;
 CREATE TABLE contrato_general (
     id SERIAL PRIMARY KEY,
     numero_contrato VARCHAR(50),
-    vigencia_id INTEGER,
+    vigencia_id INTEGER NOT NULL,
     consecutivo_elaboracion VARCHAR(50),
     unidad_ejecutora_id INTEGER NOT NULL,
     tipo_compromiso_id INTEGER,
@@ -69,7 +69,8 @@ CREATE TABLE contrato_general (
     activo BOOLEAN DEFAULT TRUE NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT NOW() NOT NULL,
     fecha_modificacion TIMESTAMP DEFAULT NOW() NOT NULL,
-    CONSTRAINT uq_numero_contrato_vigencia_id_contrato_general UNIQUE (numero_contrato, vigencia_id)
+    CONSTRAINT uq_numero_contrato_vigencia_id_contrato_general UNIQUE (numero_contrato, vigencia_id),
+    CONSTRAINT uq_consecutivo_elaboracion_contrato_general UNIQUE (unidad_ejecutora_id, vigencia_id, consecutivo_elaboracion)
 );
 
 COMMENT ON TABLE contrato_general IS 'Contrato y su información básica. Absorbe los datos 1 a 1 del proveedor (antes contratista) y del lugar de ejecución';

@@ -34,7 +34,7 @@ func conectar(t *testing.T) {
 // los demás estados; el API usa AddEstadoContratoActual.
 func TestAddEstadoContratoDeBee(t *testing.T) {
 	conectar(t)
-	contrato, err := models.AddContratoGeneral(&models.ContratoGeneral{UnidadEjecutoraId: 1, Activo: true})
+	contrato, err := models.AddContratoGeneral(&models.ContratoGeneral{UnidadEjecutoraId: 1, VigenciaId: 2026, Activo: true})
 	if err != nil {
 		t.Fatalf("AddContratoGeneral: %v", err)
 	}

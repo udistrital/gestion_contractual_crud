@@ -22,7 +22,7 @@ Project argo_v2_gestion_contractual {
 Table contrato_general {
   id serial [pk]
   numero_contrato varchar(50) [note: 'Número oficial del contrato. Se genera con la RN de generación cuando el contrato pasa a SUSCRITO; en ARGO v1 viene migrado. Nulo hasta la suscripción (A14)']
-  vigencia_id integer [note: 'Parámetros CRUD, tipo de parámetro Vigencia (tipo por confirmar). Año de vigencia del contrato']
+  vigencia_id integer [not null, note: 'Parámetros CRUD, tipo de parámetro Vigencia (tipo por confirmar). Año de vigencia del contrato']
   consecutivo_elaboracion varchar(50) [note: 'Consecutivo de elaboración, previo a la suscripción']
   unidad_ejecutora_id integer [not null, note: 'Parámetros CRUD, tipo 146 Unidad Ejecutora (6818 Rectoría, 6819 IDEXUD)']
   tipo_compromiso_id integer [note: 'Parámetros CRUD, tipo 111 Compromiso']
@@ -71,6 +71,7 @@ Table contrato_general {
 
   indexes {
     (numero_contrato, vigencia_id) [unique, name: 'uq_numero_contrato_vigencia_id_contrato_general']
+    (unidad_ejecutora_id, vigencia_id, consecutivo_elaboracion) [unique, name: 'uq_consecutivo_elaboracion_contrato_general']
     unidad_ejecutora_id [name: 'idx_contrato_general_unidad_ejecutora_id']
     tipo_contrato_id [name: 'idx_contrato_general_tipo_contrato_id']
   }

@@ -182,7 +182,7 @@ func TestMetadataDelGetAll(t *testing.T) {
 	unidad := time.Now().UnixNano()%1000000000 + 1000
 	var contratos []int
 	for i := 0; i < 3; i++ {
-		contratos = append(contratos, crear(t, "/v1/contratos-generales", fmt.Sprintf(`{"unidad_ejecutora_id":%d}`, unidad)))
+		contratos = append(contratos, crear(t, "/v1/contratos-generales", fmt.Sprintf(`{"unidad_ejecutora_id":%d,"vigencia_id":2026}`, unidad)))
 	}
 	type metadata struct {
 		Total, Limit, Offset, CurrentPage, TotalPages int64

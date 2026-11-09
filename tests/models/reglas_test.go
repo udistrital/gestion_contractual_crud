@@ -19,10 +19,10 @@ func errores(err error) []string {
 func TestValidarObligatoriosYLongitud(t *testing.T) {
 	largo := "123456789012345678901"
 	e := errores(models.Validar(&models.ContratoGeneral{ProveedorNumeroDocumento: &largo}))
-	if len(e) != 2 {
-		t.Fatalf("se esperaban 2 errores (UnidadEjecutoraId y longitud), llegaron %v", e)
+	if len(e) != 3 {
+		t.Fatalf("se esperaban 3 errores (UnidadEjecutoraId, VigenciaId y longitud), llegaron %v", e)
 	}
-	if err := models.Validar(&models.ContratoGeneral{UnidadEjecutoraId: 1}); err != nil {
+	if err := models.Validar(&models.ContratoGeneral{UnidadEjecutoraId: 1, VigenciaId: 2026}); err != nil {
 		t.Fatalf("no se esperaban errores: %v", err)
 	}
 	// Los bool NOT NULL (Actual) no son obligatorios en el cuerpo.

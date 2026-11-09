@@ -14,7 +14,7 @@ import (
 type ContratoGeneral struct {
 	Id                             int        `orm:"column(id);pk;auto" json:"id"`
 	NumeroContrato                 *string    `orm:"column(numero_contrato);size(50);null" json:"numero_contrato"`
-	VigenciaId                     *int       `orm:"column(vigencia_id);null" json:"vigencia_id"`
+	VigenciaId                     int        `orm:"column(vigencia_id)" json:"vigencia_id"`
 	ConsecutivoElaboracion         *string    `orm:"column(consecutivo_elaboracion);size(50);null" json:"consecutivo_elaboracion"`
 	UnidadEjecutoraId              int        `orm:"column(unidad_ejecutora_id)" json:"unidad_ejecutora_id"`
 	TipoCompromisoId               *int       `orm:"column(tipo_compromiso_id);null" json:"tipo_compromiso_id"`

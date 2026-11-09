@@ -14,7 +14,7 @@ func TestDocumentoContratoController(t *testing.T) {
 // Reglas del documento polimórfico: la entidad debe existir y su tipo ser válido.
 func TestDocumentoSegunEntidad(t *testing.T) {
 	conectar(t)
-	contrato := crear(t, "/v1/contratos-generales", `{"unidad_ejecutora_id":1}`)
+	contrato := crear(t, "/v1/contratos-generales", `{"unidad_ejecutora_id":1,"vigencia_id":2026}`)
 	documento := crear(t, "/v1/documentos-contratos", fmt.Sprintf(`{"entidad_tipo":"contrato_general","entidad_id":%d}`, contrato))
 	esperar(t, http.MethodPost, "/v1/documentos-contratos", `{"entidad_tipo":"poliza","entidad_id":999999}`, http.StatusBadRequest)
 	esperar(t, http.MethodPut, fmt.Sprintf("/v1/documentos-contratos/%d", documento), `{"entidad_tipo":"contrato_general","entidad_id":999999}`, http.StatusBadRequest)
@@ -25,7 +25,7 @@ func TestDocumentoSegunEntidad(t *testing.T) {
 // documentos. Los documentos de otras entidades no cambian.
 func TestDocumentosSeDesactivanConSuEntidad(t *testing.T) {
 	conectar(t)
-	contrato := crear(t, "/v1/contratos-generales", `{"unidad_ejecutora_id":1}`)
+	contrato := crear(t, "/v1/contratos-generales", `{"unidad_ejecutora_id":1,"vigencia_id":2026}`)
 	cg := fmt.Sprintf(`{"contrato_general_id":{"id":%d}}`, contrato)
 	entidades := map[string]int{
 		"poliza":           crear(t, "/v1/polizas", cg),
