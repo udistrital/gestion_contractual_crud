@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/beego/beego/v2/client/orm"
 	_ "github.com/lib/pq"
@@ -27,6 +28,7 @@ func conectar(t *testing.T) {
 		if err := orm.RegisterDataBase("default", "postgres", conn); err != nil {
 			t.Fatal(err)
 		}
+		orm.SetDataBaseTZ("default", time.UTC)
 	}
 }
 

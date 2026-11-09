@@ -180,6 +180,7 @@ func conectar(t *testing.T) {
 		if err := orm.RegisterDataBase("default", "postgres", conn); err != nil {
 			t.Fatal(err)
 		}
+		orm.SetDataBaseTZ("default", time.UTC)
 	}
 }
 
