@@ -25,9 +25,9 @@ func (c *TableroController) URLMapping() {
 // GetContratos ...
 // @Title Contratos del tablero
 // @Description metadatos de seguimiento por contrato activo: estado general actual, fecha desde la que está en ese estado, fecha final, dependencia y sede solicitante y abogado (solo Ids)
-// @Param	vigencia-id	query	int	false	"Id del parámetro de vigencia (contrato_general.vigencia_id)"
-// @Param	abogado-id	query	int	false	"usuario_id del abogado que registró el contrato"
-// @Param	dependencia-solicitante-id	query	string	false	"Una o varias dependencias solicitantes separadas por coma. e.g. 31,45"
+// @Param	vigencia_id	query	int	false	"Id del parámetro de vigencia (contrato_general.vigencia_id)"
+// @Param	abogado_id	query	int	false	"usuario_id del abogado que registró el contrato"
+// @Param	dependencia_solicitante_id	query	string	false	"Una o varias dependencias solicitantes separadas por coma. e.g. 31,45"
 // @Success 200 {object} []models.ContratoTablero
 // @Failure 400 filtro inválido
 // @router /contratos [get]
@@ -50,14 +50,14 @@ func (c *TableroController) GetContratos() {
 // filtroTablero lee los filtros opcionales. Un filtro presente que no sea un
 // entero positivo es un error de la solicitud.
 func (c *TableroController) filtroTablero() (f models.FiltroTablero, err error) {
-	if f.VigenciaId, err = enteroPositivo(c.GetString("vigencia-id"), "vigencia-id"); err != nil {
+	if f.VigenciaId, err = enteroPositivo(c.GetString("vigencia_id"), "vigencia_id"); err != nil {
 		return f, err
 	}
-	if f.AbogadoId, err = enteroPositivo(c.GetString("abogado-id"), "abogado-id"); err != nil {
+	if f.AbogadoId, err = enteroPositivo(c.GetString("abogado_id"), "abogado_id"); err != nil {
 		return f, err
 	}
-	if v := c.GetString("dependencia-solicitante-id"); v != "" {
-		if f.DependenciaSolicitanteIds, err = listaEnterosPositivos(v, "dependencia-solicitante-id"); err != nil {
+	if v := c.GetString("dependencia_solicitante_id"); v != "" {
+		if f.DependenciaSolicitanteIds, err = listaEnterosPositivos(v, "dependencia_solicitante_id"); err != nil {
 			return f, err
 		}
 	}
