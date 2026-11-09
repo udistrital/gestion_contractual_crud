@@ -20,7 +20,7 @@ func TestTableroFiltrosInvalidos(t *testing.T) {
 			"dependencia-solicitante-id=31,", "dependencia-solicitante-id=31,x", "dependencia-solicitante-id=0",
 		} {
 			codigo, r := solicitar(t, http.MethodGet, ruta+"?"+filtro, "")
-			if codigo != http.StatusBadRequest || r.Success || r.Status != "400" {
+			if codigo != http.StatusBadRequest || r.Success || string(r.Status) != `"400"` {
 				t.Fatalf("%s?%s: se esperaba 400, llegó %d %+v", ruta, filtro, codigo, r)
 			}
 		}
@@ -60,7 +60,7 @@ func TestTableroIntegracion(t *testing.T) {
 	codigo, r := solicitar(t, http.MethodGet, fmt.Sprintf("/v1/tableros/contratos?vigencia-id=%d", vigencia), "")
 	var contratos []map[string]interface{}
 	_ = json.Unmarshal(r.Data, &contratos)
-	if codigo != http.StatusOK || !r.Success || r.Status != "200" || len(contratos) != 1 {
+	if codigo != http.StatusOK || !r.Success || string(r.Status) != "200" || len(contratos) != 1 {
 		t.Fatalf("contratos: %d %+v", codigo, r)
 	}
 	c := contratos[0]

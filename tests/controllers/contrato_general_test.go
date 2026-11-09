@@ -130,7 +130,7 @@ func TestConteosParaElMid(t *testing.T) {
 		t.Helper()
 		codigo, r := solicitar(t, http.MethodPost, ruta, cuerpo)
 		var n int
-		if err := json.Unmarshal(r.Data, &n); codigo != http.StatusOK || r.Status != "200" || err != nil {
+		if err := json.Unmarshal(r.Data, &n); codigo != http.StatusOK || string(r.Status) != "200" || err != nil {
 			t.Fatalf("POST %s: %d %s %s", ruta, codigo, r.Status, r.Data)
 		}
 		return n

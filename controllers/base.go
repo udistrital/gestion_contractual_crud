@@ -16,7 +16,7 @@ import (
 // (el mismo que usa sicapital_crud).
 type Respuesta struct {
 	Success  bool        `json:"Success"`
-	Status   string      `json:"Status"`
+	Status   int         `json:"Status"`
 	Message  string      `json:"Message"`
 	Data     interface{} `json:"Data"`
 	Metadata *Metadata   `json:"Metadata,omitempty"`
@@ -41,7 +41,7 @@ type BaseController struct {
 
 func (c *BaseController) responder(status int, mensaje string, data interface{}) {
 	c.Ctx.Output.SetStatus(status)
-	c.Data["json"] = Respuesta{Success: true, Status: strconv.Itoa(status), Message: mensaje, Data: data}
+	c.Data["json"] = Respuesta{Success: true, Status: status, Message: mensaje, Data: data}
 	_ = c.ServeJSON()
 }
 
@@ -66,7 +66,7 @@ func (c *BaseController) responderLista(l []interface{}, modelo interface{}, que
 	}
 	m.HasPreviousPage = m.CurrentPage > 1
 	c.Ctx.Output.SetStatus(http.StatusOK)
-	c.Data["json"] = Respuesta{Success: true, Status: strconv.Itoa(http.StatusOK), Message: "Request successful", Data: l, Metadata: m}
+	c.Data["json"] = Respuesta{Success: true, Status: http.StatusOK, Message: "Request successful", Data: l, Metadata: m}
 	_ = c.ServeJSON()
 }
 

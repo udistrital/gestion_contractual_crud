@@ -33,8 +33,11 @@ func TestMain(m *testing.M) {
 }
 
 type respuesta struct {
-	Success  bool
-	Status   string
+	Success bool
+	// Status llega como número en las respuestas exitosas (controllers/base.go) y
+	// como texto en las de error, que arma customerror de utils_oas; por eso se lee
+	// crudo y cada prueba compara la forma que espera.
+	Status   json.RawMessage
 	Message  string
 	Data     json.RawMessage
 	Metadata json.RawMessage
@@ -54,7 +57,7 @@ func solicitar(t *testing.T, metodo, ruta, cuerpo string) (int, respuesta) {
 func TestIdInvalidoResponde400(t *testing.T) {
 	for _, ruta := range []string{"/v1/polizas/abc", "/v1/contratos-generales/0", "/v1/actas-inicio/-3"} {
 		codigo, r := solicitar(t, http.MethodGet, ruta, "")
-		if codigo != http.StatusBadRequest || r.Success || r.Status != "400" {
+		if codigo != http.StatusBadRequest || r.Success || string(r.Status) != `"400"` {
 			t.Fatalf("%s: se esperaba 400, llegó %d %+v", ruta, codigo, r)
 		}
 	}
