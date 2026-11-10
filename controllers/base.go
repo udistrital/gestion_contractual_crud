@@ -155,7 +155,8 @@ func GetFilters(c BaseController) (map[string]string, []string, []string, []stri
 			kv := strings.SplitN(cond, ":", 2)
 			if len(kv) != 2 {
 				logs.Error("Error: invalid query key/value pair")
-				err = errors.New("Error service GetAll: invalid query parameter. Expected format: query=campo:valor,campo2:valor2")
+				c.Data["message"] = "Error service GetAll: invalid query parameter. Expected format: query=campo:valor,campo2:valor2"
+				c.Abort("400")
 			}
 			k, v := kv[0], kv[1]
 			query[k] = v
