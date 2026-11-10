@@ -1,0 +1,47 @@
+services: 
+  api:
+    image: golang:1.25
+    container_name: ${GESTION_CONTRACTUAL_CRUD_SERVICE_NAME}
+    volumes:
+      - gosrc:/go
+      - .:/go/src/${GESTION_CONTRACTUAL_CRUD_API_BASE_DIR}/${GESTION_CONTRACTUAL_CRUD_API_NAME}
+    env_file: 
+      - .env
+    environment:
+      GESTION_CONTRACTUAL_CRUD_PGHOST: db
+      GESTION_CONTRACTUAL_CRUD_PGPORT: 5432
+    ports: 
+      - "${GESTION_CONTRACTUAL_CRUD_HTTP_PORT}:${GESTION_CONTRACTUAL_CRUD_HTTP_PORT}"
+    command: sh -c 'cd /go/src/${GESTION_CONTRACTUAL_CRUD_API_BASE_DIR}/${GESTION_CONTRACTUAL_CRUD_API_NAME}; go install github.com/beego/bee/v2@v2.3.0; go mod download; bee run -downdoc=true -gendoc=true'
+    depends_on: 
+      db:
+        condition: service_healthy
+    networks: 
+      - back_end
+  db:
+    container_name: ${GESTION_CONTRACTUAL_CRUD_SERVICE_NAME}_db
+    image: postgres:10
+    ports:
+      - "${GESTION_CONTRACTUAL_CRUD_PGPORT}:5432"
+    volumes: 
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/gestion_contractual.sql:/docker-entrypoint-initdb.d/gestion_contractual.sql:ro
+    environment:
+      - POSTGRES_DB=${GESTION_CONTRACTUAL_CRUD_PGDB}
+      - POSTGRES_USER=${GESTION_CONTRACTUAL_CRUD_PGUSER}
+      - POSTGRES_PASSWORD=${GESTION_CONTRACTUAL_CRUD_PGPASS}
+    networks: 
+      - back_end
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${GESTION_CONTRACTUAL_CRUD_PGUSER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  gosrc:
+  postgres_data:
+networks: 
+  back_end:
+    external: true

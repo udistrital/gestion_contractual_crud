@@ -1,0 +1,2571 @@
+swagger: "2.0"
+info:
+  title: gestion_contractual_crud
+  description: |
+    API CRUD de gestión contractual (ARGO) sobre las tablas del modelo conceptual ARGO
+  version: 0.1.0
+  contact:
+    email: computo@udistrital.edu.co
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+basePath: /v1
+paths:
+  /actas-inicio/:
+    get:
+      tags:
+      - actas-inicio
+      description: |-
+        get ActaInicio
+        <br>
+      operationId: ActaInicioController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ActaInicio'
+        "400":
+          description: parámetros inválidos
+    post:
+      tags:
+      - actas-inicio
+      description: |-
+        create ActaInicio
+        <br>
+      operationId: ActaInicioController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for ActaInicio content
+        required: true
+        schema:
+          $ref: '#/definitions/models.ActaInicio'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ActaInicio'
+        "400":
+          description: cuerpo inválido
+  /actas-inicio/{id}:
+    get:
+      tags:
+      - actas-inicio
+      description: |-
+        get ActaInicio by id
+        <br>
+      operationId: ActaInicioController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ActaInicio'
+        "404":
+          description: :id no encontrado
+    put:
+      tags:
+      - actas-inicio
+      description: |-
+        update the ActaInicio
+        <br>
+      operationId: ActaInicioController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for ActaInicio content
+        required: true
+        schema:
+          $ref: '#/definitions/models.ActaInicio'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ActaInicio'
+        "400":
+          description: cuerpo inválido o Id distinto al de la ruta
+        "404":
+          description: :id no encontrado
+    delete:
+      tags:
+      - actas-inicio
+      description: |-
+        desactiva el ActaInicio (borrado lógico)
+        <br>
+      operationId: ActaInicioController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} registro desactivado (activo = false)'
+        "404":
+          description: :id no encontrado
+  /amparos-polizas/:
+    get:
+      tags:
+      - amparos-polizas
+      description: |-
+        get AmparoPoliza
+        <br>
+      operationId: AmparoPolizaController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.AmparoPoliza'
+        "400":
+          description: parámetros inválidos
+    post:
+      tags:
+      - amparos-polizas
+      description: |-
+        create AmparoPoliza
+        <br>
+      operationId: AmparoPolizaController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for AmparoPoliza content
+        required: true
+        schema:
+          $ref: '#/definitions/models.AmparoPoliza'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.AmparoPoliza'
+        "400":
+          description: cuerpo inválido
+  /amparos-polizas/{id}:
+    get:
+      tags:
+      - amparos-polizas
+      description: |-
+        get AmparoPoliza by id
+        <br>
+      operationId: AmparoPolizaController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.AmparoPoliza'
+        "404":
+          description: :id no encontrado
+    put:
+      tags:
+      - amparos-polizas
+      description: |-
+        update the AmparoPoliza
+        <br>
+      operationId: AmparoPolizaController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for AmparoPoliza content
+        required: true
+        schema:
+          $ref: '#/definitions/models.AmparoPoliza'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.AmparoPoliza'
+        "400":
+          description: cuerpo inválido o Id distinto al de la ruta
+        "404":
+          description: :id no encontrado
+    delete:
+      tags:
+      - amparos-polizas
+      description: |-
+        desactiva el AmparoPoliza (borrado lógico)
+        <br>
+      operationId: AmparoPolizaController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} registro desactivado (activo = false)'
+        "404":
+          description: :id no encontrado
+  /contratos-arrendamiento/:
+    get:
+      tags:
+      - contratos-arrendamiento
+      description: |-
+        get ContratoArrendamiento
+        <br>
+      operationId: ContratoArrendamientoController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ContratoArrendamiento'
+        "400":
+          description: parámetros inválidos
+    post:
+      tags:
+      - contratos-arrendamiento
+      description: |-
+        create ContratoArrendamiento
+        <br>
+      operationId: ContratoArrendamientoController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for ContratoArrendamiento content
+        required: true
+        schema:
+          $ref: '#/definitions/models.ContratoArrendamiento'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ContratoArrendamiento'
+        "400":
+          description: cuerpo inválido
+  /contratos-arrendamiento/{id}:
+    get:
+      tags:
+      - contratos-arrendamiento
+      description: |-
+        get ContratoArrendamiento by id
+        <br>
+      operationId: ContratoArrendamientoController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ContratoArrendamiento'
+        "404":
+          description: :id no encontrado
+    put:
+      tags:
+      - contratos-arrendamiento
+      description: |-
+        update the ContratoArrendamiento
+        <br>
+      operationId: ContratoArrendamientoController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for ContratoArrendamiento content
+        required: true
+        schema:
+          $ref: '#/definitions/models.ContratoArrendamiento'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ContratoArrendamiento'
+        "400":
+          description: cuerpo inválido o Id distinto al de la ruta
+        "404":
+          description: :id no encontrado
+    delete:
+      tags:
+      - contratos-arrendamiento
+      description: |-
+        desactiva el ContratoArrendamiento (borrado lógico)
+        <br>
+      operationId: ContratoArrendamientoController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} registro desactivado (activo = false)'
+        "404":
+          description: :id no encontrado
+  /contratos-generales/:
+    get:
+      tags:
+      - contratos-generales
+      description: |-
+        get ContratoGeneral
+        <br>
+      operationId: ContratoGeneralController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ContratoGeneral'
+        "400":
+          description: parámetros inválidos
+    post:
+      tags:
+      - contratos-generales
+      description: |-
+        create ContratoGeneral
+        <br>
+      operationId: ContratoGeneralController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for ContratoGeneral content
+        required: true
+        schema:
+          $ref: '#/definitions/models.ContratoGeneral'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ContratoGeneral'
+        "400":
+          description: cuerpo inválido
+  /contratos-generales/{id}:
+    get:
+      tags:
+      - contratos-generales
+      description: |-
+        get ContratoGeneral by id
+        <br>
+      operationId: ContratoGeneralController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ContratoGeneral'
+        "404":
+          description: :id no encontrado
+    put:
+      tags:
+      - contratos-generales
+      description: |-
+        update the ContratoGeneral
+        <br>
+      operationId: ContratoGeneralController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for ContratoGeneral content
+        required: true
+        schema:
+          $ref: '#/definitions/models.ContratoGeneral'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.ContratoGeneral'
+        "400":
+          description: cuerpo inválido o Id distinto al de la ruta
+        "404":
+          description: :id no encontrado
+    delete:
+      tags:
+      - contratos-generales
+      description: |-
+        desactiva el ContratoGeneral (borrado lógico)
+        <br>
+      operationId: ContratoGeneralController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} registro desactivado (activo = false)'
+        "404":
+          description: :id no encontrado
+  /contratos-generales/conteo-consecutivo:
+    post:
+      tags:
+      - contratos-generales
+      description: |-
+        cuenta los contratos de una unidad ejecutora y una vigencia, activos e inactivos (el MID le suma 1 para el consecutivo)
+        <br>
+      operationId: ContratoGeneralController.Conteo consecutivo
+      parameters:
+      - in: body
+        name: body
+        description: unidad_ejecutora_id y vigencia_id (Id del parámetro)
+        required: true
+        schema:
+          $ref: '#/definitions/models.ConteoConsecutivo'
+      responses:
+        "200":
+          description: '{int} número de contratos'
+        "400":
+          description: cuerpo inválido
+  /contratos-generales/conteo-numero-contrato:
+    post:
+      tags:
+      - contratos-generales
+      description: |-
+        cuenta los contratos de una unidad ejecutora y una vigencia que tienen o tuvieron el estado indicado, activos e inactivos
+        <br>
+      operationId: ContratoGeneralController.Conteo número de contrato
+      parameters:
+      - in: body
+        name: body
+        description: unidad_ejecutora_id, vigencia_id (Id del parámetro) y estado
+          (estado_parametro_id)
+        required: true
+        schema:
+          $ref: '#/definitions/models.ConteoNumeroContrato'
+      responses:
+        "200":
+          description: '{int} número de contratos'
+        "400":
+          description: cuerpo inválido
+  /convenios/:
+    get:
+      tags:
+      - convenios
+      description: |-
+        get Convenio
+        <br>
+      operationId: ConvenioController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Convenio'
+        "400":
+          description: parámetros inválidos
+    post:
+      tags:
+      - convenios
+      description: |-
+        create Convenio
+        <br>
+      operationId: ConvenioController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for Convenio content
+        required: true
+        schema:
+          $ref: '#/definitions/models.Convenio'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Convenio'
+        "400":
+          description: cuerpo inválido
+  /convenios/{id}:
+    get:
+      tags:
+      - convenios
+      description: |-
+        get Convenio by id
+        <br>
+      operationId: ConvenioController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Convenio'
+        "404":
+          description: :id no encontrado
+    put:
+      tags:
+      - convenios
+      description: |-
+        update the Convenio
+        <br>
+      operationId: ConvenioController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for Convenio content
+        required: true
+        schema:
+          $ref: '#/definitions/models.Convenio'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Convenio'
+        "400":
+          description: cuerpo inválido o Id distinto al de la ruta
+        "404":
+          description: :id no encontrado
+    delete:
+      tags:
+      - convenios
+      description: |-
+        desactiva el Convenio (borrado lógico)
+        <br>
+      operationId: ConvenioController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} registro desactivado (activo = false)'
+        "404":
+          description: :id no encontrado
+  /disponibilidades-presupuestales/:
+    get:
+      tags:
+      - disponibilidades-presupuestales
+      description: |-
+        get DisponibilidadPresupuestal
+        <br>
+      operationId: DisponibilidadPresupuestalController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.DisponibilidadPresupuestal'
+        "400":
+          description: parámetros inválidos
+    post:
+      tags:
+      - disponibilidades-presupuestales
+      description: |-
+        create DisponibilidadPresupuestal
+        <br>
+      operationId: DisponibilidadPresupuestalController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for DisponibilidadPresupuestal content
+        required: true
+        schema:
+          $ref: '#/definitions/models.DisponibilidadPresupuestal'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.DisponibilidadPresupuestal'
+        "400":
+          description: cuerpo inválido
+  /disponibilidades-presupuestales/{id}:
+    get:
+      tags:
+      - disponibilidades-presupuestales
+      description: |-
+        get DisponibilidadPresupuestal by id
+        <br>
+      operationId: DisponibilidadPresupuestalController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.DisponibilidadPresupuestal'
+        "404":
+          description: :id no encontrado
+    put:
+      tags:
+      - disponibilidades-presupuestales
+      description: |-
+        update the DisponibilidadPresupuestal
+        <br>
+      operationId: DisponibilidadPresupuestalController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for DisponibilidadPresupuestal content
+        required: true
+        schema:
+          $ref: '#/definitions/models.DisponibilidadPresupuestal'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.DisponibilidadPresupuestal'
+        "400":
+          description: cuerpo inválido o Id distinto al de la ruta
+        "404":
+          description: :id no encontrado
+    delete:
+      tags:
+      - disponibilidades-presupuestales
+      description: |-
+        desactiva el DisponibilidadPresupuestal (borrado lógico)
+        <br>
+      operationId: DisponibilidadPresupuestalController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} registro desactivado (activo = false)'
+        "404":
+          description: :id no encontrado
+  /documentos-contratos/:
+    get:
+      tags:
+      - documentos-contratos
+      description: |-
+        get DocumentoContrato
+        <br>
+      operationId: DocumentoContratoController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.DocumentoContrato'
+        "400":
+          description: parámetros inválidos
+    post:
+      tags:
+      - documentos-contratos
+      description: |-
+        create DocumentoContrato
+        <br>
+      operationId: DocumentoContratoController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for DocumentoContrato content
+        required: true
+        schema:
+          $ref: '#/definitions/models.DocumentoContrato'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.DocumentoContrato'
+        "400":
+          description: cuerpo inválido
+  /documentos-contratos/{id}:
+    get:
+      tags:
+      - documentos-contratos
+      description: |-
+        get DocumentoContrato by id
+        <br>
+      operationId: DocumentoContratoController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.DocumentoContrato'
+        "404":
+          description: :id no encontrado
+    put:
+      tags:
+      - documentos-contratos
+      description: |-
+        update the DocumentoContrato
+        <br>
+      operationId: DocumentoContratoController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for DocumentoContrato content
+        required: true
+        schema:
+          $ref: '#/definitions/models.DocumentoContrato'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.DocumentoContrato'
+        "400":
+          description: cuerpo inválido o Id distinto al de la ruta
+        "404":
+          description: :id no encontrado
+    delete:
+      tags:
+      - documentos-contratos
+      description: |-
+        desactiva el DocumentoContrato (borrado lógico)
+        <br>
+      operationId: DocumentoContratoController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} registro desactivado (activo = false)'
+        "404":
+          description: :id no encontrado
+  /especificaciones-tecnicas/:
+    get:
+      tags:
+      - especificaciones-tecnicas
+      description: |-
+        get EspecificacionTecnica
+        <br>
+      operationId: EspecificacionTecnicaController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.EspecificacionTecnica'
+        "400":
+          description: parámetros inválidos
+    post:
+      tags:
+      - especificaciones-tecnicas
+      description: |-
+        create EspecificacionTecnica
+        <br>
+      operationId: EspecificacionTecnicaController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for EspecificacionTecnica content
+        required: true
+        schema:
+          $ref: '#/definitions/models.EspecificacionTecnica'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.EspecificacionTecnica'
+        "400":
+          description: cuerpo inválido
+  /especificaciones-tecnicas/{id}:
+    get:
+      tags:
+      - especificaciones-tecnicas
+      description: |-
+        get EspecificacionTecnica by id
+        <br>
+      operationId: EspecificacionTecnicaController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.EspecificacionTecnica'
+        "404":
+          description: :id no encontrado
+    put:
+      tags:
+      - especificaciones-tecnicas
+      description: |-
+        update the EspecificacionTecnica
+        <br>
+      operationId: EspecificacionTecnicaController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for EspecificacionTecnica content
+        required: true
+        schema:
+          $ref: '#/definitions/models.EspecificacionTecnica'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.EspecificacionTecnica'
+        "400":
+          description: cuerpo inválido o Id distinto al de la ruta
+        "404":
+          description: :id no encontrado
+    delete:
+      tags:
+      - especificaciones-tecnicas
+      description: |-
+        desactiva el EspecificacionTecnica (borrado lógico)
+        <br>
+      operationId: EspecificacionTecnicaController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} registro desactivado (activo = false)'
+        "404":
+          description: :id no encontrado
+  /estados-contrato/:
+    get:
+      tags:
+      - estados-contrato
+      description: |-
+        get EstadoContrato
+        <br>
+      operationId: EstadoContratoController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.EstadoContrato'
+        "400":
+          description: parámetros inválidos
+    post:
+      tags:
+      - estados-contrato
+      description: |-
+        create EstadoContrato
+        <br>
+      operationId: EstadoContratoController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for EstadoContrato content
+        required: true
+        schema:
+          $ref: '#/definitions/models.EstadoContrato'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.EstadoContrato'
+        "400":
+          description: cuerpo inválido
+  /estados-contrato/{id}:
+    get:
+      tags:
+      - estados-contrato
+      description: |-
+        get EstadoContrato by id
+        <br>
+      operationId: EstadoContratoController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.EstadoContrato'
+        "404":
+          description: :id no encontrado
+    put:
+      tags:
+      - estados-contrato
+      description: |-
+        update the EstadoContrato
+        <br>
+      operationId: EstadoContratoController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for EstadoContrato content
+        required: true
+        schema:
+          $ref: '#/definitions/models.EstadoContrato'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.EstadoContrato'
+        "400":
+          description: cuerpo inválido o Id distinto al de la ruta
+        "404":
+          description: :id no encontrado
+    delete:
+      tags:
+      - estados-contrato
+      description: |-
+        desactiva el EstadoContrato (borrado lógico)
+        <br>
+      operationId: EstadoContratoController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} registro desactivado (activo = false)'
+        "404":
+          description: :id no encontrado
+  /estados-poliza/:
+    get:
+      tags:
+      - estados-poliza
+      description: |-
+        get EstadoPoliza
+        <br>
+      operationId: EstadoPolizaController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.EstadoPoliza'
+        "400":
+          description: parámetros inválidos
+    post:
+      tags:
+      - estados-poliza
+      description: |-
+        create EstadoPoliza
+        <br>
+      operationId: EstadoPolizaController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for EstadoPoliza content
+        required: true
+        schema:
+          $ref: '#/definitions/models.EstadoPoliza'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.EstadoPoliza'
+        "400":
+          description: cuerpo inválido
+  /estados-poliza/{id}:
+    get:
+      tags:
+      - estados-poliza
+      description: |-
+        get EstadoPoliza by id
+        <br>
+      operationId: EstadoPolizaController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.EstadoPoliza'
+        "404":
+          description: :id no encontrado
+    put:
+      tags:
+      - estados-poliza
+      description: |-
+        update the EstadoPoliza
+        <br>
+      operationId: EstadoPolizaController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for EstadoPoliza content
+        required: true
+        schema:
+          $ref: '#/definitions/models.EstadoPoliza'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.EstadoPoliza'
+        "400":
+          description: cuerpo inválido o Id distinto al de la ruta
+        "404":
+          description: :id no encontrado
+    delete:
+      tags:
+      - estados-poliza
+      description: |-
+        desactiva el EstadoPoliza (borrado lógico)
+        <br>
+      operationId: EstadoPolizaController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} registro desactivado (activo = false)'
+        "404":
+          description: :id no encontrado
+  /ordenadores/:
+    get:
+      tags:
+      - ordenadores
+      description: |-
+        get OrdenadorContrato
+        <br>
+      operationId: OrdenadorContratoController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.OrdenadorContrato'
+        "400":
+          description: parámetros inválidos
+    post:
+      tags:
+      - ordenadores
+      description: |-
+        create OrdenadorContrato
+        <br>
+      operationId: OrdenadorContratoController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for OrdenadorContrato content
+        required: true
+        schema:
+          $ref: '#/definitions/models.OrdenadorContrato'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.OrdenadorContrato'
+        "400":
+          description: cuerpo inválido
+  /ordenadores/{id}:
+    get:
+      tags:
+      - ordenadores
+      description: |-
+        get OrdenadorContrato by id
+        <br>
+      operationId: OrdenadorContratoController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.OrdenadorContrato'
+        "404":
+          description: :id no encontrado
+    put:
+      tags:
+      - ordenadores
+      description: |-
+        update the OrdenadorContrato
+        <br>
+      operationId: OrdenadorContratoController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for OrdenadorContrato content
+        required: true
+        schema:
+          $ref: '#/definitions/models.OrdenadorContrato'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.OrdenadorContrato'
+        "400":
+          description: cuerpo inválido o Id distinto al de la ruta
+        "404":
+          description: :id no encontrado
+    delete:
+      tags:
+      - ordenadores
+      description: |-
+        desactiva el OrdenadorContrato (borrado lógico)
+        <br>
+      operationId: OrdenadorContratoController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} registro desactivado (activo = false)'
+        "404":
+          description: :id no encontrado
+  /polizas/:
+    get:
+      tags:
+      - polizas
+      description: |-
+        get Poliza
+        <br>
+      operationId: PolizaController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Poliza'
+        "400":
+          description: parámetros inválidos
+    post:
+      tags:
+      - polizas
+      description: |-
+        create Poliza
+        <br>
+      operationId: PolizaController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for Poliza content
+        required: true
+        schema:
+          $ref: '#/definitions/models.Poliza'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Poliza'
+        "400":
+          description: cuerpo inválido
+  /polizas/{id}:
+    get:
+      tags:
+      - polizas
+      description: |-
+        get Poliza by id
+        <br>
+      operationId: PolizaController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Poliza'
+        "404":
+          description: :id no encontrado
+    put:
+      tags:
+      - polizas
+      description: |-
+        update the Poliza
+        <br>
+      operationId: PolizaController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for Poliza content
+        required: true
+        schema:
+          $ref: '#/definitions/models.Poliza'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.Poliza'
+        "400":
+          description: cuerpo inválido o Id distinto al de la ruta
+        "404":
+          description: :id no encontrado
+    delete:
+      tags:
+      - polizas
+      description: |-
+        desactiva el Poliza (borrado lógico)
+        <br>
+      operationId: PolizaController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} registro desactivado (activo = false)'
+        "404":
+          description: :id no encontrado
+  /registros-presupuestales/:
+    get:
+      tags:
+      - registros-presupuestales
+      description: |-
+        get RegistroPresupuestal
+        <br>
+      operationId: RegistroPresupuestalController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.RegistroPresupuestal'
+        "400":
+          description: parámetros inválidos
+    post:
+      tags:
+      - registros-presupuestales
+      description: |-
+        create RegistroPresupuestal
+        <br>
+      operationId: RegistroPresupuestalController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for RegistroPresupuestal content
+        required: true
+        schema:
+          $ref: '#/definitions/models.RegistroPresupuestal'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.RegistroPresupuestal'
+        "400":
+          description: cuerpo inválido
+  /registros-presupuestales/{id}:
+    get:
+      tags:
+      - registros-presupuestales
+      description: |-
+        get RegistroPresupuestal by id
+        <br>
+      operationId: RegistroPresupuestalController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.RegistroPresupuestal'
+        "404":
+          description: :id no encontrado
+    put:
+      tags:
+      - registros-presupuestales
+      description: |-
+        update the RegistroPresupuestal
+        <br>
+      operationId: RegistroPresupuestalController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for RegistroPresupuestal content
+        required: true
+        schema:
+          $ref: '#/definitions/models.RegistroPresupuestal'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.RegistroPresupuestal'
+        "400":
+          description: cuerpo inválido o Id distinto al de la ruta
+        "404":
+          description: :id no encontrado
+    delete:
+      tags:
+      - registros-presupuestales
+      description: |-
+        desactiva el RegistroPresupuestal (borrado lógico)
+        <br>
+      operationId: RegistroPresupuestalController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} registro desactivado (activo = false)'
+        "404":
+          description: :id no encontrado
+  /supervisores/:
+    get:
+      tags:
+      - supervisores
+      description: |-
+        get SupervisorContrato
+        <br>
+      operationId: SupervisorContratoController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply
+          to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.SupervisorContrato'
+        "400":
+          description: parámetros inválidos
+    post:
+      tags:
+      - supervisores
+      description: |-
+        create SupervisorContrato
+        <br>
+      operationId: SupervisorContratoController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for SupervisorContrato content
+        required: true
+        schema:
+          $ref: '#/definitions/models.SupervisorContrato'
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.SupervisorContrato'
+        "400":
+          description: cuerpo inválido
+  /supervisores/{id}:
+    get:
+      tags:
+      - supervisores
+      description: |-
+        get SupervisorContrato by id
+        <br>
+      operationId: SupervisorContratoController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.SupervisorContrato'
+        "404":
+          description: :id no encontrado
+    put:
+      tags:
+      - supervisores
+      description: |-
+        update the SupervisorContrato
+        <br>
+      operationId: SupervisorContratoController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for SupervisorContrato content
+        required: true
+        schema:
+          $ref: '#/definitions/models.SupervisorContrato'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.SupervisorContrato'
+        "400":
+          description: cuerpo inválido o Id distinto al de la ruta
+        "404":
+          description: :id no encontrado
+    delete:
+      tags:
+      - supervisores
+      description: |-
+        desactiva el SupervisorContrato (borrado lógico)
+        <br>
+      operationId: SupervisorContratoController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} registro desactivado (activo = false)'
+        "404":
+          description: :id no encontrado
+  /tableros/contratos:
+    get:
+      tags:
+      - tableros
+      description: |-
+        metadatos de seguimiento por contrato activo: estado general actual, fecha desde la que está en ese estado, fecha final, dependencia y sede solicitante y abogado (solo Ids)
+        <br>
+      operationId: TableroController.Contratos del tablero
+      parameters:
+      - in: query
+        name: vigencia_id
+        description: Id del parámetro de vigencia (contrato_general.vigencia_id)
+        type: integer
+        format: int64
+      - in: query
+        name: abogado_id
+        description: usuario_id del abogado que registró el contrato
+        type: integer
+        format: int64
+      - in: query
+        name: dependencia_solicitante_id
+        description: Una o varias dependencias solicitantes separadas por coma. e.g.
+          31,45
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.ContratoTablero'
+        "400":
+          description: filtro inválido
+definitions:
+  models.ActaInicio:
+    title: ActaInicio
+    type: object
+    properties:
+      activo:
+        type: boolean
+      contrato_general_id:
+        $ref: '#/definitions/models.ContratoGeneral'
+      descripcion:
+        type: string
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_fin:
+        type: string
+        format: datetime
+      fecha_inicio:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      fecha_suscripcion:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      nombre_interventor:
+        type: string
+      numero_acta:
+        type: string
+      numero_registro_presupuestal:
+        type: string
+      usuario_id:
+        type: integer
+        format: int64
+      usuario_legado:
+        type: string
+      usuario_rol:
+        type: string
+      valor_anticipo:
+        type: number
+        format: double
+      valor_disponibilidad:
+        type: number
+        format: double
+      valor_registro_presupuestal:
+        type: number
+        format: double
+  models.AmparoPoliza:
+    title: AmparoPoliza
+    type: object
+    properties:
+      activo:
+        type: boolean
+      amparo_id:
+        type: integer
+        format: int64
+      contrato_general_id:
+        $ref: '#/definitions/models.ContratoGeneral'
+      descripcion:
+        type: string
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_fin:
+        type: string
+        format: datetime
+      fecha_inicio:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      poliza_id:
+        $ref: '#/definitions/models.Poliza'
+      suficiencia:
+        type: number
+        format: double
+      tipo_valor_amparo_id:
+        type: integer
+        format: int64
+      usuario_id:
+        type: integer
+        format: int64
+      usuario_rol:
+        type: string
+      valor:
+        type: number
+        format: double
+  models.ConteoConsecutivo:
+    title: ConteoConsecutivo
+    type: object
+    properties:
+      unidad_ejecutora_id:
+        type: integer
+        format: int64
+      vigencia_id:
+        type: integer
+        format: int64
+  models.ConteoNumeroContrato:
+    title: ConteoNumeroContrato
+    type: object
+    properties:
+      estado:
+        type: integer
+        format: int64
+      unidad_ejecutora_id:
+        type: integer
+        format: int64
+      vigencia_id:
+        type: integer
+        format: int64
+  models.ContratoArrendamiento:
+    title: ContratoArrendamiento
+    type: object
+    properties:
+      activo:
+        type: boolean
+      contrato_general_id:
+        $ref: '#/definitions/models.ContratoGeneral'
+      destinacion:
+        type: string
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      plazo_administracion:
+        type: integer
+        format: int64
+      plazo_entrega:
+        type: integer
+        format: int64
+      plazo_pago_mensual:
+        type: integer
+        format: int64
+      reajuste:
+        type: string
+      valor_administracion:
+        type: number
+        format: double
+      valor_arrendamiento:
+        type: number
+        format: double
+  models.ContratoGeneral:
+    title: ContratoGeneral
+    type: object
+    properties:
+      actividades:
+        type: string
+      activo:
+        type: boolean
+      aplica_poliza:
+        type: boolean
+      clase_proveedor_id:
+        type: integer
+        format: int64
+      clausula_registro_presupuestal:
+        type: boolean
+      condiciones:
+        type: string
+      consecutivo_elaboracion:
+        type: string
+      dependencia_solicitante_id:
+        type: integer
+        format: int64
+      dependencia_solicitante_legado_id:
+        type: integer
+        format: int64
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_final:
+        type: string
+        format: datetime
+      fecha_inicial:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      fecha_suscripcion:
+        type: string
+        format: datetime
+      fecha_suscripcion_estudio:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      justificacion:
+        type: string
+      medio_pago_id:
+        type: integer
+        format: int64
+      modalidad_seleccion_id:
+        type: integer
+        format: int64
+      modo_pago:
+        type: string
+      numero_contrato:
+        type: string
+      objeto:
+        type: string
+      observaciones:
+        type: string
+      origen_presupuesto_id:
+        type: integer
+        format: int64
+      origen_recursos_id:
+        type: integer
+        format: int64
+      perfil_contratista_id:
+        type: integer
+        format: int64
+      plazo_ejecucion:
+        type: integer
+        format: int64
+      procedimiento_id:
+        type: integer
+        format: int64
+      proveedor_numero_documento:
+        type: string
+      regimen_contratacion_id:
+        type: integer
+        format: int64
+      sede_solicitante_legado_id:
+        type: integer
+        format: int64
+      tema_gasto_inversion_id:
+        type: integer
+        format: int64
+      tipo_compromiso_id:
+        type: integer
+        format: int64
+      tipo_contrato_id:
+        type: integer
+        format: int64
+      tipo_control_id:
+        type: integer
+        format: int64
+      tipo_gasto_id:
+        type: integer
+        format: int64
+      tipo_moneda_id:
+        type: integer
+        format: int64
+      tipo_persona_id:
+        type: integer
+        format: int64
+      tipologia_especifica_id:
+        type: integer
+        format: int64
+      unidad_ejecucion_id:
+        type: integer
+        format: int64
+      unidad_ejecutora_id:
+        type: integer
+        format: int64
+      usuario_id:
+        type: integer
+        format: int64
+      usuario_legado:
+        type: string
+      usuario_rol:
+        type: string
+      valor_contrato_me:
+        type: number
+        format: double
+      valor_pesos:
+        type: number
+        format: double
+      valor_tasa_cambio:
+        type: number
+        format: double
+      vigencia_id:
+        type: integer
+        format: int64
+  models.ContratoTablero:
+    title: ContratoTablero
+    type: object
+    properties:
+      abogado_id:
+        type: integer
+        format: int64
+      consecutivo_elaboracion:
+        type: string
+      contrato_general_id:
+        type: integer
+        format: int64
+      dependencia_solicitante_id:
+        type: integer
+        format: int64
+      estado_parametro_id:
+        type: integer
+        format: int64
+      fecha_estado:
+        type: string
+        format: datetime
+      fecha_final:
+        type: string
+        format: datetime
+      numero_contrato:
+        type: string
+      vigencia_id:
+        type: integer
+        format: int64
+  models.Convenio:
+    title: Convenio
+    type: object
+    properties:
+      activo:
+        type: boolean
+      contrato_general_id:
+        $ref: '#/definitions/models.ContratoGeneral'
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      nombre:
+        type: string
+      tipo_convenio_id:
+        type: integer
+        format: int64
+      vigencia:
+        type: integer
+        format: int64
+  models.DisponibilidadPresupuestal:
+    title: DisponibilidadPresupuestal
+    type: object
+    properties:
+      activo:
+        type: boolean
+      contrato_general_id:
+        $ref: '#/definitions/models.ContratoGeneral'
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      fecha_registro:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      numero_cdp_id:
+        type: integer
+        format: int64
+      vigencia_cdp_id:
+        type: integer
+        format: int64
+  models.DocumentoContrato:
+    title: DocumentoContrato
+    type: object
+    properties:
+      activo:
+        type: boolean
+      documento_enlace:
+        type: string
+      documento_id:
+        type: integer
+        format: int64
+      entidad_id:
+        type: integer
+        format: int64
+      entidad_tipo:
+        type: string
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      tipo_documento_id:
+        type: integer
+        format: int64
+      usuario_id:
+        type: integer
+        format: int64
+      usuario_rol:
+        type: string
+  models.EspecificacionTecnica:
+    title: EspecificacionTecnica
+    type: object
+    properties:
+      activo:
+        type: boolean
+      cantidad:
+        type: integer
+        format: int64
+      contrato_general_id:
+        $ref: '#/definitions/models.ContratoGeneral'
+      descripcion:
+        type: string
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      valor_total:
+        type: number
+        format: double
+      valor_unitario:
+        type: number
+        format: double
+  models.EstadoContrato:
+    title: EstadoContrato
+    type: object
+    properties:
+      activo:
+        type: boolean
+      actual:
+        type: boolean
+      contrato_general_id:
+        $ref: '#/definitions/models.ContratoGeneral'
+      estado_interno_parametro_id:
+        type: integer
+        format: int64
+      estado_parametro_id:
+        type: integer
+        format: int64
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_evento:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      motivo:
+        type: string
+      usuario_id:
+        type: integer
+        format: int64
+      usuario_rol:
+        type: string
+  models.EstadoPoliza:
+    title: EstadoPoliza
+    type: object
+    properties:
+      activo:
+        type: boolean
+      estado_parametro_id:
+        type: integer
+        format: int64
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      motivo:
+        type: string
+      poliza_id:
+        $ref: '#/definitions/models.Poliza'
+      usuario_id:
+        type: integer
+        format: int64
+      usuario_rol:
+        type: string
+  models.OrdenadorContrato:
+    title: OrdenadorContrato
+    type: object
+    properties:
+      activo:
+        type: boolean
+      cargo_id:
+        type: integer
+        format: int64
+      contrato_general_id:
+        $ref: '#/definitions/models.ContratoGeneral'
+      documento_identidad:
+        type: string
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      ordenador_argo_id:
+        type: integer
+        format: int64
+      ordenador_sicapital_id:
+        type: integer
+        format: int64
+      resolucion:
+        type: string
+      tercero_id:
+        type: integer
+        format: int64
+  models.Poliza:
+    title: Poliza
+    type: object
+    properties:
+      activo:
+        type: boolean
+      contrato_general_id:
+        $ref: '#/definitions/models.ContratoGeneral'
+      descripcion:
+        type: string
+      entidad_aseguradora_id:
+        type: integer
+        format: int64
+      fecha_aprobacion:
+        type: string
+        format: datetime
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_expedicion:
+        type: string
+        format: datetime
+      fecha_fin:
+        type: string
+        format: datetime
+      fecha_inicio:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      numero_poliza:
+        type: string
+      usuario_id:
+        type: integer
+        format: int64
+      usuario_legado:
+        type: string
+      usuario_rol:
+        type: string
+  models.RegistroPresupuestal:
+    title: RegistroPresupuestal
+    type: object
+    properties:
+      activo:
+        type: boolean
+      disponibilidad_presupuestal_id:
+        $ref: '#/definitions/models.DisponibilidadPresupuestal'
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      fecha_registro:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      numero_registro_presupuestal:
+        type: integer
+        format: int64
+      vigencia_rp_id:
+        type: integer
+        format: int64
+  models.SupervisorContrato:
+    title: SupervisorContrato
+    type: object
+    properties:
+      activo:
+        type: boolean
+      cargo_id:
+        type: integer
+        format: int64
+      cargo_legado:
+        type: string
+      contrato_general_id:
+        $ref: '#/definitions/models.ContratoGeneral'
+      dependencia_id:
+        type: integer
+        format: int64
+      dependencia_legado:
+        type: string
+      digito_verificacion:
+        type: integer
+        format: int64
+      documento:
+        type: integer
+        format: int64
+      fecha_creacion:
+        type: string
+        format: datetime
+      fecha_modificacion:
+        type: string
+        format: datetime
+      id:
+        type: integer
+        format: int64
+      sede_legado:
+        type: string
+      supervisor_id:
+        type: integer
+        format: int64
+tags:
+- name: contratos-generales
+  description: |
+    ContratoGeneralController operations for ContratoGeneral
+- name: estados-contrato
+  description: |
+    EstadoContratoController operations for EstadoContrato
+- name: supervisores
+  description: |
+    SupervisorContratoController operations for SupervisorContrato
+- name: ordenadores
+  description: |
+    OrdenadorContratoController operations for OrdenadorContrato
+- name: contratos-arrendamiento
+  description: |
+    ContratoArrendamientoController operations for ContratoArrendamiento
+- name: convenios
+  description: |
+    ConvenioController operations for Convenio
+- name: especificaciones-tecnicas
+  description: |
+    EspecificacionTecnicaController operations for EspecificacionTecnica
+- name: disponibilidades-presupuestales
+  description: |
+    DisponibilidadPresupuestalController operations for DisponibilidadPresupuestal
+- name: registros-presupuestales
+  description: |
+    RegistroPresupuestalController operations for RegistroPresupuestal
+- name: polizas
+  description: |
+    PolizaController operations for Poliza
+- name: estados-poliza
+  description: |
+    EstadoPolizaController operations for EstadoPoliza
+- name: amparos-polizas
+  description: |
+    AmparoPolizaController operations for AmparoPoliza
+- name: documentos-contratos
+  description: |
+    DocumentoContratoController operations for DocumentoContrato
+- name: actas-inicio
+  description: |
+    ActaInicioController operations for ActaInicio
+- name: tableros
+  description: |
+    TableroController expone los metadatos de los tableros de seguimiento.
+    Son consultas de solo lectura: responden Ids, sin nombres ni datos sensibles.
