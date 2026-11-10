@@ -148,7 +148,7 @@ Table ordenador_contrato {
 Table contrato_arrendamiento {
   id serial [pk]
   contrato_general_id integer [not null]
-  destinacion varchar(1000) [note: 'Uso previsto del inmueble arrendado']
+  destinacion varchar(5000) [note: 'Uso previsto del inmueble arrendado']
   plazo_pago_mensual integer [note: 'Día del mes establecido para el pago']
   reajuste varchar(255) [note: 'Condición de reajuste del canon']
   plazo_administracion integer [note: 'Plazo de pago de la administración']
