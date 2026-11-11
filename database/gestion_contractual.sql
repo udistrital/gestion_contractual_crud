@@ -276,6 +276,7 @@ CREATE TABLE disponibilidad_presupuestal (
     numero_cdp_id INTEGER,
     vigencia_cdp_id INTEGER,
     fecha_registro DATE,
+    valor_a_tomar NUMERIC(20,7),
     activo BOOLEAN DEFAULT TRUE NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT NOW() NOT NULL,
     fecha_modificacion TIMESTAMP DEFAULT NOW() NOT NULL,
@@ -286,6 +287,7 @@ COMMENT ON TABLE disponibilidad_presupuestal IS 'Certificados de disponibilidad 
 COMMENT ON COLUMN disponibilidad_presupuestal.numero_cdp_id IS 'SiCapital, número del CDP con el que se consulta la fuente';
 COMMENT ON COLUMN disponibilidad_presupuestal.vigencia_cdp_id IS 'Año de vigencia del CDP';
 COMMENT ON COLUMN disponibilidad_presupuestal.fecha_registro IS 'Fecha de registro del CDP';
+COMMENT ON COLUMN disponibilidad_presupuestal.valor_a_tomar IS 'Valor en pesos que el contrato toma del CDP (puede ser menor que el valor del CDP)';
 
 CREATE INDEX idx_disponibilidad_presupuestal_contrato_general_id ON disponibilidad_presupuestal(contrato_general_id);
 

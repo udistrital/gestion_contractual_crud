@@ -211,6 +211,7 @@ Table disponibilidad_presupuestal {
   numero_cdp_id integer [note: 'SiCapital, número del CDP con el que se consulta la fuente']
   vigencia_cdp_id integer [note: 'Año de vigencia del CDP']
   fecha_registro date [note: 'Fecha de registro del CDP']
+  valor_a_tomar numeric(20,7) [note: 'Valor en pesos que el contrato toma del CDP (puede ser menor que el valor del CDP)']
   activo boolean [not null, default: true]
   fecha_creacion timestamp [not null, default: `now()`]
   fecha_modificacion timestamp [not null, default: `now()`]
