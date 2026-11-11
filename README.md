@@ -8,7 +8,7 @@ API CRUD de gestión contractual (ARGO) construida con Beego v2 sobre PostgreSQL
 
 * [Golang](https://github.com/udistrital/introduccion_oas/blob/master/instalacion_de_herramientas/golang.md) 1.25
 * [BeeGo](https://github.com/udistrital/introduccion_oas/blob/master/instalacion_de_herramientas/beego.md) v2.3.10 (`github.com/beego/beego/v2`) y Bee CLI v2.3.0
-* [PostgreSQL](https://www.postgresql.org/) 10 (driver `github.com/lib/pq`)
+* [PostgreSQL](https://www.postgresql.org/) 14 (driver `github.com/lib/pq`)
 * [utils_oas](https://github.com/udistrital/utils_oas) v2 (`github.com/udistrital/utils_oas/v2`)
 * [Docker](https://docs.docker.com/engine/install/ubuntu/)
 * [Docker Compose](https://docs.docker.com/compose/)
@@ -97,7 +97,7 @@ docker compose up --build
 docker ps
 ```
 
-El compose levanta dos contenedores: el API (`golang:1.25` ejecutando `bee run`) y PostgreSQL 10, que al iniciar por primera vez crea el esquema y las tablas con `database/gestion_contractual.sql`.
+El compose levanta dos contenedores: el API (`golang:1.25` ejecutando `bee run`) y PostgreSQL 14, que al iniciar por primera vez crea el esquema y las tablas con `database/gestion_contractual.sql`.
 
 ### Ejecución Pruebas
 

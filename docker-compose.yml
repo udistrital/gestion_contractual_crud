@@ -20,7 +20,7 @@ services:
       - back_end
   db:
     container_name: ${GESTION_CONTRACTUAL_CRUD_SERVICE_NAME}_db
-    image: postgres:10
+    image: postgres:14
     ports:
       - "${GESTION_CONTRACTUAL_CRUD_PGPORT}:5432"
     volumes: 
