@@ -16,6 +16,7 @@ type DisponibilidadPresupuestal struct {
 	NumeroCdpId       *int             `orm:"column(numero_cdp_id);null" json:"numero_cdp_id"`
 	VigenciaCdpId     *int             `orm:"column(vigencia_cdp_id);null" json:"vigencia_cdp_id"`
 	FechaRegistro     *time.Time       `orm:"column(fecha_registro);type(date);null" json:"fecha_registro"`
+	ValorATomar       *float64         `orm:"column(valor_a_tomar);null" json:"valor_a_tomar"`
 	Activo            bool             `orm:"column(activo)" json:"activo"`
 	FechaCreacion     time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add" json:"fecha_creacion"`
 	FechaModificacion time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone)" json:"fecha_modificacion"`

@@ -2256,6 +2256,9 @@ definitions:
       numero_cdp_id:
         type: integer
         format: int64
+      valor_a_tomar:
+        type: number
+        format: double
       vigencia_cdp_id:
         type: integer
         format: int64
