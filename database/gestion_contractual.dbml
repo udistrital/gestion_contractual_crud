@@ -20,7 +20,7 @@ Project argo_v2_gestion_contractual {
 //////////////////////////////////////////////////////////////////////
 
 Table contrato_general {
-  id serial [pk]
+  id serial [not null]
   numero_contrato varchar(50) [note: 'Número oficial del contrato. Se genera con la RN de generación cuando el contrato pasa a SUSCRITO; en ARGO v1 viene migrado. Nulo hasta la suscripción (A14)']
   vigencia_id integer [not null, note: 'Parámetros CRUD, tipo de parámetro Vigencia (tipo por confirmar). Año de vigencia del contrato']
   consecutivo_elaboracion varchar(50) [note: 'Consecutivo de elaboración, previo a la suscripción']
@@ -70,20 +70,21 @@ Table contrato_general {
   fecha_modificacion timestamp [not null, default: `now()`]
 
   indexes {
+    id [pk, name: 'pk_contrato_general']
     (numero_contrato, vigencia_id) [unique, name: 'uq_numero_contrato_vigencia_id_contrato_general']
     (unidad_ejecutora_id, vigencia_id, consecutivo_elaboracion) [unique, name: 'uq_consecutivo_elaboracion_contrato_general']
     unidad_ejecutora_id [name: 'idx_contrato_general_unidad_ejecutora_id']
     tipo_contrato_id [name: 'idx_contrato_general_tipo_contrato_id']
   }
 
-  Note: 'Contrato y su información básica. Absorbe los datos 1 a 1 del proveedor (antes contratista) y del lugar de ejecución'
+  Note: 'Contrato y su información básica. Absorbe los datos 1 a 1 del proveedor (antes contratista) y del solicitante'
 }
 
 Table estado_contrato {
-  id serial [pk]
+  id serial [not null]
   contrato_general_id integer [not null]
-  estado_parametro_id integer [note: 'Parámetros CRUD, tipo 137 Estados del contrato (estado general)']
-  estado_interno_parametro_id integer [note: 'Parámetros CRUD, tipo 141 Estados internos del contrato']
+  estado_parametro_id integer [note: 'Parámetros CRUD, tipo 137 Estados del contrato. Estado visible para el usuario (ítem 10)']
+  estado_interno_parametro_id integer [note: 'Parámetros CRUD, tipo 141 Estados internos del contrato. Máquina de estados interna (ítem 10)']
   actual boolean [not null, note: 'Marca el estado vigente del contrato']
   motivo varchar(250) [note: 'Razón del cambio de estado']
   fecha_evento date [note: 'Fecha del cambio de estado']
@@ -94,16 +95,17 @@ Table estado_contrato {
   fecha_modificacion timestamp [not null, default: `now()`]
 
   indexes {
+    id [pk, name: 'pk_estado_contrato']
     contrato_general_id [name: 'idx_estado_contrato_contrato_general_id']
   }
 
-  Note: 'Historial de estados del contrato (general e interno)'
+  Note: 'Historial de estados del contrato: el visible para el usuario y el de la máquina de estados interna (ítem 10)'
 }
 
 
 
 Table supervisor_contrato {
-  id serial [pk]
+  id serial [not null]
   contrato_general_id integer [not null]
   supervisor_id integer [note: 'Terceros, tercero que ejerce como supervisor']
   documento integer [note: 'Documento del supervisor']
@@ -118,6 +120,7 @@ Table supervisor_contrato {
   fecha_modificacion timestamp [not null, default: `now()`]
 
   indexes {
+    id [pk, name: 'pk_supervisor_contrato']
     contrato_general_id [name: 'idx_supervisor_contrato_contrato_general_id']
     supervisor_id [name: 'idx_supervisor_contrato_supervisor_id']
   }
@@ -126,7 +129,7 @@ Table supervisor_contrato {
 }
 
 Table ordenador_contrato {
-  id serial [pk]
+  id serial [not null]
   contrato_general_id integer [not null]
   tercero_id integer [note: 'Terceros, tercero que actúa como ordenador del gasto']
   cargo_id integer [note: 'Parámetros CRUD, cargo del ordenador']
@@ -139,6 +142,7 @@ Table ordenador_contrato {
   fecha_modificacion timestamp [not null, default: `now()`]
 
   indexes {
+    id [pk, name: 'pk_ordenador_contrato']
     contrato_general_id [name: 'idx_ordenador_contrato_contrato_general_id']
   }
 
@@ -146,7 +150,7 @@ Table ordenador_contrato {
 }
 
 Table contrato_arrendamiento {
-  id serial [pk]
+  id serial [not null]
   contrato_general_id integer [not null]
   destinacion varchar(5000) [note: 'Uso previsto del inmueble arrendado']
   plazo_pago_mensual integer [note: 'Día del mes establecido para el pago']
@@ -160,6 +164,7 @@ Table contrato_arrendamiento {
   fecha_modificacion timestamp [not null, default: `now()`]
 
   indexes {
+    id [pk, name: 'pk_contrato_arrendamiento']
     contrato_general_id [unique, name: 'uq_contrato_general_id_contrato_arrendamiento']
   }
 
@@ -167,7 +172,7 @@ Table contrato_arrendamiento {
 }
 
 Table convenio {
-  id serial [pk]
+  id serial [not null]
   contrato_general_id integer [not null]
   nombre varchar(250) [note: 'Nombre del convenio']
   vigencia integer [note: 'Año de vigencia del convenio']
@@ -177,6 +182,7 @@ Table convenio {
   fecha_modificacion timestamp [not null, default: `now()`]
 
   indexes {
+    id [pk, name: 'pk_convenio']
     contrato_general_id [name: 'idx_convenio_contrato_general_id']
   }
 
@@ -184,7 +190,7 @@ Table convenio {
 }
 
 Table especificacion_tecnica {
-  id serial [pk]
+  id serial [not null]
   contrato_general_id integer
   descripcion varchar [note: 'Descripción del ítem o servicio']
   cantidad integer [note: 'Cantidad de ítems']
@@ -195,6 +201,7 @@ Table especificacion_tecnica {
   fecha_modificacion timestamp [not null, default: `now()`]
 
   indexes {
+    id [pk, name: 'pk_especificacion_tecnica']
     contrato_general_id [name: 'idx_especificacion_tecnica_contrato_general_id']
   }
 
@@ -206,7 +213,7 @@ Table especificacion_tecnica {
 //////////////////////////////////////////////////////////////////////
 
 Table disponibilidad_presupuestal {
-  id serial [pk]
+  id serial [not null]
   contrato_general_id integer [not null]
   numero_cdp_id integer [note: 'SiCapital, número del CDP con el que se consulta la fuente']
   vigencia_cdp_id integer [note: 'Año de vigencia del CDP']
@@ -217,6 +224,7 @@ Table disponibilidad_presupuestal {
   fecha_modificacion timestamp [not null, default: `now()`]
 
   indexes {
+    id [pk, name: 'pk_disponibilidad_presupuestal']
     contrato_general_id [name: 'idx_disponibilidad_presupuestal_contrato_general_id']
   }
 
@@ -224,7 +232,7 @@ Table disponibilidad_presupuestal {
 }
 
 Table registro_presupuestal {
-  id serial [pk]
+  id serial [not null]
   disponibilidad_presupuestal_id integer [not null, note: 'Antes cdp_id']
   numero_registro_presupuestal integer [note: 'Número del registro presupuestal (RP). Antes registro_presupuestal']
   vigencia_rp_id integer [note: 'Año de vigencia del RP']
@@ -234,6 +242,7 @@ Table registro_presupuestal {
   fecha_modificacion timestamp [not null, default: `now()`]
 
   indexes {
+    id [pk, name: 'pk_registro_presupuestal']
     disponibilidad_presupuestal_id [name: 'idx_registro_presupuestal_disponibilidad_presupuestal_id']
   }
 
@@ -245,7 +254,7 @@ Table registro_presupuestal {
 //////////////////////////////////////////////////////////////////////
 
 Table poliza {
-  id serial [pk]
+  id serial [not null]
   contrato_general_id integer [not null]
   numero_poliza varchar(50) [note: 'Número con el que la aseguradora identifica la póliza. Sin restricción de unicidad (#351)']
   entidad_aseguradora_id integer [note: 'Parámetros CRUD, entidad aseguradora (tipo de parámetro por confirmar)']
@@ -262,6 +271,7 @@ Table poliza {
   fecha_modificacion timestamp [not null, default: `now()`]
 
   indexes {
+    id [pk, name: 'pk_poliza']
     contrato_general_id [name: 'idx_poliza_contrato_general_id']
   }
 
@@ -269,7 +279,7 @@ Table poliza {
 }
 
 Table estado_poliza {
-  id serial [pk]
+  id serial [not null]
   poliza_id integer [not null]
   estado_parametro_id integer [not null, note: 'Parámetros CRUD, estado de la póliza (tipo de parámetro por confirmar; estados por definir con la Analista)']
   motivo varchar(250) [note: 'Razón del cambio de estado']
@@ -280,6 +290,7 @@ Table estado_poliza {
   fecha_modificacion timestamp [not null, default: `now()`]
 
   indexes {
+    id [pk, name: 'pk_estado_poliza']
     poliza_id [name: 'idx_estado_poliza_poliza_id']
   }
 
@@ -287,7 +298,7 @@ Table estado_poliza {
 }
 
 Table amparo_poliza {
-  id serial [pk]
+  id serial [not null]
   contrato_general_id integer [not null, note: 'El amparo se registra con la minuta, antes de que exista la póliza (#351)']
   poliza_id integer [note: 'Nulo hasta que la póliza se expide y se asocia']
   amparo_id integer [not null, note: 'Parámetros CRUD, tipo 118 Amparo']
@@ -304,6 +315,7 @@ Table amparo_poliza {
   fecha_modificacion timestamp [not null, default: `now()`]
 
   indexes {
+    id [pk, name: 'pk_amparo_poliza']
     contrato_general_id [name: 'idx_amparo_poliza_contrato_general_id']
     poliza_id [name: 'idx_amparo_poliza_poliza_id']
   }
@@ -316,7 +328,7 @@ Table amparo_poliza {
 //////////////////////////////////////////////////////////////////////
 
 Table documento_contrato {
-  id serial [pk]
+  id serial [not null]
   entidad_tipo varchar(50) [not null, note: 'Tabla a la que pertenece el documento: contrato_general, poliza o acta_inicio']
   entidad_id integer [not null, note: 'Identificador del registro en la tabla indicada por entidad_tipo (sin FK física)']
   tipo_documento_id integer [note: 'Parámetros CRUD, tipo de documento (tipo 133 Documentos Contrato)']
@@ -329,14 +341,15 @@ Table documento_contrato {
   fecha_modificacion timestamp [not null, default: `now()`]
 
   indexes {
+    id [pk, name: 'pk_documento_contrato']
     (entidad_tipo, entidad_id) [name: 'idx_documento_contrato_entidad_tipo_entidad_id']
   }
 
-  Note: 'Documentos del contrato en una sola tabla, sin estados (A9 "con ajustes"; supuesto S6). Relación polimórfica: un documento pertenece a un contrato_general, una poliza o un acta_inicio'
+  Note: 'Documentos del contrato en una sola tabla, sin estados (A9). Relación polimórfica: un documento pertenece a un contrato_general, una poliza o un acta_inicio. Se incorpora firma manual; si se integra otro servicio se registra igualmente en documento_contrato (ítem 42)'
 }
 
 Table acta_inicio {
-  id serial [pk]
+  id serial [not null]
   contrato_general_id integer [not null]
   descripcion varchar [note: 'Descripción del acta de inicio']
   fecha_inicio date [note: 'Fecha de inicio de ejecución del contrato']
@@ -356,6 +369,7 @@ Table acta_inicio {
   fecha_modificacion timestamp [not null, default: `now()`]
 
   indexes {
+    id [pk, name: 'pk_acta_inicio']
     contrato_general_id [name: 'idx_acta_inicio_contrato_general_id']
   }
 
