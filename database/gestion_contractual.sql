@@ -4,8 +4,8 @@
 -- Fuente del modelo: ../modelo-argo-v2.dbml (modelo final adjunto por el
 -- LT en la #389, comentario 6452443769).
 --
--- Base de datos: administrativa (provisional, supuesto S3).
--- Esquema: contratacion (provisional, supuesto S3). Para cambiarlo basta
+-- Base de datos: 
+-- Esquema: gestion_contractual. Para cambiarlo basta
 -- con editar las líneas CREATE SCHEMA y SET search_path.
 --
 -- Referencias externas (Parámetros CRUD, Terceros, OIKOS, SiCapital,
@@ -17,11 +17,11 @@
 -- sea contrato_general, poliza o acta_inicio y que exista entidad_id.
 -- =====================================================================
 
-CREATE SCHEMA IF NOT EXISTS contratacion;
-SET search_path TO contratacion;
+CREATE SCHEMA IF NOT EXISTS gestion_contractual;
+SET search_path TO gestion_contractual;
 
 CREATE TABLE contrato_general (
-    id SERIAL PRIMARY KEY,
+    id SERIAL NOT NULL,
     numero_contrato VARCHAR(50),
     vigencia_id INTEGER NOT NULL,
     consecutivo_elaboracion VARCHAR(50),
@@ -69,6 +69,7 @@ CREATE TABLE contrato_general (
     activo BOOLEAN DEFAULT TRUE NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT NOW() NOT NULL,
     fecha_modificacion TIMESTAMP DEFAULT NOW() NOT NULL,
+    CONSTRAINT pk_contrato_general PRIMARY KEY (id),
     CONSTRAINT uq_numero_contrato_vigencia_id_contrato_general UNIQUE (numero_contrato, vigencia_id),
     CONSTRAINT uq_consecutivo_elaboracion_contrato_general UNIQUE (unidad_ejecutora_id, vigencia_id, consecutivo_elaboracion)
 );
@@ -123,7 +124,7 @@ CREATE INDEX idx_contrato_general_unidad_ejecutora_id ON contrato_general(unidad
 CREATE INDEX idx_contrato_general_tipo_contrato_id ON contrato_general(tipo_contrato_id);
 
 CREATE TABLE estado_contrato (
-    id SERIAL PRIMARY KEY,
+    id SERIAL NOT NULL,
     contrato_general_id INTEGER NOT NULL,
     estado_parametro_id INTEGER,
     estado_interno_parametro_id INTEGER,
@@ -135,6 +136,7 @@ CREATE TABLE estado_contrato (
     activo BOOLEAN DEFAULT TRUE NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT NOW() NOT NULL,
     fecha_modificacion TIMESTAMP DEFAULT NOW() NOT NULL,
+    CONSTRAINT pk_estado_contrato PRIMARY KEY (id),
     CONSTRAINT fk_estado_contrato_contrato_general FOREIGN KEY (contrato_general_id) REFERENCES contrato_general(id)
 );
 
@@ -150,7 +152,7 @@ COMMENT ON COLUMN estado_contrato.usuario_rol IS 'Rol del usuario que efectúa e
 CREATE INDEX idx_estado_contrato_contrato_general_id ON estado_contrato(contrato_general_id);
 
 CREATE TABLE supervisor_contrato (
-    id SERIAL PRIMARY KEY,
+    id SERIAL NOT NULL,
     contrato_general_id INTEGER NOT NULL,
     supervisor_id INTEGER,
     documento INTEGER,
@@ -163,6 +165,7 @@ CREATE TABLE supervisor_contrato (
     activo BOOLEAN DEFAULT TRUE NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT NOW() NOT NULL,
     fecha_modificacion TIMESTAMP DEFAULT NOW() NOT NULL,
+    CONSTRAINT pk_supervisor_contrato PRIMARY KEY (id),
     CONSTRAINT fk_supervisor_contrato_contrato_general FOREIGN KEY (contrato_general_id) REFERENCES contrato_general(id)
 );
 
@@ -180,7 +183,7 @@ CREATE INDEX idx_supervisor_contrato_contrato_general_id ON supervisor_contrato(
 CREATE INDEX idx_supervisor_contrato_supervisor_id ON supervisor_contrato(supervisor_id);
 
 CREATE TABLE ordenador_contrato (
-    id SERIAL PRIMARY KEY,
+    id SERIAL NOT NULL,
     contrato_general_id INTEGER NOT NULL,
     tercero_id INTEGER,
     cargo_id INTEGER,
@@ -191,6 +194,7 @@ CREATE TABLE ordenador_contrato (
     activo BOOLEAN DEFAULT TRUE NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT NOW() NOT NULL,
     fecha_modificacion TIMESTAMP DEFAULT NOW() NOT NULL,
+    CONSTRAINT pk_ordenador_contrato PRIMARY KEY (id),
     CONSTRAINT fk_ordenador_contrato_contrato_general FOREIGN KEY (contrato_general_id) REFERENCES contrato_general(id)
 );
 
@@ -205,7 +209,7 @@ COMMENT ON COLUMN ordenador_contrato.ordenador_sicapital_id IS 'ARGO v1, id_orde
 CREATE INDEX idx_ordenador_contrato_contrato_general_id ON ordenador_contrato(contrato_general_id);
 
 CREATE TABLE contrato_arrendamiento (
-    id SERIAL PRIMARY KEY,
+    id SERIAL NOT NULL,
     contrato_general_id INTEGER NOT NULL,
     destinacion VARCHAR(5000),
     plazo_pago_mensual INTEGER,
@@ -217,6 +221,7 @@ CREATE TABLE contrato_arrendamiento (
     activo BOOLEAN DEFAULT TRUE NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT NOW() NOT NULL,
     fecha_modificacion TIMESTAMP DEFAULT NOW() NOT NULL,
+    CONSTRAINT pk_contrato_arrendamiento PRIMARY KEY (id),
     CONSTRAINT uq_contrato_general_id_contrato_arrendamiento UNIQUE (contrato_general_id),
     CONSTRAINT fk_contrato_arrendamiento_contrato_general FOREIGN KEY (contrato_general_id) REFERENCES contrato_general(id)
 );
@@ -231,7 +236,7 @@ COMMENT ON COLUMN contrato_arrendamiento.plazo_entrega IS 'Plazo de entrega del 
 COMMENT ON COLUMN contrato_arrendamiento.valor_arrendamiento IS 'Valor mensual del arrendamiento';
 
 CREATE TABLE convenio (
-    id SERIAL PRIMARY KEY,
+    id SERIAL NOT NULL,
     contrato_general_id INTEGER NOT NULL,
     nombre VARCHAR(250),
     vigencia INTEGER,
@@ -239,6 +244,7 @@ CREATE TABLE convenio (
     activo BOOLEAN DEFAULT TRUE NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT NOW() NOT NULL,
     fecha_modificacion TIMESTAMP DEFAULT NOW() NOT NULL,
+    CONSTRAINT pk_convenio PRIMARY KEY (id),
     CONSTRAINT fk_convenio_contrato_general FOREIGN KEY (contrato_general_id) REFERENCES contrato_general(id)
 );
 
@@ -250,7 +256,7 @@ COMMENT ON COLUMN convenio.tipo_convenio_id IS 'Parámetros CRUD, tipo de conven
 CREATE INDEX idx_convenio_contrato_general_id ON convenio(contrato_general_id);
 
 CREATE TABLE especificacion_tecnica (
-    id SERIAL PRIMARY KEY,
+    id SERIAL NOT NULL,
     contrato_general_id INTEGER,
     descripcion VARCHAR,
     cantidad INTEGER,
@@ -259,6 +265,7 @@ CREATE TABLE especificacion_tecnica (
     activo BOOLEAN DEFAULT TRUE NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT NOW() NOT NULL,
     fecha_modificacion TIMESTAMP DEFAULT NOW() NOT NULL,
+    CONSTRAINT pk_especificacion_tecnica PRIMARY KEY (id),
     CONSTRAINT fk_especificacion_tecnica_contrato_general FOREIGN KEY (contrato_general_id) REFERENCES contrato_general(id)
 );
 
@@ -271,7 +278,7 @@ COMMENT ON COLUMN especificacion_tecnica.valor_total IS 'Valor total del ítem';
 CREATE INDEX idx_especificacion_tecnica_contrato_general_id ON especificacion_tecnica(contrato_general_id);
 
 CREATE TABLE disponibilidad_presupuestal (
-    id SERIAL PRIMARY KEY,
+    id SERIAL NOT NULL,
     contrato_general_id INTEGER NOT NULL,
     numero_cdp_id INTEGER,
     vigencia_cdp_id INTEGER,
@@ -280,6 +287,7 @@ CREATE TABLE disponibilidad_presupuestal (
     activo BOOLEAN DEFAULT TRUE NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT NOW() NOT NULL,
     fecha_modificacion TIMESTAMP DEFAULT NOW() NOT NULL,
+    CONSTRAINT pk_disponibilidad_presupuestal PRIMARY KEY (id),
     CONSTRAINT fk_disponibilidad_presupuestal_contrato_general FOREIGN KEY (contrato_general_id) REFERENCES contrato_general(id)
 );
 
@@ -292,7 +300,7 @@ COMMENT ON COLUMN disponibilidad_presupuestal.valor_a_tomar IS 'Valor en pesos q
 CREATE INDEX idx_disponibilidad_presupuestal_contrato_general_id ON disponibilidad_presupuestal(contrato_general_id);
 
 CREATE TABLE registro_presupuestal (
-    id SERIAL PRIMARY KEY,
+    id SERIAL NOT NULL,
     disponibilidad_presupuestal_id INTEGER NOT NULL,
     numero_registro_presupuestal INTEGER,
     vigencia_rp_id INTEGER,
@@ -300,6 +308,7 @@ CREATE TABLE registro_presupuestal (
     activo BOOLEAN DEFAULT TRUE NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT NOW() NOT NULL,
     fecha_modificacion TIMESTAMP DEFAULT NOW() NOT NULL,
+    CONSTRAINT pk_registro_presupuestal PRIMARY KEY (id),
     CONSTRAINT fk_registro_presupuestal_disponibilidad_presupuestal FOREIGN KEY (disponibilidad_presupuestal_id) REFERENCES disponibilidad_presupuestal(id)
 );
 
@@ -312,7 +321,7 @@ COMMENT ON COLUMN registro_presupuestal.fecha_registro IS 'Fecha de registro del
 CREATE INDEX idx_registro_presupuestal_disponibilidad_presupuestal_id ON registro_presupuestal(disponibilidad_presupuestal_id);
 
 CREATE TABLE poliza (
-    id SERIAL PRIMARY KEY,
+    id SERIAL NOT NULL,
     contrato_general_id INTEGER NOT NULL,
     numero_poliza VARCHAR(50),
     entidad_aseguradora_id INTEGER,
@@ -327,6 +336,7 @@ CREATE TABLE poliza (
     activo BOOLEAN DEFAULT TRUE NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT NOW() NOT NULL,
     fecha_modificacion TIMESTAMP DEFAULT NOW() NOT NULL,
+    CONSTRAINT pk_poliza PRIMARY KEY (id),
     CONSTRAINT fk_poliza_contrato_general FOREIGN KEY (contrato_general_id) REFERENCES contrato_general(id)
 );
 
@@ -345,7 +355,7 @@ COMMENT ON COLUMN poliza.usuario_legado IS 'Usuario de ARGO v1, para compatibili
 CREATE INDEX idx_poliza_contrato_general_id ON poliza(contrato_general_id);
 
 CREATE TABLE estado_poliza (
-    id SERIAL PRIMARY KEY,
+    id SERIAL NOT NULL,
     poliza_id INTEGER NOT NULL,
     estado_parametro_id INTEGER NOT NULL,
     motivo VARCHAR(250),
@@ -354,6 +364,7 @@ CREATE TABLE estado_poliza (
     activo BOOLEAN DEFAULT TRUE NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT NOW() NOT NULL,
     fecha_modificacion TIMESTAMP DEFAULT NOW() NOT NULL,
+    CONSTRAINT pk_estado_poliza PRIMARY KEY (id),
     CONSTRAINT fk_estado_poliza_poliza FOREIGN KEY (poliza_id) REFERENCES poliza(id)
 );
 
@@ -366,7 +377,7 @@ COMMENT ON COLUMN estado_poliza.usuario_rol IS 'Rol del usuario que efectúa el 
 CREATE INDEX idx_estado_poliza_poliza_id ON estado_poliza(poliza_id);
 
 CREATE TABLE amparo_poliza (
-    id SERIAL PRIMARY KEY,
+    id SERIAL NOT NULL,
     contrato_general_id INTEGER NOT NULL,
     poliza_id INTEGER,
     amparo_id INTEGER NOT NULL,
@@ -381,6 +392,7 @@ CREATE TABLE amparo_poliza (
     activo BOOLEAN DEFAULT TRUE NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT NOW() NOT NULL,
     fecha_modificacion TIMESTAMP DEFAULT NOW() NOT NULL,
+    CONSTRAINT pk_amparo_poliza PRIMARY KEY (id),
     CONSTRAINT fk_amparo_poliza_contrato_general FOREIGN KEY (contrato_general_id) REFERENCES contrato_general(id),
     CONSTRAINT fk_amparo_poliza_poliza FOREIGN KEY (poliza_id) REFERENCES poliza(id)
 );
@@ -402,7 +414,7 @@ CREATE INDEX idx_amparo_poliza_contrato_general_id ON amparo_poliza(contrato_gen
 CREATE INDEX idx_amparo_poliza_poliza_id ON amparo_poliza(poliza_id);
 
 CREATE TABLE documento_contrato (
-    id SERIAL PRIMARY KEY,
+    id SERIAL NOT NULL,
     entidad_tipo VARCHAR(50) NOT NULL,
     entidad_id INTEGER NOT NULL,
     tipo_documento_id INTEGER,
@@ -412,7 +424,8 @@ CREATE TABLE documento_contrato (
     usuario_rol VARCHAR(40),
     activo BOOLEAN DEFAULT TRUE NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT NOW() NOT NULL,
-    fecha_modificacion TIMESTAMP DEFAULT NOW() NOT NULL
+    fecha_modificacion TIMESTAMP DEFAULT NOW() NOT NULL,
+    CONSTRAINT pk_documento_contrato PRIMARY KEY (id)
 );
 
 COMMENT ON TABLE documento_contrato IS 'Documentos del contrato en una sola tabla, sin estados (A9 "con ajustes"; supuesto S6). Relación polimórfica: un documento pertenece a un contrato_general, una poliza o un acta_inicio';
@@ -427,7 +440,7 @@ COMMENT ON COLUMN documento_contrato.usuario_rol IS 'Rol del usuario que registr
 CREATE INDEX idx_documento_contrato_entidad_tipo_entidad_id ON documento_contrato(entidad_tipo, entidad_id);
 
 CREATE TABLE acta_inicio (
-    id SERIAL PRIMARY KEY,
+    id SERIAL NOT NULL,
     contrato_general_id INTEGER NOT NULL,
     descripcion VARCHAR,
     fecha_inicio DATE,
@@ -445,6 +458,7 @@ CREATE TABLE acta_inicio (
     activo BOOLEAN DEFAULT TRUE NOT NULL,
     fecha_creacion TIMESTAMP DEFAULT NOW() NOT NULL,
     fecha_modificacion TIMESTAMP DEFAULT NOW() NOT NULL,
+    CONSTRAINT pk_acta_inicio PRIMARY KEY (id),
     CONSTRAINT fk_acta_inicio_contrato_general FOREIGN KEY (contrato_general_id) REFERENCES contrato_general(id)
 );
 
