@@ -24,7 +24,7 @@ GESTION_CONTRACTUAL_CRUD_PGPASS=[password del usuario]
 GESTION_CONTRACTUAL_CRUD_PGHOST=[dirección de la base de datos]
 GESTION_CONTRACTUAL_CRUD_PGPORT=[puerto de la base de datos]
 GESTION_CONTRACTUAL_CRUD_PGDB=[nombre de la base de datos]
-GESTION_CONTRACTUAL_CRUD_PGSCHEMA=[esquema donde se ubican las tablas: contratacion]
+GESTION_CONTRACTUAL_CRUD_PGSCHEMA=[esquema donde se ubican las tablas: gestion_contractual]
 ```
 
 Variables adicionales usadas solo por `docker-compose.yml`:

@@ -7,7 +7,7 @@ Project argo_v2_gestion_contractual {
   Modelo de datos de gestión contractual de ARGO v2, refinado en la issue #384 con las decisiones del LT
   del 22/10/2026 (comentario "Validación con el equipo"). Base de la #385 (CRUD en Beego v2).
 
-  - Base de datos "administrativa" y esquema "contratacion": provisionales (supuesto S3).
+  - Base de datos "administrativa" (provisional, supuesto S3) y esquema "gestion_contractual".
   - Las referencias a Parámetros CRUD, Terceros, OIKOS, SiCapital, Ágora y al Gestor Documental son
     integer sin FK física; cada columna indica a qué apunta.
   - Se retiran las tablas lugar_ejecucion y contratista: sus datos pasan a contrato_general.
