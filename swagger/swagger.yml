@@ -331,6 +331,8 @@ paths:
             $ref: '#/definitions/models.ContratoArrendamiento'
         "400":
           description: cuerpo inválido
+        "409":
+          description: registro duplicado
   /contratos-arrendamiento/{id}:
     get:
       tags:
@@ -380,6 +382,8 @@ paths:
           description: cuerpo inválido o Id distinto al de la ruta
         "404":
           description: :id no encontrado
+        "409":
+          description: registro duplicado
     delete:
       tags:
       - contratos-arrendamiento
@@ -460,6 +464,8 @@ paths:
             $ref: '#/definitions/models.ContratoGeneral'
         "400":
           description: cuerpo inválido
+        "409":
+          description: registro duplicado
   /contratos-generales/{id}:
     get:
       tags:
@@ -509,6 +515,8 @@ paths:
           description: cuerpo inválido o Id distinto al de la ruta
         "404":
           description: :id no encontrado
+        "409":
+          description: registro duplicado
     delete:
       tags:
       - contratos-generales

@@ -455,6 +455,9 @@
                     },
                     "400": {
                         "description": "cuerpo inválido"
+                    },
+                    "409": {
+                        "description": "registro duplicado"
                     }
                 }
             }
@@ -523,6 +526,9 @@
                     },
                     "404": {
                         "description": ":id no encontrado"
+                    },
+                    "409": {
+                        "description": "registro duplicado"
                     }
                 }
             },
@@ -634,6 +640,9 @@
                     },
                     "400": {
                         "description": "cuerpo inválido"
+                    },
+                    "409": {
+                        "description": "registro duplicado"
                     }
                 }
             }
@@ -758,6 +767,9 @@
                     },
                     "404": {
                         "description": ":id no encontrado"
+                    },
+                    "409": {
+                        "description": "registro duplicado"
                     }
                 }
             },
