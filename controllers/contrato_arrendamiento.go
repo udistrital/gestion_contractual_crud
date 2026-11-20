@@ -29,6 +29,7 @@ func (c *ContratoArrendamientoController) URLMapping() {
 // @Param	body		body 	models.ContratoArrendamiento	true		"body for ContratoArrendamiento content"
 // @Success 201 {object} models.ContratoArrendamiento
 // @Failure 400 cuerpo inválido
+// @Failure 409 registro duplicado
 // @router / [post]
 func (c *ContratoArrendamientoController) Post() {
 	v := models.ContratoArrendamiento{Activo: true}
@@ -46,6 +47,10 @@ func (c *ContratoArrendamientoController) Post() {
 	id, err := models.AddContratoArrendamiento(&v)
 	if err != nil {
 		logs.Error(err)
+		if errorDeDuplicado(err) {
+			c.Data["message"] = "Error service POST: a record with the same unique data already exists"
+			c.Abort("409")
+		}
 		c.Data["message"] = "Error service POST: The request contains an incorrect data type or an invalid parameter"
 		c.Abort("400")
 	}
@@ -118,6 +123,7 @@ func (c *ContratoArrendamientoController) GetAll() {
 // @Success 200 {object} models.ContratoArrendamiento
 // @Failure 400 cuerpo inválido o Id distinto al de la ruta
 // @Failure 404 :id no encontrado
+// @Failure 409 registro duplicado
 // @router /:id [put]
 func (c *ContratoArrendamientoController) Put() {
 	id, err := c.id()
@@ -150,6 +156,10 @@ func (c *ContratoArrendamientoController) Put() {
 	}
 	if err := models.UpdateContratoArrendamientoById(v); err != nil {
 		logs.Error(err)
+		if errorDeDuplicado(err) {
+			c.Data["message"] = "Error service Put: a record with the same unique data already exists"
+			c.Abort("409")
+		}
 		c.Data["message"] = "Error service Put: The request contains an incorrect data type or an invalid parameter"
 		c.Abort("400")
 	}
