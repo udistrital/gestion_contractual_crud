@@ -31,6 +31,7 @@ func (c *ContratoGeneralController) URLMapping() {
 // @Param	body		body 	models.ContratoGeneral	true		"body for ContratoGeneral content"
 // @Success 201 {object} models.ContratoGeneral
 // @Failure 400 cuerpo inválido
+// @Failure 409 registro duplicado
 // @router / [post]
 func (c *ContratoGeneralController) Post() {
 	v := models.ContratoGeneral{Activo: true}
@@ -48,6 +49,10 @@ func (c *ContratoGeneralController) Post() {
 	id, err := models.AddContratoGeneral(&v)
 	if err != nil {
 		logs.Error(err)
+		if errorDeDuplicado(err) {
+			c.Data["message"] = "Error service POST: a record with the same unique data already exists"
+			c.Abort("409")
+		}
 		c.Data["message"] = "Error service POST: The request contains an incorrect data type or an invalid parameter"
 		c.Abort("400")
 	}
@@ -120,6 +125,7 @@ func (c *ContratoGeneralController) GetAll() {
 // @Success 200 {object} models.ContratoGeneral
 // @Failure 400 cuerpo inválido o Id distinto al de la ruta
 // @Failure 404 :id no encontrado
+// @Failure 409 registro duplicado
 // @router /:id [put]
 func (c *ContratoGeneralController) Put() {
 	id, err := c.id()
@@ -152,6 +158,10 @@ func (c *ContratoGeneralController) Put() {
 	}
 	if err := models.UpdateContratoGeneralById(v); err != nil {
 		logs.Error(err)
+		if errorDeDuplicado(err) {
+			c.Data["message"] = "Error service Put: a record with the same unique data already exists"
+			c.Abort("409")
+		}
 		c.Data["message"] = "Error service Put: The request contains an incorrect data type or an invalid parameter"
 		c.Abort("400")
 	}

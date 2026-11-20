@@ -25,8 +25,9 @@ func TestFlujoContratoPolizaEstados(t *testing.T) {
 	crear(t, "/v1/contratos-generales", `{"unidad_ejecutora_id":1,"vigencia_id":2026}`)
 
 	// numero_contrato + vigencia_id son únicos.
-	if codigo, _ := solicitar(t, http.MethodPost, "/v1/contratos-generales", `{"unidad_ejecutora_id":1,"numero_contrato":"`+numero+`","vigencia_id":2026}`); codigo != http.StatusBadRequest {
-		t.Fatalf("duplicado: se esperaba 400, llegó %d", codigo)
+	// Responde 409 con el JSON de customerror.
+	if codigo, r := solicitar(t, http.MethodPost, "/v1/contratos-generales", `{"unidad_ejecutora_id":1,"numero_contrato":"`+numero+`","vigencia_id":2026}`); codigo != http.StatusConflict || r.Success || string(r.Status) != `"409"` {
+		t.Fatalf("duplicado: se esperaba 409, llegó %d %+v", codigo, r)
 	}
 
 	// PUT solo cambia lo enviado.
@@ -97,8 +98,8 @@ func TestFlujoContratoPolizaEstados(t *testing.T) {
 	// Contrato de arrendamiento: uno por contrato.
 	cuerpo := fmt.Sprintf(`{"contrato_general_id":{"id":%d},"valor_arrendamiento":100}`, contrato)
 	crear(t, "/v1/contratos-arrendamiento", cuerpo)
-	if codigo, _ := solicitar(t, http.MethodPost, "/v1/contratos-arrendamiento", cuerpo); codigo != http.StatusBadRequest {
-		t.Fatalf("segundo arrendamiento: se esperaba 400, llegó %d", codigo)
+	if codigo, _ := solicitar(t, http.MethodPost, "/v1/contratos-arrendamiento", cuerpo); codigo != http.StatusConflict {
+		t.Fatalf("segundo arrendamiento: se esperaba 409, llegó %d", codigo)
 	}
 
 	// CDP y RP.

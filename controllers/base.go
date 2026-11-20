@@ -8,6 +8,7 @@ import (
 
 	"github.com/beego/beego/v2/core/logs"
 	beego "github.com/beego/beego/v2/server/web"
+	"github.com/lib/pq"
 
 	"github.com/udistrital/gestion_contractual_crud/models"
 )
@@ -96,6 +97,13 @@ func (c *BaseController) HandlerFunc(nombre string) bool {
 		}
 	}()
 	return c.Controller.HandlerFunc(nombre)
+}
+
+// errorDeDuplicado reconoce el error de PostgreSQL cuando se repite un valor
+// UNIQUE (código 23505), por ejemplo numero_contrato + vigencia_id.
+func errorDeDuplicado(err error) bool {
+	var pqErr *pq.Error
+	return errors.As(err, &pqErr) && pqErr.Code == "23505"
 }
 
 // errorDeConsulta reconoce los pánicos del ORM causados por los parámetros

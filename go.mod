@@ -6,7 +6,7 @@ require github.com/beego/beego/v2 v2.3.10
 
 require (
 	github.com/lib/pq v1.12.3
-	github.com/udistrital/utils_oas/v2 v2.0.0
+	github.com/udistrital/utils_oas/v2 v2.0.1
 )
 
 require (
