@@ -2598,21 +2598,21 @@
                 "parameters": [
                     {
                         "in": "query",
-                        "name": "vigencia_id",
+                        "name": "vigencia-id",
                         "description": "Id del parámetro de vigencia (contrato_general.vigencia_id)",
                         "type": "integer",
                         "format": "int64"
                     },
                     {
                         "in": "query",
-                        "name": "abogado_id",
+                        "name": "abogado-id",
                         "description": "usuario_id del abogado que registró el contrato",
                         "type": "integer",
                         "format": "int64"
                     },
                     {
                         "in": "query",
-                        "name": "dependencia_solicitante_id",
+                        "name": "dependencia-solicitante-id",
                         "description": "Una o varias dependencias solicitantes separadas por coma. e.g. 31,45",
                         "type": "string"
                     }
