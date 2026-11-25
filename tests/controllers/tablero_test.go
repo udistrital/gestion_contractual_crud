@@ -16,23 +16,13 @@ const mensajeGetAll = "Error service GetAll: The request contains an incorrect p
 func TestTableroFiltrosInvalidos(t *testing.T) {
 	for _, ruta := range []string{"/v1/tableros/contratos"} {
 		for _, filtro := range []string{
-			"vigencia-id=abc", "vigencia-id=0", "vigencia-id=-1", "abogado-id=1.5",
-			"dependencia-solicitante-id=31,", "dependencia-solicitante-id=31,x", "dependencia-solicitante-id=0",
+			"vigencia_id=abc", "vigencia_id=0", "vigencia_id=-1", "abogado_id=1.5",
+			"dependencia_solicitante_id=31,", "dependencia_solicitante_id=31,x", "dependencia_solicitante_id=0",
 		} {
 			codigo, r := solicitar(t, http.MethodGet, ruta+"?"+filtro, "")
 			if codigo != http.StatusBadRequest || r.Success || string(r.Status) != `"400"` {
 				t.Fatalf("%s?%s: se esperaba 400, llegó %d %+v", ruta, filtro, codigo, r)
 			}
-		}
-	}
-}
-
-// Los nombres anteriores con guion bajo ya no se leen (udistrital/argo_documentacion#414):
-// un valor inválido con esos nombres no se valida, porque se ignora como filtro.
-func TestTableroNombresAnterioresIgnorados(t *testing.T) {
-	for _, filtro := range []string{"vigencia_id=abc", "abogado_id=abc", "dependencia_solicitante_id=x"} {
-		if codigo, _ := solicitar(t, http.MethodGet, "/v1/tableros/contratos?"+filtro, ""); codigo == http.StatusBadRequest {
-			t.Fatalf("?%s: el nombre anterior no debe leerse como filtro, llegó 400", filtro)
 		}
 	}
 }
@@ -56,7 +46,7 @@ func TestTableroErrorDeBaseDeDatos(t *testing.T) {
 	if os.Getenv("GESTION_CONTRACTUAL_CRUD_RUN_INTEGRATION") == "true" {
 		t.Skip("con base de datos la consulta no falla")
 	}
-	codigo, r := solicitar(t, http.MethodGet, "/v1/tableros/contratos?vigencia-id=1", "")
+	codigo, r := solicitar(t, http.MethodGet, "/v1/tableros/contratos?vigencia_id=1", "")
 	if codigo != http.StatusInternalServerError || r.Success || r.Message != "Error interno del servidor" || string(r.Data) != "null" {
 		t.Fatalf("se esperaba 500 genérico, llegó %d %+v", codigo, r)
 	}
@@ -67,7 +57,7 @@ func TestTableroIntegracion(t *testing.T) {
 	conectar(t)
 	vigencia := crearVigenciaTablero(t)
 
-	codigo, r := solicitar(t, http.MethodGet, fmt.Sprintf("/v1/tableros/contratos?vigencia-id=%d", vigencia), "")
+	codigo, r := solicitar(t, http.MethodGet, fmt.Sprintf("/v1/tableros/contratos?vigencia_id=%d", vigencia), "")
 	var contratos []map[string]interface{}
 	_ = json.Unmarshal(r.Data, &contratos)
 	if codigo != http.StatusOK || !r.Success || string(r.Status) != "200" || len(contratos) != 1 {
@@ -85,23 +75,9 @@ func TestTableroIntegracion(t *testing.T) {
 	}
 
 	// Sin resultados: [] con 200.
-	codigo, r = solicitar(t, http.MethodGet, fmt.Sprintf("/v1/tableros/contratos?vigencia-id=%d", vigencia+1), "")
+	codigo, r = solicitar(t, http.MethodGet, fmt.Sprintf("/v1/tableros/contratos?vigencia_id=%d", vigencia+1), "")
 	if codigo != http.StatusOK || string(r.Data) != "[]" {
 		t.Fatalf("sin resultados: %d %s", codigo, r.Data)
-	}
-
-	// El nombre anterior (vigencia_id) ya no filtra: el contrato aparece aunque apunte a otra vigencia.
-	codigo, r = solicitar(t, http.MethodGet, fmt.Sprintf("/v1/tableros/contratos?vigencia_id=%d", vigencia+1), "")
-	var sinFiltro []map[string]interface{}
-	_ = json.Unmarshal(r.Data, &sinFiltro)
-	encontrado := false
-	for _, fila := range sinFiltro {
-		if fila["contrato_general_id"] == c["contrato_general_id"] {
-			encontrado = true
-		}
-	}
-	if codigo != http.StatusOK || !encontrado {
-		t.Fatalf("con el nombre anterior no debe filtrar: %d, contrato %v ausente", codigo, c["contrato_general_id"])
 	}
 }
 
