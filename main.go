@@ -57,7 +57,7 @@ func main() {
 	}))
 
 	apistatus.Init()
-	auditoria.InitWithAuthEnforcer()
+	auditoria.InitMiddleware()
 	security.SetSecurityHeaders()
 	xray.Init()
 
