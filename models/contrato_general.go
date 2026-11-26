@@ -160,6 +160,9 @@ func GetAllContratoGeneral(query map[string]string, fields []string, include []s
 		if len(fields) == 0 {
 			for _, v := range l {
 				for _, fname := range include {
+					if fname == "" {
+						return nil, errors.New("Error: 'include' contains empty field name")
+					}
 					name := strings.ToUpper(fname[:1]) + fname[1:]
 					if _, err := o.LoadRelated(&v, name); err != nil {
 						return nil, err
@@ -171,6 +174,9 @@ func GetAllContratoGeneral(query map[string]string, fields []string, include []s
 			// trim unused fields
 			for _, v := range l {
 				for _, fname := range include {
+					if fname == "" {
+						return nil, errors.New("Error: 'include' contains empty field name")
+					}
 					name := strings.ToUpper(fname[:1]) + fname[1:]
 					if _, err := o.LoadRelated(&v, name); err != nil {
 						return nil, err
