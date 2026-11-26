@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 
 	"github.com/beego/beego/v2/core/logs"
 
@@ -84,6 +85,7 @@ func (c *PolizaController) GetOne() {
 // @Description get Poliza
 // @Param	query	query	string	false	"Filter. e.g. col1:v1,col2:v2 ..."
 // @Param	fields	query	string	false	"Fields returned. e.g. col1,col2 ..."
+// @Param	include	query	string	false	"Include reverse relation fields. e.g. col1,col2 ..."
 // @Param	sortby	query	string	false	"Sorted-by fields. e.g. col1,col2 ..."
 // @Param	order	query	string	false	"Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ..."
 // @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
@@ -92,13 +94,18 @@ func (c *PolizaController) GetOne() {
 // @Failure 400 parámetros inválidos
 // @router / [get]
 func (c *PolizaController) GetAll() {
+	// include: rel1,rel2,rel3
+	var include []string
+	if v := c.GetString("include"); v != "" {
+		include = strings.Split(v, ",")
+	}
 	query, fields, sortby, order, offset, limit, err := GetFilters(c.BaseController)
 	if err != nil {
 		c.Data["message"] = err.Error()
 		c.Abort("400")
 	}
 
-	l, err := models.GetAllPoliza(query, fields, sortby, order, offset, limit)
+	l, err := models.GetAllPoliza(query, fields, include, sortby, order, offset, limit)
 	if err != nil {
 		logs.Error(err)
 		c.Data["message"] = "Error service GetAll: The request contains an incorrect parameter or no record exists"

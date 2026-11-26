@@ -579,6 +579,12 @@
                     },
                     {
                         "in": "query",
+                        "name": "include",
+                        "description": "Include reverse relation fields. e.g. rel1,rel2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
                         "name": "sortby",
                         "description": "Sorted-by fields. e.g. col1,col2 ...",
                         "type": "string"
@@ -2073,6 +2079,12 @@
                     },
                     {
                         "in": "query",
+                        "name": "include",
+                        "description": "Include reverse relation fields. e.g. col1,col2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
                         "name": "sortby",
                         "description": "Sorted-by fields. e.g. col1,col2 ...",
                         "type": "string"
@@ -2858,6 +2870,12 @@
                 "activo": {
                     "type": "boolean"
                 },
+                "amparos": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.AmparoPoliza"
+                    }
+                },
                 "aplica_poliza": {
                     "type": "boolean"
                 },
@@ -2874,6 +2892,12 @@
                 "consecutivo_elaboracion": {
                     "type": "string"
                 },
+                "convenios": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Convenio"
+                    }
+                },
                 "dependencia_solicitante_id": {
                     "type": "integer",
                     "format": "int64"
@@ -2881,6 +2905,24 @@
                 "dependencia_solicitante_legado_id": {
                     "type": "integer",
                     "format": "int64"
+                },
+                "disponibilidades": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.DisponibilidadPresupuestal"
+                    }
+                },
+                "especificaciones": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.EspecificacionTecnica"
+                    }
+                },
+                "estados": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.EstadoContrato"
+                    }
                 },
                 "fecha_creacion": {
                     "type": "string",
@@ -2933,6 +2975,12 @@
                 "observaciones": {
                     "type": "string"
                 },
+                "ordenadores": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.OrdenadorContrato"
+                    }
+                },
                 "origen_presupuesto_id": {
                     "type": "integer",
                     "format": "int64"
@@ -2963,6 +3011,12 @@
                 "sede_solicitante_legado_id": {
                     "type": "integer",
                     "format": "int64"
+                },
+                "supervisores": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.SupervisorContrato"
+                    }
                 },
                 "tema_gasto_inversion_id": {
                     "type": "integer",
@@ -3372,6 +3426,12 @@
                 "activo": {
                     "type": "boolean"
                 },
+                "amparos": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.AmparoPoliza"
+                    }
+                },
                 "contrato_general_id": {
                     "$ref": "#/definitions/models.ContratoGeneral"
                 },
@@ -3381,6 +3441,12 @@
                 "entidad_aseguradora_id": {
                     "type": "integer",
                     "format": "int64"
+                },
+                "estados": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.EstadoPoliza"
+                    }
                 },
                 "fecha_aprobacion": {
                     "type": "string",

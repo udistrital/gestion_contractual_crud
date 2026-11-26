@@ -41,7 +41,7 @@ func Validar(modelo interface{}) error {
 	for i := 0; i < t.NumField(); i++ {
 		tag := t.Field(i).Tag.Get("orm")
 		if tag == "" || tag == "-" || strings.Contains(tag, "pk") || strings.Contains(tag, "auto_now") ||
-			strings.Contains(tag, "column(fecha_modificacion)") {
+			strings.Contains(tag, "column(fecha_modificacion)") || strings.Contains(tag, "reverse") {
 			continue
 		}
 		nombre := t.Field(i).Name

@@ -27,6 +27,8 @@ type Poliza struct {
 	Activo               bool             `orm:"column(activo)" json:"activo"`
 	FechaCreacion        time.Time        `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add" json:"fecha_creacion"`
 	FechaModificacion    time.Time        `orm:"column(fecha_modificacion);type(timestamp without time zone)" json:"fecha_modificacion"`
+	Amparos              []*AmparoPoliza  `orm:"reverse(many)" json:"amparos,omitempty"`
+	Estados              []*EstadoPoliza  `orm:"reverse(many)" json:"estados,omitempty"`
 }
 
 func (t *Poliza) TableName() string {
@@ -61,7 +63,7 @@ func GetPolizaById(id int) (v *Poliza, err error) {
 
 // GetAllPoliza retrieves all Poliza matches certain condition. Returns empty list if
 // no records exist
-func GetAllPoliza(query map[string]string, fields []string, sortby []string, order []string,
+func GetAllPoliza(query map[string]string, fields []string, include []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
 	qs := o.QueryTable(new(Poliza)).RelatedSel()
@@ -119,15 +121,31 @@ func GetAllPoliza(query map[string]string, fields []string, sortby []string, ord
 	if _, err = qs.Limit(limit, offset).All(&l, fields...); err == nil {
 		if len(fields) == 0 {
 			for _, v := range l {
+				for _, fname := range include {
+					name := strings.ToUpper(fname[:1]) + fname[1:]
+					if _, err := o.LoadRelated(&v, name); err != nil {
+						return nil, err
+					}
+				}
 				ml = append(ml, v)
 			}
 		} else {
 			// trim unused fields
 			for _, v := range l {
+				for _, fname := range include {
+					name := strings.ToUpper(fname[:1]) + fname[1:]
+					if _, err := o.LoadRelated(&v, name); err != nil {
+						return nil, err
+					}
+				}
 				m := make(map[string]interface{})
 				val := reflect.ValueOf(v)
 				for _, fname := range fields {
 					m[fname] = val.FieldByName(fname).Interface()
+				}
+				for _, fname := range include {
+					name := strings.ToUpper(fname[:1]) + fname[1:]
+					m[fname] = val.FieldByName(name).Interface()
 				}
 				ml = append(ml, m)
 			}

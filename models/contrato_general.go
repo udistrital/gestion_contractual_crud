@@ -12,54 +12,61 @@ import (
 )
 
 type ContratoGeneral struct {
-	Id                             int        `orm:"column(id);pk;auto" json:"id"`
-	NumeroContrato                 *string    `orm:"column(numero_contrato);size(50);null" json:"numero_contrato"`
-	VigenciaId                     int        `orm:"column(vigencia_id)" json:"vigencia_id"`
-	ConsecutivoElaboracion         *string    `orm:"column(consecutivo_elaboracion);size(50);null" json:"consecutivo_elaboracion"`
-	UnidadEjecutoraId              int        `orm:"column(unidad_ejecutora_id)" json:"unidad_ejecutora_id"`
-	TipoCompromisoId               *int       `orm:"column(tipo_compromiso_id);null" json:"tipo_compromiso_id"`
-	TipoContratoId                 *int       `orm:"column(tipo_contrato_id);null" json:"tipo_contrato_id"`
-	PerfilContratistaId            *int       `orm:"column(perfil_contratista_id);null" json:"perfil_contratista_id"`
-	FechaSuscripcionEstudio        *time.Time `orm:"column(fecha_suscripcion_estudio);type(date);null" json:"fecha_suscripcion_estudio"`
-	AplicaPoliza                   *bool      `orm:"column(aplica_poliza);null" json:"aplica_poliza"`
-	ModalidadSeleccionId           *int       `orm:"column(modalidad_seleccion_id);null" json:"modalidad_seleccion_id"`
-	TipoControlId                  *int       `orm:"column(tipo_control_id);null" json:"tipo_control_id"`
-	TipologiaEspecificaId          *int       `orm:"column(tipologia_especifica_id);null" json:"tipologia_especifica_id"`
-	RegimenContratacionId          *int       `orm:"column(regimen_contratacion_id);null" json:"regimen_contratacion_id"`
-	ProcedimientoId                *int       `orm:"column(procedimiento_id);null" json:"procedimiento_id"`
-	PlazoEjecucion                 *int       `orm:"column(plazo_ejecucion);null" json:"plazo_ejecucion"`
-	UnidadEjecucionId              *int       `orm:"column(unidad_ejecucion_id);null" json:"unidad_ejecucion_id"`
-	TipoMonedaId                   *int       `orm:"column(tipo_moneda_id);null" json:"tipo_moneda_id"`
-	ValorPesos                     *float64   `orm:"column(valor_pesos);null" json:"valor_pesos"`
-	ValorContratoMe                *float64   `orm:"column(valor_contrato_me);null" json:"valor_contrato_me"`
-	ValorTasaCambio                *float64   `orm:"column(valor_tasa_cambio);null" json:"valor_tasa_cambio"`
-	TipoGastoId                    *int       `orm:"column(tipo_gasto_id);null" json:"tipo_gasto_id"`
-	OrigenRecursosId               *int       `orm:"column(origen_recursos_id);null" json:"origen_recursos_id"`
-	OrigenPresupuestoId            *int       `orm:"column(origen_presupuesto_id);null" json:"origen_presupuesto_id"`
-	TemaGastoInversionId           *int       `orm:"column(tema_gasto_inversion_id);null" json:"tema_gasto_inversion_id"`
-	MedioPagoId                    *int       `orm:"column(medio_pago_id);null" json:"medio_pago_id"`
-	ClausulaRegistroPresupuestal   *bool      `orm:"column(clausula_registro_presupuestal);null" json:"clausula_registro_presupuestal"`
-	ModoPago                       *string    `orm:"column(modo_pago);null" json:"modo_pago"`
-	Objeto                         *string    `orm:"column(objeto);null" json:"objeto"`
-	Justificacion                  *string    `orm:"column(justificacion);null" json:"justificacion"`
-	Actividades                    *string    `orm:"column(actividades);null" json:"actividades"`
-	Condiciones                    *string    `orm:"column(condiciones);null" json:"condiciones"`
-	Observaciones                  *string    `orm:"column(observaciones);size(1000);null" json:"observaciones"`
-	FechaInicial                   *time.Time `orm:"column(fecha_inicial);type(date);null" json:"fecha_inicial"`
-	FechaFinal                     *time.Time `orm:"column(fecha_final);type(date);null" json:"fecha_final"`
-	FechaSuscripcion               *time.Time `orm:"column(fecha_suscripcion);type(date);null" json:"fecha_suscripcion"`
-	ProveedorNumeroDocumento       *string    `orm:"column(proveedor_numero_documento);size(20);null" json:"proveedor_numero_documento"`
-	TipoPersonaId                  *int       `orm:"column(tipo_persona_id);null" json:"tipo_persona_id"`
-	ClaseProveedorId               *int       `orm:"column(clase_proveedor_id);null" json:"clase_proveedor_id"`
-	DependenciaSolicitanteId       *int       `orm:"column(dependencia_solicitante_id);null" json:"dependencia_solicitante_id"`
-	DependenciaSolicitanteLegadoId *int       `orm:"column(dependencia_solicitante_legado_id);null" json:"dependencia_solicitante_legado_id"`
-	SedeSolicitanteLegadoId        *int       `orm:"column(sede_solicitante_legado_id);null" json:"sede_solicitante_legado_id"`
-	UsuarioId                      *int       `orm:"column(usuario_id);null" json:"usuario_id"`
-	UsuarioRol                     *string    `orm:"column(usuario_rol);size(40);null" json:"usuario_rol"`
-	UsuarioLegado                  *string    `orm:"column(usuario_legado);size(15);null" json:"usuario_legado"`
-	Activo                         bool       `orm:"column(activo)" json:"activo"`
-	FechaCreacion                  time.Time  `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add" json:"fecha_creacion"`
-	FechaModificacion              time.Time  `orm:"column(fecha_modificacion);type(timestamp without time zone)" json:"fecha_modificacion"`
+	Id                             int                           `orm:"column(id);pk;auto" json:"id"`
+	NumeroContrato                 *string                       `orm:"column(numero_contrato);size(50);null" json:"numero_contrato"`
+	VigenciaId                     int                           `orm:"column(vigencia_id)" json:"vigencia_id"`
+	ConsecutivoElaboracion         *string                       `orm:"column(consecutivo_elaboracion);size(50);null" json:"consecutivo_elaboracion"`
+	UnidadEjecutoraId              int                           `orm:"column(unidad_ejecutora_id)" json:"unidad_ejecutora_id"`
+	TipoCompromisoId               *int                          `orm:"column(tipo_compromiso_id);null" json:"tipo_compromiso_id"`
+	TipoContratoId                 *int                          `orm:"column(tipo_contrato_id);null" json:"tipo_contrato_id"`
+	PerfilContratistaId            *int                          `orm:"column(perfil_contratista_id);null" json:"perfil_contratista_id"`
+	FechaSuscripcionEstudio        *time.Time                    `orm:"column(fecha_suscripcion_estudio);type(date);null" json:"fecha_suscripcion_estudio"`
+	AplicaPoliza                   *bool                         `orm:"column(aplica_poliza);null" json:"aplica_poliza"`
+	ModalidadSeleccionId           *int                          `orm:"column(modalidad_seleccion_id);null" json:"modalidad_seleccion_id"`
+	TipoControlId                  *int                          `orm:"column(tipo_control_id);null" json:"tipo_control_id"`
+	TipologiaEspecificaId          *int                          `orm:"column(tipologia_especifica_id);null" json:"tipologia_especifica_id"`
+	RegimenContratacionId          *int                          `orm:"column(regimen_contratacion_id);null" json:"regimen_contratacion_id"`
+	ProcedimientoId                *int                          `orm:"column(procedimiento_id);null" json:"procedimiento_id"`
+	PlazoEjecucion                 *int                          `orm:"column(plazo_ejecucion);null" json:"plazo_ejecucion"`
+	UnidadEjecucionId              *int                          `orm:"column(unidad_ejecucion_id);null" json:"unidad_ejecucion_id"`
+	TipoMonedaId                   *int                          `orm:"column(tipo_moneda_id);null" json:"tipo_moneda_id"`
+	ValorPesos                     *float64                      `orm:"column(valor_pesos);null" json:"valor_pesos"`
+	ValorContratoMe                *float64                      `orm:"column(valor_contrato_me);null" json:"valor_contrato_me"`
+	ValorTasaCambio                *float64                      `orm:"column(valor_tasa_cambio);null" json:"valor_tasa_cambio"`
+	TipoGastoId                    *int                          `orm:"column(tipo_gasto_id);null" json:"tipo_gasto_id"`
+	OrigenRecursosId               *int                          `orm:"column(origen_recursos_id);null" json:"origen_recursos_id"`
+	OrigenPresupuestoId            *int                          `orm:"column(origen_presupuesto_id);null" json:"origen_presupuesto_id"`
+	TemaGastoInversionId           *int                          `orm:"column(tema_gasto_inversion_id);null" json:"tema_gasto_inversion_id"`
+	MedioPagoId                    *int                          `orm:"column(medio_pago_id);null" json:"medio_pago_id"`
+	ClausulaRegistroPresupuestal   *bool                         `orm:"column(clausula_registro_presupuestal);null" json:"clausula_registro_presupuestal"`
+	ModoPago                       *string                       `orm:"column(modo_pago);null" json:"modo_pago"`
+	Objeto                         *string                       `orm:"column(objeto);null" json:"objeto"`
+	Justificacion                  *string                       `orm:"column(justificacion);null" json:"justificacion"`
+	Actividades                    *string                       `orm:"column(actividades);null" json:"actividades"`
+	Condiciones                    *string                       `orm:"column(condiciones);null" json:"condiciones"`
+	Observaciones                  *string                       `orm:"column(observaciones);size(1000);null" json:"observaciones"`
+	FechaInicial                   *time.Time                    `orm:"column(fecha_inicial);type(date);null" json:"fecha_inicial"`
+	FechaFinal                     *time.Time                    `orm:"column(fecha_final);type(date);null" json:"fecha_final"`
+	FechaSuscripcion               *time.Time                    `orm:"column(fecha_suscripcion);type(date);null" json:"fecha_suscripcion"`
+	ProveedorNumeroDocumento       *string                       `orm:"column(proveedor_numero_documento);size(20);null" json:"proveedor_numero_documento"`
+	TipoPersonaId                  *int                          `orm:"column(tipo_persona_id);null" json:"tipo_persona_id"`
+	ClaseProveedorId               *int                          `orm:"column(clase_proveedor_id);null" json:"clase_proveedor_id"`
+	DependenciaSolicitanteId       *int                          `orm:"column(dependencia_solicitante_id);null" json:"dependencia_solicitante_id"`
+	DependenciaSolicitanteLegadoId *int                          `orm:"column(dependencia_solicitante_legado_id);null" json:"dependencia_solicitante_legado_id"`
+	SedeSolicitanteLegadoId        *int                          `orm:"column(sede_solicitante_legado_id);null" json:"sede_solicitante_legado_id"`
+	UsuarioId                      *int                          `orm:"column(usuario_id);null" json:"usuario_id"`
+	UsuarioRol                     *string                       `orm:"column(usuario_rol);size(40);null" json:"usuario_rol"`
+	UsuarioLegado                  *string                       `orm:"column(usuario_legado);size(15);null" json:"usuario_legado"`
+	Activo                         bool                          `orm:"column(activo)" json:"activo"`
+	FechaCreacion                  time.Time                     `orm:"column(fecha_creacion);type(timestamp without time zone);auto_now_add" json:"fecha_creacion"`
+	FechaModificacion              time.Time                     `orm:"column(fecha_modificacion);type(timestamp without time zone)" json:"fecha_modificacion"`
+	Estados                        []*EstadoContrato             `orm:"reverse(many)" json:"estados,omitempty"`
+	Ordenadores                    []*OrdenadorContrato          `orm:"reverse(many)" json:"ordenadores,omitempty"`
+	Supervisores                   []*SupervisorContrato         `orm:"reverse(many)" json:"supervisores,omitempty"`
+	Amparos                        []*AmparoPoliza               `orm:"reverse(many)" json:"amparos,omitempty"`
+	Convenios                      []*Convenio                   `orm:"reverse(many)" json:"convenios,omitempty"`
+	Disponibilidades               []*DisponibilidadPresupuestal `orm:"reverse(many)" json:"disponibilidades,omitempty"`
+	Especificaciones               []*EspecificacionTecnica      `orm:"reverse(many)" json:"especificaciones,omitempty"`
 }
 
 func (t *ContratoGeneral) TableName() string {
@@ -94,7 +101,7 @@ func GetContratoGeneralById(id int) (v *ContratoGeneral, err error) {
 
 // GetAllContratoGeneral retrieves all ContratoGeneral matches certain condition. Returns empty list if
 // no records exist
-func GetAllContratoGeneral(query map[string]string, fields []string, sortby []string, order []string,
+func GetAllContratoGeneral(query map[string]string, fields []string, include []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
 	qs := o.QueryTable(new(ContratoGeneral)).RelatedSel()
@@ -152,15 +159,31 @@ func GetAllContratoGeneral(query map[string]string, fields []string, sortby []st
 	if _, err = qs.Limit(limit, offset).All(&l, fields...); err == nil {
 		if len(fields) == 0 {
 			for _, v := range l {
+				for _, fname := range include {
+					name := strings.ToUpper(fname[:1]) + fname[1:]
+					if _, err := o.LoadRelated(&v, name); err != nil {
+						return nil, err
+					}
+				}
 				ml = append(ml, v)
 			}
 		} else {
 			// trim unused fields
 			for _, v := range l {
+				for _, fname := range include {
+					name := strings.ToUpper(fname[:1]) + fname[1:]
+					if _, err := o.LoadRelated(&v, name); err != nil {
+						return nil, err
+					}
+				}
 				m := make(map[string]interface{})
 				val := reflect.ValueOf(v)
 				for _, fname := range fields {
 					m[fname] = val.FieldByName(fname).Interface()
+				}
+				for _, fname := range include {
+					name := strings.ToUpper(fname[:1]) + fname[1:]
+					m[fname] = val.FieldByName(name).Interface()
 				}
 				ml = append(ml, m)
 			}
